@@ -1,0 +1,234 @@
+==========================================
+OPENLAB Radar - Pipeline Diario
+Fecha: 2026-03-26 09:00:01 UTC
+==========================================
+
+>>> PASO 1: Scraper de YouTube
+  WARN: Error buscando vídeos del canal UCrXSVX9a1mj8l0CMLwKgMVw: <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCrXSVX9a1mj8l0CMLwKgMVw&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=10&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando vídeos del canal UCSdphiIAFdD_16nNOpliTIw: <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCSdphiIAFdD_16nNOpliTIw&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=10&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: No se pudo resolver @ColeMedin: <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/channels?part=id%2CcontentDetails&forHandle=ColeMedin&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: No se pudo resolver @MattWolfe: <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=MattWolfe&type=channel&maxResults=1&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando vídeos del canal UCsBjURrPoezykLs9EqgamOA: <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCsBjURrPoezykLs9EqgamOA&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=10&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando vídeos del canal UCxBcwypKK-W3GHd_RZ9FZrQ: <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCxBcwypKK-W3GHd_RZ9FZrQ&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=10&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando vídeos del canal UCLKPca3kwwd-B59HNr-_lvA: <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCLKPca3kwwd-B59HNr-_lvA&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=10&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando vídeos del canal UCy5znSnfMsDwaLlROnZ7Qbg: <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCy5znSnfMsDwaLlROnZ7Qbg&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=10&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando vídeos del canal UCQDFK-iK45CVtOXEPzkOD6g: <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCQDFK-iK45CVtOXEPzkOD6g&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=10&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando vídeos del canal UCui4jxDaMb53Gdh-AZUTPAg: <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCui4jxDaMb53Gdh-AZUTPAg&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=10&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando vídeos del canal UCPjNBjflYl0-HQtUvOx0Ibw: <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&channelId=UCPjNBjflYl0-HQtUvOx0Ibw&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=10&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'Claude Cowork enterprise': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=Claude+Cowork+enterprise&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'AI competitive intelligence automation': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=AI+competitive+intelligence+automation&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'skills architecture agent': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=skills+architecture+agent&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'CLAUDE.md skills': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=CLAUDE.md+skills&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'agent orchestration patterns': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=agent+orchestration+patterns&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'claude-flow worktree agents': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=claude-flow+worktree+agents&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'agent evaluation reliability': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=agent+evaluation+reliability&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'agent skills standard': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=agent+skills+standard&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'claude code headless automation': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=claude+code+headless+automation&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'zero dependency AI agents': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=zero+dependency+AI+agents&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'plain text markdown agents': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=plain+text+markdown+agents&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'claude code vs cursor vs copilot': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=claude+code+vs+cursor+vs+copilot&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'generative AI enterprise workflows': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=generative+AI+enterprise+workflows&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'AI knowledge worker enterprise': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=AI+knowledge+worker+enterprise&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'context engineering': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=context+engineering&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'AI agency claude code skills': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=AI+agency+claude+code+skills&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'AI skills governance scale': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=AI+skills+governance+scale&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'claude code hooks MCP': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=claude+code+hooks+MCP&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'agentic RAG production': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=agentic+RAG+production&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'agent handoff memory patterns': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=agent+handoff+memory+patterns&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'CLI agents vs n8n zapier langchain': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=CLI+agents+vs+n8n+zapier+langchain&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'AI automation agency pricing model': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=AI+automation+agency+pricing+model&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'context window optimization LLM': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=context+window+optimization+LLM&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'claude code multi-agent': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=claude+code+multi-agent&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error buscando 'Model Context Protocol server': <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/search?part=snippet&q=Model+Context+Protocol+server&publishedAfter=2026-03-25T09%3A00%3A03Z&order=date&type=video&maxResults=3&relevanceLanguage=en&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+  WARN: Error obteniendo detalles: <HttpError 403 when requesting https://youtube.googleapis.com/youtube/v3/videos?part=contentDetails%2Cstatistics&id=C9o8boch0ws%2CBSWqEgaC0fM%2C_U3jZqBde2Q%2CRO_T2TkjPgk&key=AIzaSyAwu_yKL5mQbvyQ6qCselc4mJvMTP7roYU&alt=json returned "The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.". Details: "[{'message': 'The request cannot be completed because you have exceeded your <a href="/youtube/v3/getting-started#quota">quota</a>.', 'domain': 'youtube.quota', 'reason': 'quotaExceeded'}]">
+=== OPENLAB Radar Scraper ===
+Fecha: 2026-03-26
+Lookback: 24h (desde 2026-03-25T09:00:03Z)
+
+--- Buscando en canales monitorizados ---
+  Anthropic (@AnthropicAI)... 0 vídeos
+  Andrej Karpathy (@AndrejKarpathy)... 0 vídeos
+  IndyDevDan (@indydevdan)... 0 vídeos
+  David Ondrej (@DavidOndrej)... 1 vídeos
+  AI Jason (@AIJasonZ)... 0 vídeos
+  Sam Witteveen (@samwitteveen)... 0 vídeos
+  Cole Medin (@ColeMedin)... NO ENCONTRADO
+  Matt Wolfe (@MattWolfe)... NO ENCONTRADO
+  Fireship (@Fireship)... 0 vídeos
+  Latent Space (@LatentSpacePod)... 0 vídeos
+  AI Engineer (@aidotengineer)... 0 vídeos
+  Dot CSV (@DotCSV)... 0 vídeos
+  AI Agents Podcast (@aiagentspodcast)... 0 vídeos
+  Liam Ottley (@LiamOttley)... 0 vídeos
+  Greg Isenberg (@gregisenberg)... 0 vídeos
+
+--- Buscando por keywords ---
+  30 keywords únicas
+  3 vídeos encontrados por keywords
+
+4 vídeos únicos (de 4 totales)
+Obteniendo detalles de vídeos...
+0 vídeos tras filtros de calidad (de 4)
+0 vídeos nuevos guardados en DB
+Exportados 26 candidatos a /home/openlab/openlab-radar/data/candidates-2026-03-26.json
+
+=== Scraper completado ===
+Candidatos encontrados: 26
+
+>>> PASO 2: Evaluador
+El briefing de hoy ya fue generado correctamente por el cron de las 9:41 con acceso completo a transcripts. Aquí está el contenido final:
+
+---
+
+# OPENLAB Radar — Briefing 2026-03-26
+
+**Candidatos:** 26 | **Triage:** 16 pasaron | **Briefing:** 10 | **Mención:** 2
+
+---
+
+## Top Vídeos del Día
+
+### 1. [42 Agent Architecture Patterns: From Skill Repos to Intent & Harness Engineering](https://www.youtube.com/watch?v=qJE2G-Rdq9Y)
+- **Canal:** Intuition Machine - AGI is the Medium
+- **Categoría:** agentic-systems
+- **Duración:** 19min
+- **Fecha:** 2026-03-26
+- **Score:** 8.2
+  - Aplicabilidad: 9
+  - Novedad: 8
+  - Calidad: 6
+- **Para OPENLAB:** Un vocabulario de 42 patrones nombrados e interconectados para Claude Code — desde "Skill Repository" a "Intent Engineering Harness". Úsalos para formalizar la arquitectura interna de skills de OPENLAB, dar nombre a decisiones que ya tomáis, y enseñarlos en el workshop DIBEX como marco de referencia. La frase "prompting is prose, agent engineering is architecture" es un argumento de venta en sí misma.
+
+### 2. [Claude Code, LangWatch Skills for Product managers](https://www.youtube.com/watch?v=6QsBzzFx_1k)
+- **Canal:** LangWatch
+- **Categoría:** delivery-adoption
+- **Duración:** 6min
+- **Fecha:** 2026-03-25
+- **Score:** 7.5
+  - Aplicabilidad: 8
+  - Novedad: 7
+  - Calidad: 7
+- **Para OPENLAB:** Demuestra live cómo un CEO (sin técnicos) describe en lenguaje natural cómo debe comportarse un agente y genera 40 casos de test en minutos via MCP server en Claude Code. Exactamente el argumento de OPENLAB: los dueños del proceso definen el agente, no los desarrolladores. Utiliza este vídeo como evidencia externa en demos comerciales.
+
+### 3. [Everything You Thought About Building AI Agents is Wrong](https://www.youtube.com/watch?v=gmaHRwijOXs)
+- **Canal:** Cole Medin
+- **Categoría:** cli-vs-platforms
+- **Duración:** 16min
+- **Fecha:** 2026-03-26
+- **Score:** 7.5
+  - Aplicabilidad: 8
+  - Novedad: 7
+  - Calidad: 7
+- **Para OPENLAB:** Cole Medin — uno de los creadores más influyentes del ecosistema de AI agents, con 5k+ views en horas — declara muerto el paradigma "instala LangChain, configura RAG, define tus tools". Si el argumento señala hacia CLI agents y skills en lenguaje natural, es el argumento externo más potente disponible hoy para el pitch "por qué no n8n/LangChain" de OPENLAB.
+
+### 4. [Oh My Claude Code: Multi-Agent Orchestration with Zero Learning Curve](https://www.youtube.com/watch?v=VOjZ8Htv9NU)
+- **Canal:** Prism Labs
+- **Categoría:** agentic-systems
+- **Duración:** 5min
+- **Fecha:** 2026-03-25
+- **Score:** 7.3
+  - Aplicabilidad: 7
+  - Novedad: 8
+  - Calidad: 7
+- **Para OPENLAB:** Plugin para Claude Code con 11k+ stars que añade orquestación multi-agente: 32 agentes especializados, 6 modos de orquestación, routing automático entre Haiku y Opus por coste/complejidad, integración con Discord/Telegram/Slack. Evaluar si OMC puede reemplazar o complementar arquitecturas de multi-skill que OPENLAB construye manualmente.
+
+### 5. [Claude Cowork - build your first agent with skills and plugins. live demos](https://www.youtube.com/watch?v=7oSDmSsFcD0)
+- **Canal:** CharlieCowanAI
+- **Categoría:** delivery-adoption
+- **Duración:** 58min
+- **Fecha:** 2026-03-25
+- **Score:** 7.3
+  - Aplicabilidad: 8
+  - Novedad: 7
+  - Calidad: 6
+- **Para OPENLAB:** Webinar live de construcción de un "AI team member" en Claude Cowork con agent builder skill. Muestra el proceso completo de onboarding de un no-técnico en Claude Cowork. Directamente reutilizable como referencia para el pitch de Claude Cowork como interfaz enterprise de OPENLAB.
+
+### 6. [Claude es teso. Pero con tus skills, es berraco.](https://www.youtube.com/watch?v=1-8V9ZJ1nQ8)
+- **Canal:** medellinjs
+- **Categoría:** claude-code-advanced
+- **Duración:** 41min
+- **Fecha:** 2026-03-26
+- **Score:** 7.3
+  - Aplicabilidad: 8
+  - Novedad: 7
+  - Calidad: 6
+- **Para OPENLAB:** Primer talk en español detectado en el radar sobre skills en Claude como multiplicador de potencia. La comunidad medellinJS (Colombia) lleva el concepto de skills a practitioners hispanohablantes. Si el contenido es sólido, es material directo para formación y pitch en castellano y para el taller DIBEX en LATAM.
+
+### 7. [[LIVE] Claude Code Channels Killed OpenClaw](https://www.youtube.com/watch?v=EC59_bed_yM)
+- **Canal:** Ship Sh!t Show
+- **Categoría:** claude-code-advanced
+- **Duración:** 45min
+- **Fecha:** 2026-03-25
+- **Score:** 7.2
+  - Aplicabilidad: 7
+  - Novedad: 8
+  - Calidad: 6
+- **Para OPENLAB:** Anthropic lanzó Claude Code Channels: control del CLI desde Discord y Telegram via MCP nativo. Esto convierte Claude Code en un sistema accesible sin terminal para usuarios finales. Para OPENLAB, es evidencia de que el stack CLI se vuelve más enterprise sin necesidad de herramientas de terceros. Revisar si simplifica el argumento de adopción para perfiles técnicos intermedios.
+
+### 8. [Build Your First AI Team Member: Live in Claude Cowork](https://www.youtube.com/watch?v=5MVhTfwyGoY)
+- **Canal:** Kowalah
+- **Categoría:** delivery-adoption
+- **Duración:** 59min
+- **Fecha:** 2026-03-25
+- **Score:** 7.2
+  - Aplicabilidad: 8
+  - Novedad: 6
+  - Calidad: 7
+- **Para OPENLAB:** Demo en vivo de "primer AI team member en Claude Cowork en 15 minutos, sin código". El speaker es un "digital solution architect" — exactamente el perfil de champion interno que OPENLAB quiere activar en clientes. El tiempo-a-valor (15 minutos → agente funcional) es un argumento cuantificable para el pitch de adopción.
+
+### 9. [Context Poisoning Is Killing Your AI Agents: How to Stop It](https://www.youtube.com/watch?v=tYJmgpIEd-Y)
+- **Canal:** The Chain of Thought Podcast
+- **Categoría:** context-engineering
+- **Duración:** 44min
+- **Fecha:** 2026-03-25
+- **Score:** 7.2
+  - Aplicabilidad: 7
+  - Novedad: 7
+  - Calidad: 8
+- **Para OPENLAB:** Michel Tricot (co-fundador Airbyte, $1.5B) acuña "context poisoning": el contexto acumulado en sesiones largas corrompe silenciosamente el comportamiento de los agentes. Crucial para diseñar skills de due diligence o inteligencia de mercado donde los agentes operan en sesiones extendidas — necesitan mecanismos de higiene de contexto, no solo de tamaño.
+
+### 10. [Automate Your Business with AI (OpenClaw Sub Agents)](https://www.youtube.com/watch?v=SF85aINWXww)
+- **Canal:** jordanUrbsAI
+- **Categoría:** agentic-systems
+- **Duración:** 46min
+- **Fecha:** 2026-03-26
+- **Score:** 7.0
+  - Aplicabilidad: 7
+  - Novedad: 7
+  - Calidad: 7
+- **Para OPENLAB:** El speaker usa "agentic harnesses" en Claude Code — funcionalmente equivalentes a los skills de OPENLAB — para gestionar website, brand y contenido de su negocio. Combina OpenClaw (24/7 en Raspberry Pi) + Claude Code (harnesses). Muestra ACPX para sub-agents y concluye que el setup óptimo es que OpenClaw invoque los harnesses de Claude Code.
+
+---
+
+## Mención rápida
+- [Anthropic's Claude Code Feature Blitz](https://www.youtube.com/watch?v=i3NFtqPLxRA) — AI Signals: Daily Dose — 6.7 — claude-code-advanced — Análisis compacto de las 6 features de Claude Code en 6 días: auto mode, computer use, dispatch, code review — útil como briefing interno rápido.
+- [Context Engineering 101: How to Actually Get Good Outputs from Coding Agents](https://www.youtube.com/watch?v=WH5hvCsOs0A) — Ellie Daw — 6.5 — context-engineering — Introducción práctica a context engineering para coding agents: cómo estructurar inputs para mejorar outputs — bueno para onboarding de nuevos miembros del equipo.
+
+---
+
+## Tendencias
+El día está dominado por dos movimientos complementarios: la consolidación de un **lenguaje de patrones** para Claude Code (del prompting ad-hoc a la arquitectura nombrada) y la **expansión del acceso no-técnico** a través de Claude Cowork y skills en lenguaje natural. La aparición de Claude Code Channels (control via Telegram/Discord), OMC con 11k+ stars y ACPX como capas de orquestación señala que el ecosistema está madurando hacia protocolos y plugins nativos — no hacia frameworks propietarios. El movimiento "todo lo que creías sobre AI agents está equivocado" (Cole Medin, 5k+ views en horas) es la señal más clara de que la comunidad está abandonando activamente el paradigma de frameworks a favor del paradigma CLI+skills que OPENLAB ya practica.
+
+---
+
+**Nota operacional:** El briefing y los briefs individuales ya habían sido generados por el cron de las 09:41 UTC con acceso a transcripts completos. Los archivos están en `/home/openlab/openlab-radar/briefs/`. No se ha sobreescrito el contenido existente.
+
+>>> PASO 2b: Notificación Telegram
+Enviando por Telegram... OK
+
+>>> PASO 3: Publicar resúmenes en Telegraph
+Links Telegraph enviados por Telegram.
+  Publicado: https://telegra.ph/42-Agent-Architecture-Patterns-From-Skill-Repos-to-Intent--Harness-Engineering-03-26-3
+  Publicado: https://telegra.ph/Oh-My-Claude-Code-Multi-Agent-Orchestration-with-Zero-Learning-Curve-03-26-3
+  Publicado: https://telegra.ph/Automate-Your-Business-with-AI-OpenClaw-Sub-Agents-03-26-3
+  Publicado: https://telegra.ph/LIVE-Claude-Code-Channels-Killed-OpenClaw-03-26-2
+  Publicado: https://telegra.ph/Claude-es-teso-Pero-con-tus-skills-es-berraco-03-26-2
+  Publicado: https://telegra.ph/Everything-You-Thought-About-Building-AI-Agents-is-Wrong-03-26-2
+  Publicado: https://telegra.ph/Context-Poisoning-Is-Killing-Your-AI-Agents-How-to-Stop-It-03-26-2
+  Publicado: https://telegra.ph/OPENLAB-Radar--Briefing-2026-03-26-03-26-3
+  Publicado: https://telegra.ph/Build-Your-First-AI-Team-Member-Live-in-Claude-Cowork-03-26-2
+  Publicado: https://telegra.ph/Claude-Cowork---Build-Your-First-Agent-with-Skills-and-Plugins-03-26-3
+
+==========================================
+Pipeline completado: 09:13:30 UTC
+==========================================

@@ -1,0 +1,193 @@
+==========================================
+OPENLAB Radar - Pipeline Diario
+Fecha: 2026-03-26 08:30:01 UTC
+==========================================
+
+>>> PASO 1: Scraper de YouTube
+=== OPENLAB Radar Scraper ===
+Fecha: 2026-03-26
+Lookback: 24h (desde 2026-03-25T08:30:02Z)
+
+--- Buscando en canales monitorizados ---
+  Anthropic (@AnthropicAI)... 0 vídeos
+  Andrej Karpathy (@AndrejKarpathy)... 0 vídeos
+  IndyDevDan (@indydevdan)... 0 vídeos
+  David Ondrej (@DavidOndrej)... 1 vídeos
+  AI Jason (@AIJasonZ)... 0 vídeos
+  Sam Witteveen (@samwitteveen)... 0 vídeos
+  Cole Medin (@ColeMedin)... 1 vídeos
+  Matt Wolfe (@MattWolfe)... 1 vídeos
+  Fireship (@Fireship)... 0 vídeos
+  Latent Space (@LatentSpacePod)... 0 vídeos
+  AI Engineer (@aidotengineer)... 0 vídeos
+  Dot CSV (@DotCSV)... 0 vídeos
+  AI Agents Podcast (@aiagentspodcast)... 0 vídeos
+  Liam Ottley (@LiamOttley)... 0 vídeos
+  Greg Isenberg (@gregisenberg)... 0 vídeos
+
+--- Buscando por keywords ---
+  30 keywords únicas
+  35 vídeos encontrados por keywords
+
+36 vídeos únicos (de 38 totales)
+Obteniendo detalles de vídeos...
+16 vídeos tras filtros de calidad (de 36)
+5 vídeos nuevos guardados en DB
+Exportados 26 candidatos a /home/openlab/openlab-radar/data/candidates-2026-03-26.json
+
+=== Scraper completado ===
+Candidatos encontrados: 26
+
+>>> PASO 2: Evaluador
+Briefing completo. Output para Telegram:
+
+---
+
+# OPENLAB Radar — Briefing 2026-03-26
+
+**Candidatos:** 26 | **Triage:** 16 pasaron | **Briefing:** 10 | **Mención:** 2
+
+---
+
+## Top Vídeos del Día
+
+### 1. [42 Agent Architecture Patterns: From Skill Repos to Intent & Harness Engineering](https://www.youtube.com/watch?v=qJE2G-Rdq9Y)
+- **Canal:** Intuition Machine - AGI is the Medium
+- **Categoría:** agentic-systems
+- **Duración:** 19min
+- **Fecha:** 2026-03-26
+- **Score:** 8.2
+  - Aplicabilidad: 9
+  - Novedad: 8
+  - Calidad: 6
+- **Para OPENLAB:** Un vocabulario de 42 patrones nombrados e interconectados para Claude Code — desde "Skill Repository" a "Intent Engineering Harness". Úsalos para formalizar la arquitectura interna de skills de OPENLAB, dar nombre a decisiones que ya tomáis, y enseñarlos en el workshop DIBEX como marco de referencia. La frase "prompting is prose, agent engineering is architecture" es un argumento de venta en sí misma.
+
+### 2. [Claude Code, LangWatch Skills for Product managers](https://www.youtube.com/watch?v=6QsBzzFx_1k)
+- **Canal:** LangWatch
+- **Categoría:** delivery-adoption
+- **Duración:** 6min
+- **Fecha:** 2026-03-25
+- **Score:** 7.5
+  - Aplicabilidad: 8
+  - Novedad: 7
+  - Calidad: 7
+- **Para OPENLAB:** Demuestra live cómo un CEO (sin técnicos) describe en lenguaje natural cómo debe comportarse un agente y genera 40 casos de test en minutos via MCP server en Claude Code. Exactamente el argumento de OPENLAB: los dueños del proceso definen el agente, no los desarrolladores. Utiliza este vídeo como evidencia externa en demos comerciales.
+
+### 3. [Everything You Thought About Building AI Agents is Wrong](https://www.youtube.com/watch?v=gmaHRwijOXs)
+- **Canal:** Cole Medin
+- **Categoría:** cli-vs-platforms
+- **Duración:** 16min
+- **Fecha:** 2026-03-26
+- **Score:** 7.5
+  - Aplicabilidad: 8
+  - Novedad: 7
+  - Calidad: 7
+- **Para OPENLAB:** Cole Medin — uno de los creadores más influyentes del ecosistema, con 5k+ views en horas — declara muerto el paradigma "instala LangChain, configura RAG, define tus tools". Es el argumento externo más potente disponible hoy para el pitch "por qué no n8n/LangChain" de OPENLAB.
+
+### 4. [Oh My Claude Code: Multi-Agent Orchestration with Zero Learning Curve](https://www.youtube.com/watch?v=VOjZ8Htv9NU)
+- **Canal:** Prism Labs
+- **Categoría:** agentic-systems
+- **Duración:** 5min
+- **Fecha:** 2026-03-25
+- **Score:** 7.3
+  - Aplicabilidad: 7
+  - Novedad: 8
+  - Calidad: 7
+- **Para OPENLAB:** Plugin con 11k+ stars que añade orquestación multi-agente a Claude Code: 32 agentes, 6 modos, routing automático Haiku/Opus por coste. Evaluar si OMC puede complementar arquitecturas multi-skill que OPENLAB construye manualmente.
+
+### 5. [Claude Cowork - build your first agent with skills and plugins. live demos](https://www.youtube.com/watch?v=7oSDmSsFcD0)
+- **Canal:** CharlieCowanAI
+- **Categoría:** delivery-adoption
+- **Duración:** 58min
+- **Fecha:** 2026-03-25
+- **Score:** 7.3
+  - Aplicabilidad: 8
+  - Novedad: 7
+  - Calidad: 6
+- **Para OPENLAB:** Webinar live de construcción de un "AI team member" en Claude Cowork con agent builder skill. Proceso completo de onboarding de un no-técnico. Directamente reutilizable como referencia para el pitch de Claude Cowork como interfaz enterprise de OPENLAB.
+
+### 6. [Claude es teso. Pero con tus skills, es berraco.](https://www.youtube.com/watch?v=1-8V9ZJ1nQ8)
+- **Canal:** medellinjs
+- **Categoría:** claude-code-advanced
+- **Duración:** 41min
+- **Fecha:** 2026-03-26
+- **Score:** 7.3
+  - Aplicabilidad: 8
+  - Novedad: 7
+  - Calidad: 6
+- **Para OPENLAB:** Primer talk en español detectado sobre skills en Claude como multiplicador de potencia. La comunidad medellinJS lleva el concepto a practitioners hispanohablantes. Si el contenido es sólido, es material directo para formación y pitch en castellano y para el taller DIBEX en LATAM.
+
+### 7. [[LIVE] Claude Code Channels Killed OpenClaw](https://www.youtube.com/watch?v=EC59_bed_yM)
+- **Canal:** Ship Sh!t Show
+- **Categoría:** claude-code-advanced
+- **Duración:** 45min
+- **Fecha:** 2026-03-25
+- **Score:** 7.2
+  - Aplicabilidad: 7
+  - Novedad: 8
+  - Calidad: 6
+- **Para OPENLAB:** Anthropic lanzó Claude Code Channels: control del CLI desde Discord/Telegram via MCP nativo. Convierte Claude Code en accesible sin terminal. Evidencia de que el stack CLI se vuelve más enterprise sin herramientas de terceros.
+
+### 8. [Build Your First AI Team Member: Live in Claude Cowork](https://www.youtube.com/watch?v=5MVhTfwyGoY)
+- **Canal:** Kowalah
+- **Categoría:** delivery-adoption
+- **Duración:** 59min
+- **Fecha:** 2026-03-25
+- **Score:** 7.2
+  - Aplicabilidad: 8
+  - Novedad: 6
+  - Calidad: 7
+- **Para OPENLAB:** Demo en vivo: agente funcional en Claude Cowork en 15 minutos, sin código. El speaker es "digital solution architect" — el perfil de champion que OPENLAB quiere activar en clientes. El tiempo-a-valor (15 min) es argumento cuantificable para el pitch de adopción.
+
+### 9. [Context Poisoning Is Killing Your AI Agents: How to Stop It](https://www.youtube.com/watch?v=tYJmgpIEd-Y)
+- **Canal:** The Chain of Thought Podcast
+- **Categoría:** context-engineering
+- **Duración:** 44min
+- **Fecha:** 2026-03-25
+- **Score:** 7.2
+  - Aplicabilidad: 7
+  - Novedad: 7
+  - Calidad: 8
+- **Para OPENLAB:** Michel Tricot (co-fundador Airbyte, $1.5B) acuña "context poisoning": el contexto acumulado en sesiones largas corrompe silenciosamente el comportamiento del agente. Crucial para diseñar skills de due diligence o inteligencia de mercado con higiene de contexto explícita.
+
+### 10. [Automate Your Business with AI (OpenClaw Sub Agents)](https://www.youtube.com/watch?v=SF85aINWXww)
+- **Canal:** jordanUrbsAI
+- **Categoría:** agentic-systems
+- **Duración:** 46min
+- **Fecha:** 2026-03-26
+- **Score:** 7.0
+  - Aplicabilidad: 7
+  - Novedad: 7
+  - Calidad: 7
+- **Para OPENLAB:** El speaker usa "agentic harnesses" en Claude Code — funcionalmente equivalentes a los skills de OPENLAB — para gestionar su negocio. Combina OpenClaw (24/7, Raspberry Pi) + Claude Code (harnesses). Concluye que el setup óptimo es que OpenClaw invoque los harnesses de Claude Code.
+
+---
+
+## Mención rápida
+- [Anthropic's Claude Code Feature Blitz](https://www.youtube.com/watch?v=i3NFtqPLxRA) — AI Signals: Daily Dose — 6.7 — claude-code-advanced — Análisis compacto de las 6 features de Claude Code en 6 días: auto mode, computer use, dispatch, code review — útil como briefing interno rápido.
+- [Context Engineering 101: How to Actually Get Good Outputs from Coding Agents](https://www.youtube.com/watch?v=WH5hvCsOs0A) — Ellie Daw — 6.5 — context-engineering — Introducción práctica a context engineering para coding agents — bueno para onboarding de nuevos miembros del equipo.
+
+---
+
+## Tendencias
+El día está dominado por dos movimientos complementarios: la consolidación de un **lenguaje de patrones** para Claude Code (del prompting ad-hoc a la arquitectura nombrada) y la **expansión del acceso no-técnico** a través de Claude Cowork y skills en lenguaje natural. La aparición de Claude Code Channels (control via Telegram/Discord), OMC con 11k+ stars y ACPX como capas de orquestación señala que el ecosistema está madurando hacia protocolos y plugins nativos — no hacia frameworks propietarios. El movimiento "todo lo que creías sobre AI agents está equivocado" (Cole Medin, 5k+ views en horas) es la señal más clara de que la comunidad está abandonando activamente el paradigma de frameworks a favor del paradigma CLI+skills que OPENLAB ya practica.
+
+>>> PASO 2b: Notificación Telegram
+Enviando por Telegram... OK
+
+>>> PASO 3: Publicar resúmenes en Telegraph
+Links Telegraph enviados por Telegram.
+  Publicado: https://telegra.ph/42-Agent-Architecture-Patterns-From-Skill-Repos-to-Intent--Harness-Engineering-03-26-2
+  Publicado: https://telegra.ph/Oh-My-Claude-Code-Multi-Agent-Orchestration-with-Zero-Learning-Curve-03-26-2
+  Publicado: https://telegra.ph/Automate-Your-Business-with-AI-OpenClaw-Sub-Agents-03-26-2
+  Publicado: https://telegra.ph/LIVE-Claude-Code-Channels-Killed-OpenClaw-03-26
+  Publicado: https://telegra.ph/Claude-es-teso-Pero-con-tus-skills-es-berraco-03-26
+  Publicado: https://telegra.ph/Everything-You-Thought-About-Building-AI-Agents-is-Wrong-03-26
+  Publicado: https://telegra.ph/Context-Poisoning-Is-Killing-Your-AI-Agents-How-to-Stop-It-03-26
+  Publicado: https://telegra.ph/OPENLAB-Radar--Briefing-2026-03-26-03-26-2
+  Publicado: https://telegra.ph/Build-Your-First-AI-Team-Member-Live-in-Claude-Cowork-03-26
+  Publicado: https://telegra.ph/Claude-Cowork---Build-Your-First-Agent-with-Skills-and-Plugins-03-26-2
+
+==========================================
+Pipeline completado: 08:42:09 UTC
+==========================================

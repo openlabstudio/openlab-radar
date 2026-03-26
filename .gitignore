@@ -1,0 +1,7 @@
+config/.env
+data/radar.db
+data/candidates-*.json
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store

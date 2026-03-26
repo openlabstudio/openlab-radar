@@ -1,0 +1,100 @@
+# OPENLAB Radar - Canales monitorizados
+# handle: se usa para resolver el channel_id via YouTube Data API
+# focus: temática principal del canal
+# priority: high = siempre evaluar, medium = evaluar si pasa filtro de keywords
+
+channels:
+  # --- Oficiales / Expertos de referencia ---
+  - handle: "@AnthropicAI"
+    name: "Anthropic"
+    focus: "releases oficiales, deep dives, safety, claude code"
+    priority: high
+    lang: en
+
+  - handle: "@AndrejKarpathy"
+    name: "Andrej Karpathy"
+    focus: "context engineering, fundamentos LLM, educación técnica profunda"
+    priority: high
+    lang: en
+
+  # --- Power users Claude Code / Agentic ---
+  - handle: "@indydevdan"
+    name: "IndyDevDan"
+    focus: "claude code power user, custom tools, skills, hooks, MCP"
+    priority: high
+    lang: en
+
+  - handle: "@DavidOndrej"
+    name: "David Ondrej"
+    focus: "claude cowork, agent tools, nuevas features, comparativas"
+    priority: high
+    lang: en
+
+  - handle: "@AIJasonZ"
+    name: "AI Jason"
+    focus: "workflows agénticos, multi-agent, comparativas técnicas"
+    priority: high
+    lang: en
+
+  - handle: "@samwitteveen"
+    name: "Sam Witteveen"
+    focus: "agent patterns avanzados, técnicas de prompting, MCP"
+    priority: medium
+    lang: en
+
+  - handle: "@ColeMedin"
+    name: "Cole Medin"
+    focus: "MCP servers, agent architectures, RAG para agentes, Claude Code infra"
+    priority: high
+    lang: en
+
+  # --- Curación y tendencias ---
+  - handle: "@MattWolfe"
+    name: "Matt Wolfe"
+    focus: "radar semanal de novedades IA"
+    priority: medium
+    lang: en
+
+  - handle: "@Fireship"
+    name: "Fireship"
+    focus: "resúmenes densos de tendencias tech/IA"
+    priority: medium
+    lang: en
+
+  - handle: "@LatentSpacePod"
+    name: "Latent Space"
+    focus: "entrevistas técnicas profundas, podcast"
+    priority: medium
+    lang: en
+
+  - handle: "@aidotengineer"
+    name: "AI Engineer"
+    focus: "conferencias, talks técnicas, agent frameworks"
+    priority: medium
+    lang: en
+
+  # --- Español ---
+  - handle: "@DotCSV"
+    name: "Dot CSV"
+    focus: "divulgación IA técnica en español"
+    priority: medium
+    lang: es
+
+  - handle: "@aiagentspodcast"
+    name: "AI Agents Podcast"
+    focus: "casos de uso enterprise de agentes IA, Claude Cowork, adopción en empresas"
+    priority: medium
+    lang: en
+
+  # --- AI Agency / Delivery / Business de skills ---
+  - handle: "@LiamOttley"
+    name: "Liam Ottley"
+    focus: "AI automation agency, delivery a clientes, scaling, modelo de negocio"
+    priority: medium
+    lang: en
+
+  - handle: "@SimonScrapes"
+    name: "Simon Scrapes"
+    focus: "skills architecture, progressive disclosure, context engineering práctico, Claude Code como plataforma de trabajo"
+    priority: high
+    lang: en

@@ -1,0 +1,89 @@
+# OPENLAB Radar - Keywords de búsqueda por categoría
+# Optimizado para quota YouTube API (10.000 unidades/día)
+# 14 canales (~1.400 units) + 30 keywords (~3.000 units) = ~4.400 units
+# Margen para detalles de vídeos y safety buffer
+
+min_score_briefing: 7
+max_videos_briefing: 5
+max_videos_mencion: 5
+lookback_hours: 24
+
+categories:
+  context_engineering:
+    name: "Context Engineering & Skills Architecture"
+    notebook: "1-context-engineering"
+    keywords:
+      - "context engineering"
+      - "CLAUDE.md skills"
+      - "skills architecture agent"
+      - "context window optimization LLM"
+      - "agent skills standard"
+
+  claude_code_advanced:
+    name: "Claude Code Advanced / Frameworks / Tooling"
+    notebook: "2-claude-code-advanced"
+    keywords:
+      - "BMAD method claude"
+      - "SPARC methodology claude"
+      - "claude code hooks MCP"
+      - "claude code headless automation"
+      - "claude-flow worktree agents"
+      - "Model Context Protocol server"
+      - "claude code multi-agent"
+      - "Claude Cowork enterprise"
+
+  agentic_systems:
+    name: "Agentic Systems & Multi-Agent Pipelines"
+    notebook: "3-agentic-systems"
+    keywords:
+      - "multi-agent pipeline production"
+      - "agent orchestration patterns"
+      - "agent evaluation reliability"
+      - "agentic RAG production"
+      - "agent handoff memory patterns"
+
+  enterprise_ai:
+    name: "Enterprise AI / Procesos de Conocimiento"
+    notebook: "4-enterprise-ai"
+    keywords:
+      - "AI knowledge worker enterprise"
+      - "AI due diligence automation"
+      - "AI competitive intelligence automation"
+      - "generative AI enterprise workflows"
+
+  cli_agents_vs_platforms:
+    name: "CLI Agents vs. Plataformas Legacy"
+    notebook: "5-cli-vs-platforms"
+    keywords:
+      - "claude code vs cursor vs copilot"
+      - "CLI agents vs n8n zapier langchain"
+      - "zero dependency AI agents"
+      - "plain text markdown agents"
+
+  delivery_adoption:
+    name: "Skills Delivery & Enterprise Adoption (CLI/Cowork)"
+    notebook: "6-delivery-adoption"
+    keywords:
+      - "claude code enterprise deployment"
+      - "AI agency claude code skills"
+      - "AI skills governance scale"
+      - "AI automation agency pricing model"
+
+# --- Filtros de exclusión (aplicados globalmente) ---
+exclude_terms:
+  - "beginner tutorial"
+  - "getting started"
+  - "what is claude"
+  - "what is an AI agent"
+  - "first time using"
+  - "introduction to AI"
+  - "tutorial básico"
+  - "qué es la inteligencia artificial"
+  - "for beginners"
+  - "complete beginner"
+
+# --- Filtros de calidad ---
+quality_filters:
+  min_duration_minutes: 5
+  max_duration_minutes: 120
+  min_channel_subscribers: 1000
