@@ -69,3 +69,5 @@ El reto técnico de medir IA no es solo "¿somos más productivos?" sino "¿qué
 ### 3. Métricas de engineering como lenguaje de negocio
 
 DORA metrics y PR cycle time son lenguaje técnico. El vídeo de LinearB probablemente hace el puente con métricas de negocio (velocidad de entrega de features, tiempo de resolución de bugs, satisfacción del equipo). Este puente — de métricas técnicas a outcomes de negocio — es lo que OPENLAB necesita para hablar con compradores no-técnicos.
+
+**Telegraph:** https://telegra.ph/How-to-Measure-AI-Impact-Proving-ROI-from-Copilot-Cursor-and-Claude-03-27
