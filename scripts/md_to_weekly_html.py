@@ -745,10 +745,12 @@ def build_html(content):
     footer_html = render_footer(date_to)
 
     return f"""<!DOCTYPE html>
-<html lang="es">
+<html lang="es" style="color-scheme:light only;">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light only" />
+  <meta name="supported-color-schemes" content="light" />
   <title>OPENLAB Radar — Digest Semanal {date_from} / {date_to}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -756,11 +758,12 @@ def build_html(content):
         rel="stylesheet" />
 </head>
 <body style="margin:0;padding:0;background:#F3F4F6;
-             font-family:'Montserrat',Arial,sans-serif;">
+             font-family:'Montserrat',Arial,sans-serif;
+             color-scheme:light only;">
 
   <!-- Outer wrapper -->
   <table width="100%" cellpadding="0" cellspacing="0"
-         style="background:#F3F4F6;padding:32px 16px;">
+         style="background:#F3F4F6;padding:32px 16px;color-scheme:light only;">
     <tr>
       <td align="center">
 

@@ -156,10 +156,10 @@ def build_email(md):
                      f'</div></td></tr>')
 
     return f"""<!DOCTYPE html>
-<html lang="es">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet"><title>OPENLAB Radar · {date}</title></head>
-<body style="margin:0;padding:0;background:#F3F4F6;font-family:'Montserrat',Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F3F4F6;padding:24px 16px;">
+<html lang="es" style="color-scheme:light only;">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="light only" /><meta name="supported-color-schemes" content="light" /><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet"><title>OPENLAB Radar · {date}</title></head>
+<body style="margin:0;padding:0;background:#F3F4F6;font-family:'Montserrat',Arial,sans-serif;color-scheme:light only;">
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background:#F3F4F6;padding:24px 16px;color-scheme:light only;">
 <tr><td align="center">
 <table width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;">
 
