@@ -19,7 +19,7 @@ CATEGORY_STYLES = {
     "enterprise-ai":        ("🏢", "#CCFF00", "#000000"),
 }
 
-LOGO_URL = "http://212.227.104.123/assets/logo-openlab.png"
+LOGO_URL = ""
 
 
 def score_color(score_val):
@@ -660,7 +660,7 @@ def render_footer(date_to):
           {f'· {date_to}' if date_to else ''}
         </td>
         <td style="text-align:right;">
-          <a href="http://212.227.104.123"
+          <a href="https://openlabstudio.com"
              style="color:#CCFF00;font-size:12px;font-weight:600;
                     text-decoration:none;">
             openlab.ai →

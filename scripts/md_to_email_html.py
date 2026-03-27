@@ -4,7 +4,7 @@
 import sys, re
 from html import escape
 
-LOGO_SRC = "http://212.227.104.123/assets/logo-openlab.png"
+LOGO_SRC = ""
 
 CATEGORY_STYLES = {
     "agentic-systems":      ("🤖", "#000000", "#F0F0F0"),
