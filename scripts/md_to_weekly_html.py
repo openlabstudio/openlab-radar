@@ -322,15 +322,15 @@ def render_header(date_from, date_to):
     <table width="100%" cellpadding="0" cellspacing="0" style="background:#000000;padding:28px 32px 22px;">
       <tr>
         <td style="vertical-align:middle;">
-          <img src="{LOGO_URL}" alt="OPENLAB" height="24"
-               style="display:block;height:24px;width:auto;" />
+          <img src="{LOGO_URL}" alt="OPENLAB" height="36"
+               style="display:block;height:36px;width:auto;" />
         </td>
         <td style="text-align:right;vertical-align:middle;">
           <div style="color:#CCFF00;font-size:11px;font-weight:700;
                       text-transform:uppercase;letter-spacing:0.12em;">
             Digest Semanal
           </div>
-          {f'<div style="color:#9CA3AF;font-size:12px;margin-top:4px;white-space:nowrap;">{date_label}</div>' if date_label else ''}
+          {f'<div style="color:#9CA3AF;font-size:12px;margin-top:4px;">{date_label}</div>' if date_label else ''}
         </td>
       </tr>
     </table>
