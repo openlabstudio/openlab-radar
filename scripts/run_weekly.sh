@@ -57,6 +57,8 @@ echo "Digest generado: $DIGEST_FILE"
 echo ""
 echo ">>> PASO 2: Publicar digest en Telegraph y canal Telegram"
 
+TELEGRAPH_URL=""
+
 if [ -z "${TELEGRAM_BOT_TOKEN:-}" ] || [ -z "${TELEGRAM_CHANNEL_ID:-}" ]; then
     echo "WARN: TELEGRAM_BOT_TOKEN o TELEGRAM_CHANNEL_ID no configurados. Saltando publicación."
 else
