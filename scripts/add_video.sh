@@ -82,6 +82,15 @@ else
     echo "  WARN: Telegraph no disponible. Brief guardado en disco."
 fi
 
+# --- Paso 3: Sync con Google Drive ---
+if [ -n "${GDRIVE_BRIEFS_PATH:-}" ]; then
+    echo ""
+    echo ">>> Sincronizando con Google Drive..."
+    rclone sync "$PROJECT_DIR/briefs/" "$GDRIVE_BRIEFS_PATH" --quiet \
+        && echo "  briefs/ sincronizado con Drive." \
+        || echo "  WARN: Error sincronizando briefs/ con Drive."
+fi
+
 echo ""
 echo "=========================================="
 echo "Completado: $(date -u +%H:%M:%S) UTC"
