@@ -348,6 +348,22 @@ Obsidian apunta a `~/OPENLAB/` como vault único. No requiere configuración adi
 
 **Setup por persona:** Obsidian → "Open folder as vault" → `~/OPENLAB/`. Listo.
 
+### Estructura de carpetas en el laptop de Rafael
+
+```
+/Users/gavalle/
+  ├── _dev/                     ← todos los repos de git (el _ los pone primero en Finder)
+  │     ├── openlab-radar/      ← este repo (la fábrica)
+  │     ├── openlab-catalog/    ← skills del equipo (pendiente de clonar)
+  │     └── openlab-[cliente]/  ← repos de delivery a clientes (cuando lleguen)
+  │
+  └── OPENLAB/                  ← Drive for Desktop (el producto)
+        ├── inteligencia/
+        ├── clientes/
+        ├── comercial/
+        └── estrategia/
+```
+
 ---
 
 ## Sincronización VPS → Drive
