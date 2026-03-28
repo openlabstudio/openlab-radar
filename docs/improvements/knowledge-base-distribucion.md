@@ -2,7 +2,7 @@
 
 Documento de diseño completo para organizar el conocimiento de OPENLAB en Google Drive, distribuirlo al equipo y hacerlo consultable con Claude Code y Obsidian.
 
-**Estado:** en implementación — Fase 1 completada.
+**Estado:** en implementación — Fases 1, 2, 3 completadas. Pendiente Fase 0 Drive, Fase 4 y Fase 5 parcial.
 **Última actualización:** 2026-03-28
 
 ---
@@ -11,20 +11,33 @@ Documento de diseño completo para organizar el conocimiento de OPENLAB en Googl
 
 ### Completado
 - **Fase 0 parcial:** briefs/ e insights/ sacados del tracking de git (commit en main del VPS).
-- **Fase 1:** rclone instalado y configurado en el VPS como usuario `openlab`. Config en `/home/openlab/.config/rclone/rclone.conf` apuntando al Team Drive **OPENLAB-RADAR**. Rutas: `gdrive:briefs` y `gdrive:insights`. Primer sync ejecutado: 33 briefs + 1 insight en Drive. Scripts `run_daily.sh` y `run_weekly.sh` actualizados con Paso 5 de sync automático.
+- **Fase 1 ✓:** rclone instalado y configurado en el VPS como usuario `openlab`. Config en `/home/openlab/.config/rclone/rclone.conf` apuntando al Team Drive **OPENLAB-RADAR**. Rutas: `gdrive:briefs` y `gdrive:insights`. Primer sync ejecutado: 33 briefs + 1 insight en Drive. Scripts `run_daily.sh` y `run_weekly.sh` actualizados con Paso 5 de sync automático.
+- **Fase 2 (parcial):** creados en la estructura Drive actual (antes de la reorganización /OPENLAB/):
+  - `OPENLAB-RADAR/CLAUDE.md` → instrucciones de consulta optimizadas con patrón grep-first y taxonomía de tags
+  - `COMERCIAL/proposals-index.yaml` → catálogo de 18 proposals con estados y rutas
+  - `COMERCIAL/OPENLAB Strategy/CLAUDE.md` → ya existía con skill co-CEO completo
+- **Fase 3 ✓:** `config/tags.yaml` creado en el VPS, prompts actualizados con frontmatter YAML, fix de strip frontmatter en `scripts/publish_telegraph.py` aplicado.
+- **Fase 5 (parcial):** CLAUDE.md creados en los clientes activos del Pipeline:
+  - `COMERCIAL/Pipeline/Dabo/CLAUDE.md` (cubre Dabo Consulting + OPCARS)
+  - `COMERCIAL/Pipeline/Iberostar/CLAUDE.md`
+  - `COMERCIAL/Pipeline/Mapfre/CLAUDE.md`
+  - `COMERCIAL/Pipeline/FINAVE/CLAUDE.md`
+  - `COMERCIAL/Pipeline/Nae/CLAUDE.md`
+- **Obsidian ✓:** vault configurado en `OPENLAB-RADAR/` en el laptop de Rafael. Plugin Dataview instalado. `dashboard.md` creado con queries para últimos briefs, top por score, argumentos comerciales, nuevos servicios, patrones de skill y búsqueda por cliente.
+- **Symlink ✓:** `~/OPENLAB` → `Shared drives/` creado en el laptop de Rafael para acceso corto y estable.
+- **Shell ✓:** `OPENLAB_KB=~/OPENLAB` añadido a `~/.zshrc`.
 
 ### Pendiente — próxima sesión en el VPS
 - **Fase 0 VPS (pendiente):** verificar que `.gitignore` tiene `briefs/`, `insights/` y `data/logs/` — ver checklist abajo.
-- **Fase 3:** crear `config/tags.yaml`, actualizar `prompts/evaluate-daily.md` y `evaluate-manual.md` para generar frontmatter YAML, y aplicar fix de strip frontmatter en `scripts/publish_telegraph.py`.
 
 ### Pendiente — próxima sesión en el laptop de Rafael
-- **Fase 2:** crear `OPENLAB/inteligencia/CLAUDE.md`, `OPENLAB/estrategia/CLAUDE.md` y `OPENLAB/comercial/proposals-index.yaml` — estos ficheros van en el Drive local (`~/OPENLAB/`), no en el repo.
 - **Fase 4:** skill "gestionar propuesta" → PR a `openlab-catalog`.
-- **Fase 5:** CLAUDE.md por cada prospect activo en `clientes/pipeline/`.
+- **Fase 5 (resto):** CLAUDE.md en los demás clientes activos (Andorra AR+I, K-fund, SGT, etc.) cuando haya suficiente contexto.
+- **Nota:** los ficheros de Fase 2 están en la estructura Drive actual (OPENLAB-RADAR/, COMERCIAL/). Cuando se haga la reorganización /OPENLAB/ (Fase 0 manual), estos ficheros se moverán con sus carpetas.
 
 ### Pendiente — Rafael manualmente
 - **Fase 0 Drive:** crear estructura `/OPENLAB/` en Drive y mover contenido existente (ver checklist).
-- **Fase 2:** instalar Drive for Desktop, crear symlink `~/openlab-kb`, abrir Obsidian vault.
+- **Fase 2:** instalar Drive for Desktop en los laptops de Alberto, Carlos y Pepe.
 
 ---
 
@@ -514,18 +527,22 @@ La autenticación de rclone con Google es colaborativa: Claude Code inicia el pr
 
 ### Fase 2 — Distribución al equipo
 
-- [ ] Instalar Drive for Desktop en los laptops de: Rafael, Alberto, Antonio, Carlos, Pepe
-- [ ] Crear symlink `~/openlab-kb` → carpeta OPENLAB local en cada laptop
-- [ ] Añadir `OPENLAB_KB` al perfil de shell de cada laptop
-- [ ] Abrir Obsidian como vault sobre `~/OPENLAB/` (5 min por persona)
+- [x] `OPENLAB-RADAR/CLAUDE.md` — instrucciones de consulta del Radar (optimizado con patrón grep-first y tags)
+- [x] `COMERCIAL/proposals-index.yaml` — catálogo de 18 proposals con estados
+- [x] Symlink `~/OPENLAB` → `Shared drives/` creado en el laptop de Rafael
+- [x] `OPENLAB_KB=~/OPENLAB` añadido a `~/.zshrc` del laptop de Rafael
+- [x] Obsidian vault abierto sobre `OPENLAB-RADAR/` en el laptop de Rafael — plugin Dataview instalado, `dashboard.md` creado
+- [ ] Instalar Drive for Desktop en los laptops de: Alberto, Carlos, Pepe
+- [ ] Crear symlink `~/OPENLAB` y añadir `OPENLAB_KB` en los laptops del equipo
+- [ ] Abrir Obsidian como vault en los laptops del equipo (cuando proceda)
 
-### Fase 3 — Sistema de tags en los briefs
+### Fase 3 — Sistema de tags en los briefs ✓
 
-- [ ] Crear `config/tags.yaml` en el VPS con la taxonomía oficial
-- [ ] Actualizar `prompts/evaluate-daily.md` para generar frontmatter
-- [ ] Actualizar `prompts/evaluate-manual.md` igual
-- [ ] Aplicar fix de strip frontmatter en `scripts/publish_telegraph.py`
-- [ ] Verificar que el primer brief con frontmatter se publica bien en Telegraph
+- [x] Crear `config/tags.yaml` en el VPS con la taxonomía oficial
+- [x] Actualizar `prompts/evaluate-daily.md` para generar frontmatter
+- [x] Actualizar `prompts/evaluate-manual.md` igual
+- [x] Aplicar fix de strip frontmatter en `scripts/publish_telegraph.py`
+- [x] Verificar que el primer brief con frontmatter se publica bien en Telegraph
 
 ### Fase 4 — Skill "gestionar propuesta"
 
@@ -535,9 +552,14 @@ La autenticación de rclone con Google es colaborativa: Claude Code inicia el pr
 
 ### Fase 5 — CLAUDE.md en cada zona
 
-- [ ] `OPENLAB/inteligencia/CLAUDE.md` — cómo consultar el Radar
-- [ ] `OPENLAB/estrategia/CLAUDE.md` — co-CEO, contexto completo de empresa
-- [ ] `OPENLAB/clientes/pipeline/[empresa]/CLAUDE.md` — por cada prospect activo
+- [x] `OPENLAB-RADAR/CLAUDE.md` — cómo consultar el Radar (creado en Fase 2)
+- [x] `COMERCIAL/OPENLAB Strategy/CLAUDE.md` — co-CEO, ya existía con skill completo
+- [x] `COMERCIAL/Pipeline/Dabo/CLAUDE.md` — Dabo Consulting + OPCARS (borrador, revisar antes de enviar)
+- [x] `COMERCIAL/Pipeline/Iberostar/CLAUDE.md` — Hotel Digital, en negociación
+- [x] `COMERCIAL/Pipeline/Mapfre/CLAUDE.md` — en negociación, restricciones M365
+- [x] `COMERCIAL/Pipeline/FINAVE/CLAUDE.md` — propuesta enviada, sin respuesta
+- [x] `COMERCIAL/Pipeline/Nae/CLAUDE.md` — en negociación, pendiente de confirmación
+- [ ] Resto de clientes activos: Andorra AR+I, K-fund, SGT, Ebury, Areas (cuando haya contexto suficiente)
 
 ---
 
