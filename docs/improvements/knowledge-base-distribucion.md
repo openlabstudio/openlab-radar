@@ -2,8 +2,31 @@
 
 Documento de diseño completo para organizar el conocimiento de OPENLAB en Google Drive, distribuirlo al equipo y hacerlo consultable con Claude Code y Obsidian.
 
-**Estado:** diseño cerrado, pendiente de implementar.
+**Estado:** en implementación — Fase 1 completada.
 **Última actualización:** 2026-03-28
+
+---
+
+## 🔖 Estado actual y próximos pasos (2026-03-28)
+
+### Completado
+- **Fase 0 parcial:** briefs/ e insights/ sacados del tracking de git (commit en main del VPS).
+- **Fase 1:** rclone instalado y configurado en el VPS como usuario `openlab`. Config en `/home/openlab/.config/rclone/rclone.conf` apuntando al Team Drive **OPENLAB-RADAR**. Rutas: `gdrive:briefs` y `gdrive:insights`. Primer sync ejecutado: 33 briefs + 1 insight en Drive. Scripts `run_daily.sh` y `run_weekly.sh` actualizados con Paso 5 de sync automático.
+
+### Pendiente — próxima sesión en el VPS
+- **Fase 0 VPS (pendiente):** verificar que `.gitignore` tiene `briefs/`, `insights/` y `data/logs/` — ver checklist abajo.
+- **Fase 3:** crear `config/tags.yaml`, actualizar `prompts/evaluate-daily.md` y `evaluate-manual.md` para generar frontmatter YAML, y aplicar fix de strip frontmatter en `scripts/publish_telegraph.py`.
+
+### Pendiente — próxima sesión en el laptop de Rafael
+- **Fase 2:** crear `OPENLAB/inteligencia/CLAUDE.md`, `OPENLAB/estrategia/CLAUDE.md` y `OPENLAB/comercial/proposals-index.yaml` — estos ficheros van en el Drive local (`~/OPENLAB/`), no en el repo.
+- **Fase 4:** skill "gestionar propuesta" → PR a `openlab-catalog`.
+- **Fase 5:** CLAUDE.md por cada prospect activo en `clientes/pipeline/`.
+
+### Pendiente — Rafael manualmente
+- **Fase 0 Drive:** crear estructura `/OPENLAB/` en Drive y mover contenido existente (ver checklist).
+- **Fase 2:** instalar Drive for Desktop, crear symlink `~/openlab-kb`, abrir Obsidian vault.
+
+---
 
 ---
 
@@ -483,11 +506,11 @@ La autenticación de rclone con Google es colaborativa: Claude Code inicia el pr
 - [ ] Crear `OPENLAB/comercial/proposals-index.yaml` vacío con estructura definida
 - [ ] Crear `OPENLAB/inteligencia/CLAUDE.md` con instrucciones de consulta
 
-### Fase 1 — Sync VPS → Drive (rclone)
+### Fase 1 — Sync VPS → Drive (rclone) ✓
 
-- [ ] Instalar rclone en el VPS → ver [`setup-rclone-google-drive.md`](setup-rclone-google-drive.md)
-- [ ] Actualizar rutas en `config/.env`: destino es `OPENLAB/inteligencia/radar/`
-- [ ] Verificar que el primer sync llega correctamente a Drive
+- [x] Instalar rclone en el VPS → ver [`setup-rclone-google-drive.md`](setup-rclone-google-drive.md)
+- [x] Actualizar rutas en `config/.env`: `gdrive:briefs` y `gdrive:insights` (Team Drive OPENLAB-RADAR)
+- [x] Verificar que el primer sync llega correctamente a Drive (33 briefs + 1 insight)
 
 ### Fase 2 — Distribución al equipo
 
