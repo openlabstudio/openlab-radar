@@ -161,6 +161,22 @@ else
     echo "Notificación enviada a Rafael."
 fi
 
+# --- Paso 5: Sync con Google Drive ---
+echo ""
+echo ">>> PASO 5: Sync Google Drive"
+
+if [ -n "${GDRIVE_BRIEFS_PATH:-}" ]; then
+    rclone sync "$PROJECT_DIR/briefs/" "$GDRIVE_BRIEFS_PATH" --quiet \
+        && echo "briefs/ sincronizado con Drive." \
+        || echo "WARN: Error sincronizando briefs/ con Drive."
+fi
+
+if [ -n "${GDRIVE_INSIGHTS_PATH:-}" ]; then
+    rclone sync "$PROJECT_DIR/insights/" "$GDRIVE_INSIGHTS_PATH" --quiet \
+        && echo "insights/ sincronizado con Drive." \
+        || echo "WARN: Error sincronizando insights/ con Drive."
+fi
+
 echo ""
 echo "=========================================="
 echo "Digest semanal completado: $(date -u +%H:%M:%S) UTC"

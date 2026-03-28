@@ -126,3 +126,19 @@ if [ -n "${DIGEST_EMAIL_RECIPIENTS:-}" ] && [ -f "${BRIEFING_FILE:-}" ]; then
         gws gmail +send             --to "rafa@openlabstudio.com"             --subject "$SUBJECT"             --body "$HTML_BODY"             --html             2>/dev/null             && echo "Email diario enviado a rafa@openlabstudio.com"             || echo "ERROR: Fallo al enviar email diario."
     fi
 fi
+
+# --- Paso 5: Sync con Google Drive ---
+echo ""
+echo ">>> PASO 5: Sync Google Drive"
+
+if [ -n "${GDRIVE_BRIEFS_PATH:-}" ]; then
+    rclone sync "$PROJECT_DIR/briefs/" "$GDRIVE_BRIEFS_PATH" --quiet \
+        && echo "briefs/ sincronizado con Drive." \
+        || echo "WARN: Error sincronizando briefs/ con Drive."
+fi
+
+if [ -n "${GDRIVE_INSIGHTS_PATH:-}" ]; then
+    rclone sync "$PROJECT_DIR/insights/" "$GDRIVE_INSIGHTS_PATH" --quiet \
+        && echo "insights/ sincronizado con Drive." \
+        || echo "WARN: Error sincronizando insights/ con Drive."
+fi
