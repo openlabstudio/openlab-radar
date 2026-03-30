@@ -2,7 +2,7 @@
 
 Documento de diseño completo para organizar el conocimiento de OPENLAB en Google Drive, distribuirlo al equipo y hacerlo consultable con Claude Code y Obsidian.
 
-**Estado:** en implementación — Fases 0, 1, 2, 3 completadas. Pendiente Fase 0 Drive (Rafael), Fase 4 y Fase 5 parcial.
+**Estado:** en implementación — Fases 0, 1, 2, 3 completadas. Pendiente Fase 4 y Fase 5 parcial.
 **Última actualización:** 2026-03-30
 
 ---
@@ -10,7 +10,7 @@ Documento de diseño completo para organizar el conocimiento de OPENLAB en Googl
 ## 🔖 Estado actual y próximos pasos (2026-03-30)
 
 ### Completado
-- **Fase 0 ✓:** briefs/ e insights/ sacados del tracking de git. `.gitignore` verificado en VPS (briefs/, insights/, data/logs/).
+- **Fase 0 ✓:** briefs/ e insights/ sacados del tracking de git. `.gitignore` verificado en VPS (briefs/, insights/, data/logs/). Drive sincronizado en el laptop de Rafael en `/Users/gavalle/Library/CloudStorage/GoogleDrive-rafa@openlabstudio.com/Shared drives/OPENLAB-RADAR`.
 - **Fase 1 ✓:** rclone instalado y configurado en el VPS como usuario `openlab`. Config en `/home/openlab/.config/rclone/rclone.conf` apuntando al Team Drive **OPENLAB-RADAR**. Rutas: `gdrive:briefs` y `gdrive:insights`. Primer sync ejecutado: 33 briefs + 1 insight en Drive. Scripts `run_daily.sh` y `run_weekly.sh` actualizados con Paso 5 de sync automático.
 - **Fase 2 ✓:** creados en la estructura Drive actual (antes de la reorganización /OPENLAB/):
   - `OPENLAB-RADAR/CLAUDE.md` → instrucciones de consulta optimizadas con patrón grep-first y taxonomía de tags
@@ -32,7 +32,6 @@ Documento de diseño completo para organizar el conocimiento de OPENLAB en Googl
 - **Nota:** los ficheros de Fase 2 están en la estructura Drive actual (OPENLAB-RADAR/, COMERCIAL/). Cuando se haga la reorganización /OPENLAB/ (Fase 0 manual), estos ficheros se moverán con sus carpetas.
 
 ### Pendiente — Rafael manualmente
-- **Fase 0 Drive:** crear estructura `/OPENLAB/` en Drive y mover contenido existente (ver checklist).
 - **Fase 2:** instalar Drive for Desktop en los laptops de Alberto, Carlos y Pepe.
 
 ---
@@ -493,21 +492,10 @@ La autenticación de rclone con Google es colaborativa: Claude Code inicia el pr
 
 ## Checklist de implementación
 
-### Fase 0 — Reorganizar Drive y limpiar el repo
+### Fase 0 — Reorganizar Drive y limpiar el repo ✓
 
-**VPS:**
 - [x] Sacar `briefs/` e `insights/` del tracking de git (`.gitignore` verificado con briefs/, insights/, data/logs/)
-
-**Rafael en Drive:**
-- [ ] Crear la estructura de carpetas en Drive bajo `/OPENLAB/`
-- [ ] Mover el contenido existente:
-  - `/comercial/pipeline/` → `/OPENLAB/clientes/pipeline/`
-  - `/comercial/demos/` → `/OPENLAB/comercial/demos/`
-  - `/nuevos-proyectos/` → `/OPENLAB/estrategia/nuevas-lineas/`
-  - Carpeta de estrategia del CEO → `/OPENLAB/estrategia/`
-  - `/admin/` → `/OPENLAB/admin/`
-- [ ] Crear `OPENLAB/comercial/proposals-index.yaml` vacío con estructura definida
-- [ ] Crear `OPENLAB/inteligencia/CLAUDE.md` con instrucciones de consulta
+- [x] Drive sincronizado en el laptop de Rafael: `/Users/gavalle/Library/CloudStorage/GoogleDrive-rafa@openlabstudio.com/Shared drives/OPENLAB-RADAR`
 
 ### Fase 1 — Sync VPS → Drive (rclone) ✓
 
