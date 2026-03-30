@@ -74,19 +74,20 @@ Skill `radar-add-video-remote`: transcript → triage → scoring → brief en `
 > "Dame los briefs con tag [tag] ordenados por score"
 > "¿Qué canales han publicado más sobre agentic systems?"
 
-Busca en `briefs/` del proyecto si estás en el VPS, o en el mount de Drive for Desktop si estás en el laptop de Rafael:
-`/Users/gavalle/Library/CloudStorage/GoogleDrive-rafa@openlabstudio.com/Shared drives/OPENLAB-RADAR/briefs/`
-
-Sintetiza con citas de los .md. Tags disponibles en `config/tags.yaml`.
+Busca en `briefs/` del proyecto (estás en el VPS). Sintetiza con citas de los .md. Tags disponibles en `config/tags.yaml`.
 
 ### Generar un insight
 
 > "Genera un insight sobre X"
 
-Las consultas e insights se generan desde el laptop en sesión interactiva (no desde el VPS). Lee los briefs desde el mount de Drive indicado arriba. Guarda el resultado en:
-`/Users/gavalle/Library/CloudStorage/GoogleDrive-rafa@openlabstudio.com/Shared drives/OPENLAB-RADAR/insights/FECHA-slug.md`
+Los insights se generan desde una sesión interactiva de Claude Code en el VPS:
+```
+ssh openlab@212.227.104.123
+cd /home/openlab/openlab-radar
+claude
+```
 
-El fichero queda disponible en Drive para todo el equipo de inmediato.
+Lee `briefs/` local, guarda en `insights/FECHA-slug.md`. El siguiente pipeline sincroniza `insights/` con el Shared Drive del equipo vía rclone.
 
 ### Consultas de estado del sistema
 

@@ -91,16 +91,22 @@ Claude cita los .md relevantes con el score y la categoría.
 
 Un insight es un documento de síntesis que pides cuando quieres profundizar en un tema a partir de lo acumulado en el radar.
 
-**Dónde:** desde esta sesión de Claude Code en el laptop, con el proyecto abierto. No hace falta SSH ni estar en el VPS.
+**Dónde:** desde una sesión interactiva de Claude Code en el VPS, no desde el laptop. El VPS es el único escritor del Shared Drive — así los insights llegan al equipo por el mismo canal que los briefs.
 
-**Cómo funciona:** Claude lee los briefs directamente desde Drive for Desktop (montado en el laptop), sintetiza los relevantes para el tema que pides, y guarda el resultado también en Drive. No hace falta que le digas rutas — ya las sabe. El insight queda disponible para todo el equipo de inmediato sin esperar al siguiente sync.
+```bash
+ssh openlab@212.227.104.123
+cd /home/openlab/openlab-radar
+claude
+```
+
+**Cómo funciona:** Claude lee `briefs/` local (están ahí, son los originales), sintetiza los relevantes para el tema que pides, y guarda el resultado en `insights/`. El siguiente pipeline diario lo sincroniza con el Shared Drive del equipo.
 
 Di simplemente:
 > "Genera un insight sobre por qué los CLI agents superan a n8n para procesos de negocio"
 > "Sintetiza todo lo que el radar ha captado sobre context engineering en los últimos 30 días"
 > "Genera un insight sobre cómo están entregando skills a clientes las agencias que siguen el radar"
 
-El insight incluye: síntesis de los briefs relevantes, patrones detectados, implicaciones para OPENLAB y argumentos comerciales listos para usar. Se guarda como `insights/FECHA-slug.md` y en el siguiente pipeline se sincroniza con Drive automáticamente.
+El insight incluye: síntesis de los briefs relevantes, patrones detectados, implicaciones para OPENLAB y argumentos comerciales listos para usar. Se guarda como `insights/FECHA-slug.md`.
 
 ---
 
