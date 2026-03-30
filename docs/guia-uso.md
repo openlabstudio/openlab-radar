@@ -93,7 +93,7 @@ Un insight es un documento de síntesis que pides cuando quieres profundizar en 
 
 **Dónde:** desde esta sesión de Claude Code en el laptop, con el proyecto abierto. No hace falta SSH ni estar en el VPS.
 
-**Cómo funciona:** Claude lee los `.md` de `briefs/` directamente (están en el proyecto local, sincronizados desde Drive), sintetiza los relevantes para el tema que pides, y guarda el resultado en `insights/`. No hace falta que le digas la ruta — ya sabe que los insights van ahí.
+**Cómo funciona:** Claude lee los briefs directamente desde Drive for Desktop (montado en el laptop), sintetiza los relevantes para el tema que pides, y guarda el resultado también en Drive. No hace falta que le digas rutas — ya las sabe. El insight queda disponible para todo el equipo de inmediato sin esperar al siguiente sync.
 
 Di simplemente:
 > "Genera un insight sobre por qué los CLI agents superan a n8n para procesos de negocio"
