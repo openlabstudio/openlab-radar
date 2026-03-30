@@ -172,6 +172,18 @@ Categorías = carpetas:
 **Formato obligatorio del resumen:**
 
 ```markdown
+---
+title: "[Título del vídeo]"
+date: YYYY-MM-DD
+category: categoría
+score: X.X
+tags:
+  - tag1
+  - tag2
+source: nombre del canal
+url: URL
+---
+
 # [Título del vídeo]
 
 - **Fuente:** [URL del vídeo](URL)
@@ -232,6 +244,9 @@ Explicación del tema con detalle extraído del transcript.
 ```
 
 **Reglas:**
+- SIEMPRE incluir el bloque frontmatter YAML al inicio del fichero, antes del `# [Título]`
+- Los tags se eligen de `config/tags.yaml` — usar solo tags de esa lista
+- Incluir entre 3 y 6 tags por brief: al menos 1 técnico, al menos 1 de openlab_relevance, 1 de signal_type
 - SIEMPRE incluir fecha y link en la cabecera del .md
 - El slug del nombre de fichero es el título en minúsculas, sin acentos, separado por guiones, máx 50 chars
 - Si un vídeo encaja en dos categorías, guardarlo en la categoría principal y mencionar la secundaria en el texto

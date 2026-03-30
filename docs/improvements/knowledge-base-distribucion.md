@@ -2,33 +2,29 @@
 
 Documento de diseño completo para organizar el conocimiento de OPENLAB en Google Drive, distribuirlo al equipo y hacerlo consultable con Claude Code y Obsidian.
 
-**Estado:** en implementación — Fases 1, 2, 3 completadas. Pendiente Fase 0 Drive, Fase 4 y Fase 5 parcial.
-**Última actualización:** 2026-03-28
+**Estado:** en implementación — Fases 0, 1, 2, 3 completadas. Pendiente Fase 0 Drive (Rafael), Fase 4 y Fase 5 parcial.
+**Última actualización:** 2026-03-30
 
 ---
 
-## 🔖 Estado actual y próximos pasos (2026-03-28)
+## 🔖 Estado actual y próximos pasos (2026-03-30)
 
 ### Completado
-- **Fase 0 parcial:** briefs/ e insights/ sacados del tracking de git (commit en main del VPS).
+- **Fase 0 ✓:** briefs/ e insights/ sacados del tracking de git. `.gitignore` verificado en VPS (briefs/, insights/, data/logs/).
 - **Fase 1 ✓:** rclone instalado y configurado en el VPS como usuario `openlab`. Config en `/home/openlab/.config/rclone/rclone.conf` apuntando al Team Drive **OPENLAB-RADAR**. Rutas: `gdrive:briefs` y `gdrive:insights`. Primer sync ejecutado: 33 briefs + 1 insight en Drive. Scripts `run_daily.sh` y `run_weekly.sh` actualizados con Paso 5 de sync automático.
-- **Fase 2 (parcial):** creados en la estructura Drive actual (antes de la reorganización /OPENLAB/):
+- **Fase 2 ✓:** creados en la estructura Drive actual (antes de la reorganización /OPENLAB/):
   - `OPENLAB-RADAR/CLAUDE.md` → instrucciones de consulta optimizadas con patrón grep-first y taxonomía de tags
   - `COMERCIAL/proposals-index.yaml` → catálogo de 18 proposals con estados y rutas
   - `COMERCIAL/OPENLAB Strategy/CLAUDE.md` → ya existía con skill co-CEO completo
-- **Fase 3 ✓:** `config/tags.yaml` creado en el VPS, prompts actualizados con frontmatter YAML, fix de strip frontmatter en `scripts/publish_telegraph.py` aplicado.
+  - Symlink `~/OPENLAB` → `Shared drives/` creado en laptop de Rafael. `OPENLAB_KB=~/OPENLAB` en `~/.zshrc`.
+  - Obsidian vault configurado en `OPENLAB-RADAR/`, plugin Dataview, `dashboard.md` con queries.
+- **Fase 3 ✓:** `config/tags.yaml` creado en el VPS, prompts actualizados con frontmatter YAML, fix de strip frontmatter en `scripts/publish_telegraph.py`. Frontmatter aplicado retroactivamente a 29 ficheros (28 briefs + 1 insight). Telegraph verifica OK.
 - **Fase 5 (parcial):** CLAUDE.md creados en los clientes activos del Pipeline:
   - `COMERCIAL/Pipeline/Dabo/CLAUDE.md` (cubre Dabo Consulting + OPCARS)
   - `COMERCIAL/Pipeline/Iberostar/CLAUDE.md`
   - `COMERCIAL/Pipeline/Mapfre/CLAUDE.md`
   - `COMERCIAL/Pipeline/FINAVE/CLAUDE.md`
   - `COMERCIAL/Pipeline/Nae/CLAUDE.md`
-- **Obsidian ✓:** vault configurado en `OPENLAB-RADAR/` en el laptop de Rafael. Plugin Dataview instalado. `dashboard.md` creado con queries para últimos briefs, top por score, argumentos comerciales, nuevos servicios, patrones de skill y búsqueda por cliente.
-- **Symlink ✓:** `~/OPENLAB` → `Shared drives/` creado en el laptop de Rafael para acceso corto y estable.
-- **Shell ✓:** `OPENLAB_KB=~/OPENLAB` añadido a `~/.zshrc`.
-
-### Pendiente — próxima sesión en el VPS
-- **Fase 0 VPS (pendiente):** verificar que `.gitignore` tiene `briefs/`, `insights/` y `data/logs/` — ver checklist abajo.
 
 ### Pendiente — próxima sesión en el laptop de Rafael
 - **Fase 4:** skill "gestionar propuesta" → PR a `openlab-catalog`.
@@ -500,13 +496,7 @@ La autenticación de rclone con Google es colaborativa: Claude Code inicia el pr
 ### Fase 0 — Reorganizar Drive y limpiar el repo
 
 **VPS:**
-- [ ] Sacar `briefs/` e `insights/` del tracking de git:
-  ```bash
-  echo -e "briefs/\ninsights/\ndata/logs/" >> .gitignore
-  git rm -r --cached briefs/ insights/
-  git commit -m "Move briefs and insights out of git — distributed via rclone/Drive"
-  git push
-  ```
+- [x] Sacar `briefs/` e `insights/` del tracking de git (`.gitignore` verificado con briefs/, insights/, data/logs/)
 
 **Rafael en Drive:**
 - [ ] Crear la estructura de carpetas en Drive bajo `/OPENLAB/`

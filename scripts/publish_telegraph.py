@@ -184,6 +184,9 @@ def publish(md_path, token):
     with open(md_path, 'r', encoding='utf-8') as f:
         md_text = f.read()
 
+    # Strip YAML frontmatter si existe
+    md_text = re.sub(r'^---\n.*?\n---\n?', '', md_text, flags=re.DOTALL)
+
     # Extraer título del primer heading
     m = re.search(r'^#\s+(.+)', md_text, re.MULTILINE)
     title = m.group(1).strip() if m else os.path.basename(md_path).replace('.md', '')

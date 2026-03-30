@@ -120,9 +120,24 @@ Lee estos ficheros antes de generar el brief:
 
 El slug es el título en minúsculas, sin acentos, separado por guiones, máx 50 caracteres. Crear la carpeta si no existe.
 
+Los tags se eligen de `config/tags.yaml` — usar solo tags de esa lista. Incluir entre 3 y 6 tags: al menos 1 técnico, al menos 1 de openlab_relevance, 1 de signal_type.
+
 **Formato obligatorio:**
 
 ```markdown
+---
+title: "[Título del vídeo]"
+date: YYYY-MM-DD
+category: categoría
+score: X.X
+tags:
+  - tag1
+  - tag2
+source: nombre del canal
+url: URL
+added: manually
+---
+
 # [Título del vídeo]
 
 - **Fuente:** [URL](URL)

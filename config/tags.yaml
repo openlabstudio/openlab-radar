@@ -1,0 +1,42 @@
+# OPENLAB Radar — Taxonomía oficial de tags
+# Referencia para el evaluador diario y manual al asignar frontmatter en los briefs.
+# Usar únicamente tags de esta lista para garantizar consistencia en grep y Obsidian.
+
+technical:
+  - context-engineering
+  - token-optimization
+  - skill-design
+  - agent-architecture
+  - multi-agent
+  - mcp
+  - context-window
+  - evaluation
+  - tool-use
+  - knowledge-management
+  - long-running-agents
+  - harness-engineering
+
+openlab_relevance:
+  - commercial-argument      # directamente usable en ventas o propuestas
+  - client-delivery          # aplicable a cómo entregamos
+  - skill-pattern            # patrón reutilizable en los skills que construimos
+  - new-service              # oportunidad de nuevo servicio
+  - workshop-material        # usable en DIBEX u otras formaciones
+  - competitive-intel        # inteligencia sobre competidores o alternativas
+
+signal_type:
+  - trend                    # tendencia emergente
+  - technical-deep-dive      # análisis técnico profundo
+  - case-study               # caso real con métricas
+  - opinion                  # perspectiva del creador
+  - tutorial                 # guía práctica
+
+entities:
+  - anthropic
+  - openai
+  - google
+  - microsoft
+  - claude-code
+  - langchain
+  - cursor
+  - n8n
