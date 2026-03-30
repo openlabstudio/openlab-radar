@@ -598,3 +598,91 @@ Solo Rafael tiene acceso SSH al VPS. Los parámetros del Radar (canales monitori
 | Sync Radar | rclone VPS → `inteligencia/radar/` | Carpeta separada | Todo bajo una raíz facilita el vault único y la consulta cruzada |
 | Acceso equipo | Todo compartido, transparencia total | Acceso diferenciado por área | Forma de trabajar de OPENLAB |
 | Plugins AI en Obsidian | Ninguno | Smart Connections, Copilot | Claude Code CLI es mejor y ya está en el workflow |
+
+---
+
+## Fase 6 — Visualizador HTML del Knowledge Base
+
+### Qué es
+
+`kb_viewer.html` — fichero HTML autogenerado, self-contained, sin servidor. Diseñado para que cualquier miembro del equipo pueda abrir el knowledge base de un doble clic en Finder y escanear lo más importante en 2 minutos.
+
+**UX:** el archivo vive en la raíz de `OPENLAB/inteligencia/radar/` en Google Drive. Los usuarios lo abren desde su copia local sincronizada. Funciona completamente offline (`file://`).
+
+```
+VPS (cron 08:00 UTC)
+  └─ run_daily.sh
+       ├─ Paso 4b: genera data/kb_viewer.html
+       └─ Paso 5:  rclone sube kb_viewer.html → OPENLAB/inteligencia/radar/
+
+Usuario OPENLAB (laptop, Drive sincronizado)
+  └─ ~/OPENLAB/inteligencia/radar/kb_viewer.html
+       └─ doble clic → se abre en el navegador
+```
+
+### Secciones del dashboard
+
+| Sección | Propósito |
+|---|---|
+| **⚡ Hot Signals** | Top 5 briefs con score ≥ 8.0 de los últimos 7 días — lo más urgente |
+| **🗓 Nuevos esta semana** | Todos los briefs recientes agrupados por día — cronología de la semana |
+| **📂 Por categoría** | Tabs con los briefs más importantes de cada categoría + estadísticas |
+| **🏷 Tag Explorer** | Nube de tags interactiva — click en un tag filtra todos los briefs relacionados |
+| **💡 Insights** | Cards de los análisis en `insights/` con extracto |
+| **🔍 Buscador** | Búsqueda en tiempo real sobre título, fuente, tags y extracto |
+| **Stats (nav fijo)** | Total briefs · Score medio · Fecha último brief · Nº insights |
+
+### Diseño
+
+- **Paleta:** fondo negro (`#000000`), acento lima (`#CCFF00`), superficies `#0F0F23`/`#141414` — idéntica a los emails diarios
+- **Tipografía:** Montserrat (Google Fonts CDN)
+- **Datos:** JSON embebido en el HTML (`KB_DATA`). Sin requests HTTP en runtime — funciona offline
+- **JS:** vanilla, sin frameworks. Tabs, filtros y búsqueda sobre el JSON local
+
+### Generación
+
+```bash
+# Desde el VPS (automático en cron)
+python3 scripts/generate_kb_viewer.py
+# → data/kb_viewer.html
+
+# Desde el laptop de Rafael (Drive local)
+python3 scripts/generate_kb_viewer.py \
+  --briefs-dir ~/OPENLAB/inteligencia/radar/briefs \
+  --insights-dir ~/OPENLAB/inteligencia/radar/insights \
+  --output ~/OPENLAB/inteligencia/radar/kb_viewer.html
+```
+
+### Integración pipeline (`run_daily.sh`)
+
+Dos cambios en el VPS:
+
+**Paso 4b** (nuevo, entre email y sync Drive):
+```bash
+python3 "$PROJECT_DIR/scripts/generate_kb_viewer.py" \
+    --output "$PROJECT_DIR/data/kb_viewer.html"
+```
+
+**Paso 5** (ampliar con copia explícita del viewer):
+```bash
+rclone copyto "$PROJECT_DIR/data/kb_viewer.html" \
+    "${GDRIVE_RADAR_ROOT}/kb_viewer.html" --quiet
+```
+`GDRIVE_RADAR_ROOT` apunta a `OPENLAB/inteligencia/radar` en Team Drive — añadir a `config/.env`.
+
+### Variable de entorno nueva
+
+```bash
+# config/.env
+GDRIVE_RADAR_ROOT=gdrive:OPENLAB/inteligencia/radar
+```
+
+### Checklist de implementación
+
+- [ ] Crear `scripts/generate_kb_viewer.py`
+- [ ] Añadir variable `GDRIVE_RADAR_ROOT` en `config/.env` del VPS
+- [ ] Añadir Paso 4b en `run_daily.sh`
+- [ ] Ampliar Paso 5 en `run_daily.sh` con `rclone copyto` del viewer
+- [ ] Verificar que `data/kb_viewer.html` no está en `.gitignore`
+- [ ] Primer test manual: `python3 scripts/generate_kb_viewer.py --briefs-dir ~/OPENLAB/inteligencia/radar/briefs` desde el laptop
+- [ ] Confirmar que el fichero se abre correctamente en Safari/Chrome desde `file://`

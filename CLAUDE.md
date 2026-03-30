@@ -35,6 +35,9 @@ scripts/
   md_to_email_html.py      → convierte briefing diario a HTML newsletter para email
   md_to_weekly_html.py     → convierte digest semanal a HTML newsletter para email
   notify.py                → envía notificaciones por Telegram
+  generate_kb_viewer.py    → genera data/kb_viewer.html (dashboard visual del KB)
+data/
+  kb_viewer.html           → dashboard HTML del knowledge base (sincronizado con Drive)
 data/
   radar.db               → SQLite con todos los vídeos procesados
   candidates-FECHA.json  → candidatos del scraper por día

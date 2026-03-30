@@ -60,7 +60,8 @@ openlab-radar/
 │   ├── run_weekly.sh           # Digest semanal + email equipo (cron viernes 08:30 UTC)
 │   ├── md_to_email_html.py     # Convierte briefing diario a HTML newsletter
 │   ├── md_to_weekly_html.py    # Convierte digest semanal a HTML newsletter
-│   └── publish_telegraph.py    # Publica briefs en Telegraph
+│   ├── publish_telegraph.py    # Publica briefs en Telegraph
+│   └── generate_kb_viewer.py   # Genera data/kb_viewer.html (dashboard visual del KB)
 ├── briefs/                  # Base de conocimiento (sincronizada con Google Drive)
 │   ├── daily-briefings/     # Briefings diarios (email HTML a Rafael 09:00 CET)
 │   ├── weekly-digests/      # Digests semanales (email HTML al equipo viernes 09:30 CET)
@@ -78,6 +79,20 @@ openlab-radar/
 │   └── improvements/               # Mejoras pendientes de implementar
 ├── setup.sh                # Setup VPS con crons
 └── README.md
+```
+
+## KB Viewer
+
+Dashboard visual del knowledge base generado diariamente por el cron. Disponible en Google Drive como `kb_viewer.html` — doble clic en Finder para abrirlo en el navegador.
+
+Incluye Hot Signals (briefs con score ≥ 8.0 de la semana), vista cronológica, navegación por categoría, tag explorer y buscador. Para regenerarlo manualmente:
+
+```bash
+python3 scripts/generate_kb_viewer.py
+# Con Drive local (laptop):
+python3 scripts/generate_kb_viewer.py \
+  --briefs-dir ~/OPENLAB/inteligencia/radar/briefs \
+  --output ~/OPENLAB/inteligencia/radar/kb_viewer.html
 ```
 
 ## Documentación

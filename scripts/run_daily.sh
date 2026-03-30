@@ -127,6 +127,16 @@ if [ -n "${DIGEST_EMAIL_RECIPIENTS:-}" ] && [ -f "${BRIEFING_FILE:-}" ]; then
     fi
 fi
 
+# --- Paso 4b: Generar KB Viewer HTML ---
+echo ""
+echo ">>> PASO 4b: KB Viewer HTML"
+python3 "$PROJECT_DIR/scripts/generate_kb_viewer.py" \
+    --briefs-dir "$PROJECT_DIR/briefs" \
+    --insights-dir "$PROJECT_DIR/insights" \
+    --output "$PROJECT_DIR/data/kb_viewer.html" \
+    && echo "KB Viewer generado: data/kb_viewer.html" \
+    || echo "WARN: Error generando KB Viewer (no crítico)."
+
 # --- Paso 5: Sync con Google Drive ---
 echo ""
 echo ">>> PASO 5: Sync Google Drive"
@@ -141,4 +151,12 @@ if [ -n "${GDRIVE_INSIGHTS_PATH:-}" ]; then
     rclone sync "$PROJECT_DIR/insights/" "$GDRIVE_INSIGHTS_PATH" --quiet \
         && echo "insights/ sincronizado con Drive." \
         || echo "WARN: Error sincronizando insights/ con Drive."
+fi
+
+# Subir KB Viewer a la raíz del directorio radar en Drive
+if [ -f "$PROJECT_DIR/data/kb_viewer.html" ] && [ -n "${GDRIVE_RADAR_ROOT:-}" ]; then
+    rclone copyto "$PROJECT_DIR/data/kb_viewer.html" \
+        "${GDRIVE_RADAR_ROOT}/kb_viewer.html" --quiet \
+        && echo "KB Viewer sincronizado con Drive: ${GDRIVE_RADAR_ROOT}/kb_viewer.html" \
+        || echo "WARN: Error sincronizando KB Viewer con Drive."
 fi
