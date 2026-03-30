@@ -45,17 +45,22 @@ Sistema de inteligencia continua que monitoriza YouTube diariamente para detecta
          │
          ▼
 ┌─────────────────────────────────────────────────────────┐
-│  ADICIÓN MANUAL (Claude Code, en VPS o laptop)          │
+│  ADICIÓN MANUAL (Claude Code, desde laptop)             │
 │                                                         │
-│  "añade este vídeo al radar: URL"                       │
+│  Flujo recomendado en dos pasos:                        │
 │                                                         │
-│  Desde el VPS → skill radar-add-video                   │
-│    transcript → triage → scoring → brief → DB           │
-│    → Telegraph + Telegram                               │
+│  1. CHECK PREVIO → skill radar-check-video              │
+│     "¿vale la pena este vídeo? URL"                     │
+│     SSH → check_video.sh → evaluate-check.md headless  │
+│     Transcript + triage + score + cobertura en briefs/  │
+│     Todo corre en el VPS. Si recomienda añadir, pide   │
+│     confirmación antes de ejecutar el pipeline.         │
 │                                                         │
-│  Desde el laptop → skill radar-add-video-remote         │
-│    SSH transparente al VPS → mismo pipeline             │
-│    Sin SSH manual, sin navegar carpetas                 │
+│  2. AÑADIR → skill radar-add-video-remote               │
+│     "añade este vídeo al radar: URL"                    │
+│     SSH transparente al VPS → mismo pipeline:           │
+│     transcript → triage → scoring → brief → DB          │
+│     → Telegraph + Telegram                              │
 │                                                         │
 │  El brief se guarda en briefs/CATEGORÍA/ con la marca   │
 │  "Añadido: manualmente". No toca el briefing del día.   │
@@ -428,12 +433,12 @@ Detalle extraído del transcript.
 
 ## Skills de Claude Code
 
-| Skill | Dónde | Invocación |
-|-------|-------|-----------|
-| `radar-add-video` | VPS (`~/.claude/skills/`) | "añade este vídeo: URL" — desde sesión Claude Code en el VPS |
-| `radar-add-video-remote` | Laptop (`~/.claude/skills/`) | "añade este vídeo al radar: URL" — SSH transparente al VPS |
+| Skill | Invocación | Qué hace |
+|-------|-----------|----------|
+| `radar-check-video` | "¿vale la pena este vídeo? URL" | SSH al VPS → `check_video.sh` → `evaluate-check.md` headless: transcript + triage + score estimado + búsqueda de cobertura en briefs/. No escribe nada. Si recomienda AÑADIR/VALORAR, ofrece ejecutar el pipeline. |
+| `radar-add-video-remote` | "añade este vídeo al radar: URL" | SSH al VPS → `add_video.sh` → `evaluate-manual.md` headless: pipeline completo → brief → Telegraph → Telegram. |
 
-Ambos skills ejecutan el mismo pipeline: transcript → triage → scoring → brief en `briefs/CATEGORÍA/` → `radar.db` → Telegraph → Telegram. No modifican el briefing diario.
+Ambos skills son puentes SSH desde el laptop. Todo el procesamiento (Claude headless, MCP transcript, búsqueda en briefs) corre en el VPS. Funcionan para cualquier miembro del equipo sin necesidad de tener el proyecto en local.
 
 ---
 
@@ -448,7 +453,27 @@ Ambos skills ejecutan el mismo pipeline: transcript → triage → scoring → b
 | Telegraph (telegra.ph) | Briefs como Instant View en Telegram (lectura móvil) | Configurado |
 | gws CLI (Google Workspace) | Email diario (Rafael) + digest semanal (equipo) | Configurado, OAuth Desktop app |
 | nginx | Assets estáticos (logo emails HTML) en VPS | Configurado |
-| rclone | Sincronizar briefs/ con Google Drive | Pendiente |
+| rclone | Sincronizar briefs/ e insights/ con Google Drive + kb_viewer.html | ✅ Configurado |
+
+---
+
+## KB Viewer — Dashboard visual del knowledge base
+
+Fichero `data/kb_viewer.html` generado automáticamente al final de cada pipeline diario y sincronizado a Drive.
+
+**Acceso:** doble clic desde Drive for Desktop → se abre en el navegador. Funciona offline, sin servidor.
+
+**Vistas:**
+- **Hot Signals** — top 5 briefs de los últimos 7 días por score
+- **Nuevos** — últimos briefs añadidos
+- **Por categoría** — 6 categorías con briefs listados
+- **Tag Explorer** — filtra por tags (commercial-argument, skill-pattern, case-study, etc.)
+- **Insights** — documentos de análisis guardados en `insights/`
+- **Buscador** — búsqueda libre en títulos y resúmenes
+
+**Diseño:** fondo negro #000000, acento lima #CCFF00, tipografía Montserrat. Datos JSON embebidos, JS vanilla.
+
+**Ruta en Drive:** `OPENLAB/inteligencia/radar/kb_viewer.html`
 
 ---
 
@@ -456,7 +481,7 @@ Ambos skills ejecutan el mismo pipeline: transcript → triage → scoring → b
 
 Carpeta `insights/` para análisis y síntesis generados a petición desde los briefs acumulados. No son outputs automáticos del pipeline — se generan en sesiones de Claude Code con el contexto del radar.
 
-**Sincronización:** `briefs/` e `insights/` se sincronizan con Google Drive vía rclone (pendiente de configurar en VPS). Son las dos carpetas pensadas para consumo del equipo.
+**Sincronización:** `briefs/` e `insights/` se sincronizan con Google Drive vía rclone al final de cada pipeline diario. `data/kb_viewer.html` también se copia a `OPENLAB/inteligencia/radar/kb_viewer.html` en Drive.
 
 Ejemplos de insights:
 - Buenas prácticas de estructura de skills extraídas de los briefs
