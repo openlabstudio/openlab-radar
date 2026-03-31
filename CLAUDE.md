@@ -45,12 +45,24 @@ docs/
   improvements/          → mejoras pendientes de implementar
 ```
 
-## Crons activos (root)
+## Crons activos (usuario openlab)
 
 ```
 0  8 * * *   run_daily.sh   → pipeline diario 09:00 CET (email a Rafael)
 30 8 * * 5   run_weekly.sh  → digest semanal viernes 09:30 CET (email al equipo)
 ```
+
+Ver con: `crontab -l` (como usuario openlab, NO root)
+
+## Autenticación Claude CLI en crons
+
+Los crons usan `claude -p` (headless). El token OAuth interactivo caduca periódicamente → error 401.
+
+**Solución activa:** `CLAUDE_CODE_OAUTH_TOKEN` en `config/.env`, generado con `claude setup-token`. Válido ~1 año. El script ya hace `source config/.env` antes de llamar a `claude -p`.
+
+**Renovación (~2027-03-31):** ejecutar `claude setup-token` → actualizar `CLAUDE_CODE_OAUTH_TOKEN` en `config/.env`.
+
+**⚠️ No usar `ANTHROPIC_API_KEY`** para esto: si está en el entorno, `claude -p` factura por token ignorando la suscripción Max.
 
 ## Casos de uso — qué puede pedir Rafael
 

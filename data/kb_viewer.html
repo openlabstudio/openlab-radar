@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<title>OPENLAB Radar Viewer</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F3F4F6;--surface:#FFFFFF;--s2:#F9FAFB;--s3:#F3F4F6;
+  --accent:#CCFF00;--text:#111111;--muted:#6B7280;--border:#E5E7EB;
+  --gh:#16A34A;--ghb:#DCFCE7;--gm:#D97706;--gmb:#FEF3C7;--gl:#DC2626;--glb:#FEE2E2;
+}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',Arial,sans-serif;font-size:14px;line-height:1.5}
+a{color:inherit;text-decoration:none}
+
+/* ── HEADER ── */
+.header-wrap{padding:20px 24px 0;max-width:900px;margin:0 auto}
+.header{background:#000;border-radius:12px;padding:24px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.header-right{text-align:right;line-height:1.2}
+.header-label{font-size:11px;font-weight:900;letter-spacing:.2em;color:#CCFF00;text-transform:uppercase}
+.header-date{font-size:11px;color:#9CA3AF;margin-top:4px}
+
+/* ── STATS BAR ── */
+.stats-wrap{max-width:900px;margin:20px auto 0;padding:0 24px}
+.stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:600px){.stats-bar{grid-template-columns:repeat(2,1fr)}}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 20px;text-align:center}
+.stat-num{font-size:32px;font-weight:900;color:#111;line-height:1}
+.stat-label{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}
+
+/* ── SEARCH ── */
+.search-wrap{max-width:900px;margin:20px auto 0;padding:0 24px}
+.search-box{background:#fff;border:2px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:12px;padding:12px 18px;transition:border-color .15s}
+.search-box:focus-within{border-color:#000}
+.search-icon{font-size:18px;color:var(--muted);flex-shrink:0}
+#si{flex:1;border:none;outline:none;font-family:'Montserrat',Arial,sans-serif;font-size:14px;font-weight:600;color:var(--text);background:transparent}
+#si::placeholder{color:#C4C9D4;font-weight:400}
+
+/* ── MAIN ── */
+main{max-width:900px;margin:32px auto 0;padding:0 24px 64px}
+section{margin-bottom:48px}
+.sh{display:flex;align-items:baseline;gap:10px;margin-bottom:20px}
+.sh-line{width:4px;height:20px;background:#000;border-radius:2px;flex-shrink:0;align-self:center}
+.st{font-size:16px;font-weight:800;color:#111}
+.ss{font-size:12px;color:var(--muted)}
+
+/* ── GRID ── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+
+/* ── CARD ── */
+.card{background:#fff;border:1px solid var(--border);border-left:5px solid #000;border-radius:0 8px 8px 0;display:flex;overflow:hidden;transition:box-shadow .15s}
+.card:hover{box-shadow:0 4px 16px rgba(0,0,0,.10)}
+.card-body{padding:16px;flex:1;min-width:0}
+.ct{font-size:13px;font-weight:700;margin-bottom:8px;line-height:1.4;color:#111}
+.ct a:hover{color:#000;text-decoration:underline}
+.cm{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:6px}
+.bc{background:#000;color:#CCFF00;font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}
+.bs{font-size:11px;font-weight:800;padding:2px 7px;border-radius:3px;white-space:nowrap}
+.bd{font-size:10px;color:var(--muted)}
+.csrc{font-size:11px;color:var(--muted);margin-bottom:5px}
+.cx{font-size:12px;color:#374151;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tr{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}
+.tp{background:var(--s3);border:1px solid var(--border);color:var(--muted);font-size:10px;padding:2px 6px;border-radius:3px;cursor:pointer;transition:background .1s,color .1s}
+.tp:hover{background:#000;color:#CCFF00;border-color:#000}
+.cl{margin-top:10px;display:flex;gap:8px}
+.lyt{font-size:10px;font-weight:700;padding:3px 9px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em;background:#DC2626;color:#fff}
+.ltg{font-size:10px;font-weight:700;padding:3px 9px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em;background:#2AABEE;color:#fff}
+
+/* ── LISTA ── */
+.list{display:flex;flex-direction:column;gap:0}
+.lday{font-size:11px;font-weight:700;color:#111;text-transform:uppercase;letter-spacing:.08em;padding:12px 0 4px;border-bottom:2px solid #000;margin-bottom:4px}
+.li{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:5px;transition:background .1s}
+.li:hover{background:#fff}
+.lit{flex:1;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#111}
+.lit a:hover{color:#000;text-decoration:underline}
+
+/* ── TABS ── */
+.tabs-bar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:20px;border-bottom:2px solid var(--border);padding-bottom:0}
+.tb{background:transparent;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;color:var(--muted);font-family:'Montserrat',Arial,sans-serif;font-size:12px;font-weight:700;padding:8px 14px;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap}
+.tb:hover{color:#111}
+.tb.active{color:#111;border-bottom-color:#000}
+.tc{display:none}
+.tc.active{display:block}
+.ch{display:flex;gap:16px;align-items:center;margin-bottom:16px;padding:12px 16px;background:#fff;border-radius:8px;border:1px solid var(--border);border-left:5px solid #000}
+.cc{font-size:28px;font-weight:900;color:#111}
+.cm2{font-size:11px;color:var(--muted)}
+.cm2 strong{color:#111}
+
+/* ── TAG CLOUD ── */
+#tc{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.ct2{cursor:pointer;border-radius:4px;padding:4px 10px;font-weight:700;transition:background .1s,color .1s,transform .1s;border:1px solid #D1D5DB;color:#374151}
+.ct2:hover,.ct2.sel{background:#000!important;color:#CCFF00!important;border-color:#000!important;transform:scale(1.05)}
+
+/* ── INSIGHTS ── */
+.ic{background:#fff;border:1px solid var(--border);border-left:5px solid #6366F1;border-radius:0 8px 8px 0;padding:16px;transition:border-left-color .15s}
+.ic:hover{border-left-color:#000}
+.itl{font-size:14px;font-weight:700;margin-bottom:4px;color:#111}
+.id{font-size:11px;color:var(--muted);margin-bottom:6px}
+.ix{font-size:12px;color:#374151;line-height:1.5}
+
+/* ── MISC ── */
+.empty{text-align:center;padding:40px;color:var(--muted);font-size:13px;border:2px dashed var(--border);border-radius:8px;background:#fff}
+.xbtn{background:#fff;border:2px solid #000;color:#111;font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:700;padding:6px 16px;border-radius:4px;cursor:pointer;margin-top:12px;transition:background .1s,color .1s}
+.xbtn:hover{background:#000;color:#CCFF00}
+#ss{display:none;margin-bottom:32px}
+footer{text-align:center;padding:24px;color:var(--muted);font-size:11px;border-top:1px solid var(--border);background:var(--bg)}
+footer strong{color:#111}
+@media(max-width:600px){
+  .stats-bar{grid-template-columns:repeat(2,1fr)}
+  main,.stats-wrap,.search-wrap,.header-wrap{padding-left:16px;padding-right:16px}
+  .grid{grid-template-columns:1fr}
+  .header{padding:20px}
+}
+</style>
+</head>
+<body>
+
+<div class="header-wrap">
+  <div class="header">
+    <img src="data:image/png;base64,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UmVhZHlxyWU8AAADe2lUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgOS4wLWMwMDAgNzkuMTcxYzI3ZmFiLCAyMDIyLzA4LzE2LTIyOjM1OjQxICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1wTU06T3JpZ2luYWxEb2N1bWVudElEPSIyQTkzNTlDMDY1N0YxQTc2Qzk1NEIxNkJFODk5Qjg2QiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpFNEYyQzA0ODlEQkYxMUVFQTMzRkE1ODlCQUQyRTgyOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpFNEYyQzA0NzlEQkYxMUVFQTMzRkE1ODlCQUQyRTgyOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxNyAoV2luZG93cykiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDplMjUxYWNhOS1iYjlmLWVmNGYtYTMzMy03NTE0ZGI5MTI0NDEiIHN0UmVmOmRvY3VtZW50SUQ9ImFkb2JlOmRvY2lkOnBob3Rvc2hvcDpmOTdmOWY1Ny05ZDM4LTM2NDctOTljMC0xYjdlN2IxOTljM2IiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBl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" alt="OPENLAB" height="48" style="display:block;height:48px;width:auto;">
+    <div class="header-right">
+      <div class="header-label">Radar Viewer</div>
+      <div class="header-date">2026-03-31 09:30 CET</div>
+    </div>
+  </div>
+</div>
+
+<div class="stats-wrap">
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-num" id="s-total">—</div><div class="stat-label">Briefs</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-score">—</div><div class="stat-label">Score medio</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-week">—</div><div class="stat-label">Esta semana</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-ins">—</div><div class="stat-label">Insights</div></div>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="search" id="si" placeholder="Buscar en los briefs…" autocomplete="off">
+  </div>
+</div>
+
+<main>
+
+  <!-- Búsqueda -->
+  <section id="ss">
+    <div class="sh"><div class="sh-line"></div><span class="st">Resultados de búsqueda</span><span class="ss" id="s-count"></span></div>
+    <div id="s-res" class="grid"></div>
+  </section>
+
+  <!-- Hot Signals -->
+  <section>
+    <div class="sh"><div class="sh-line"></div><span class="st">Hot Signals</span><span class="ss">Score ≥ 8.0 · últimos 7 días</span></div>
+    <div id="hot" class="grid"><div class="empty">Sin briefs con score ≥ 8.0 en los últimos 7 días.</div></div>
+  </section>
+
+  <!-- Nuevos esta semana -->
+  <section>
+    <div class="sh"><div class="sh-line"></div><span class="st">Nuevos esta semana</span><span class="ss" id="rec-sub"></span></div>
+    <div id="rec" class="list"></div>
+  </section>
+
+  <!-- Por categoría -->
+  <section>
+    <div class="sh"><div class="sh-line"></div><span class="st">Por categoría</span><span class="ss">Click en la pestaña para explorar</span></div>
+    <div class="tabs-bar" id="cat-tabs"></div>
+    <div id="cat-contents"></div>
+  </section>
+
+  <!-- Tag Explorer -->
+  <section id="tags-section">
+    <div class="sh"><div class="sh-line"></div><span class="st">Tag Explorer</span><span class="ss">Click en un tag para filtrar</span></div>
+    <div id="tc"></div>
+    <div id="tag-results-wrap" style="display:none">
+      <div class="ss" id="trc" style="margin-bottom:12px"></div>
+      <div id="tag-res" class="grid"></div>
+    </div>
+  </section>
+
+  <!-- Insights -->
+  <section>
+    <div class="sh"><div class="sh-line"></div><span class="st">Insights</span><span class="ss">Síntesis generadas bajo demanda</span></div>
+    <div id="ins-grid" class="grid"><div class="empty">Sin insights generados todavía.</div></div>
+  </section>
+
+</main>
+
+<footer>
+  Generado por <strong>OPENLAB Radar</strong> · 2026-03-31 09:30 CET · 37 briefs · 1 insight
+</footer>
+
+<script>
+const KB={"briefs": [{"title": "Andrej Karpathy en No Priors — Resumen", "date": "2026-03-23", "category": "agentic-systems", "score": 8.5, "tags": ["agent-architecture", "long-running-agents", "skill-design", "commercial-argument", "trend", "anthropic"], "source": "No Priors", "url": "https://www.youtube.com/watch?v=kwSVtQ7dziU", "telegraph_url": "https://telegra.ph/Andrej-Karpathy-en-No-Priors--Resumen-03-30", "excerpt": "**Fuente:** [YouTube](https://www.youtube.com/watch?v=kwSVtQ7dziU) **Canal:** No Priors **Fecha de resumen:** 2026-03-23 Entrevista en profundidad con Andrej Karpathy sobre cómo la IA agéntica está transformando su forma de trabajar, investigar y vivir. Cubre desde coding con agentes hasta automatiz…"}, {"title": "Agent Identity Protocol (AIP): Securing AI Agents & MCP Servers at Scale", "date": "2026-03-23", "category": "agentic-systems", "score": 7.5, "tags": ["mcp", "agent-architecture", "new-service", "technical-deep-dive"], "source": "MCP Developers Summit", "url": "https://www.youtube.com/watch?v=UaJkKDFnulc", "telegraph_url": "https://telegra.ph/Agent-Identity-Protocol-AIP-Securing-AI-Agents--MCP-Servers-at-Scale-03-30", "excerpt": "- Aplicabilidad: 7 - Novedad: 8 - Calidad: 8 Episodio del podcast \"The Context\" del MCP Developers Summit con James Cao sobre el Agent Identity Protocol (AIP) — un protocolo para autenticar y autorizar agentes IA que interactúan con MCP servers. Aborda el problema de seguridad fundamental: cuando un…"}, {"title": "Pi CEO Agents. Claude 1M Context. Multi-Agent Teams.", "date": "2026-03-23", "category": "agentic-systems", "score": 8.7, "tags": ["multi-agent", "agent-architecture", "context-window", "commercial-argument", "case-study", "claude-code"], "source": "IndyDevDan", "url": "https://www.youtube.com/watch?v=TqjmTZRL31E", "telegraph_url": "https://telegra.ph/Claudes-1M-Context-Window-and-Multi-Agent-Team-Architecture-03-25", "excerpt": "- Aplicabilidad: 9 - Novedad: 8 - Calidad: 9 IndyDevDan presenta el concepto de \"CEO Agent\" — un agente que no ejecuta tareas directamente sino que planifica, delega a sub-agentes especializados y sintetiza resultados. Explora cómo el contexto de 1M tokens de Claude cambia fundamentalmente lo que es…"}, {"title": "Supercharging AI agents with evaluations", "date": "2026-03-23", "category": "agentic-systems", "score": 7.0, "tags": ["evaluation", "agent-architecture", "skill-design", "client-delivery", "technical-deep-dive"], "source": "Voxel51", "url": "https://www.youtube.com/watch?v=GLwy1TCmGDA", "telegraph_url": "https://telegra.ph/Automate-Your-Business-with-AI-OpenClaw-Sub-Agents-03-26", "excerpt": "- Aplicabilidad: 7 - Novedad: 7 - Calidad: 7 Talk sobre la importancia de evaluar agentes IA de forma rigurosa antes y durante el deployment en producción. Argumenta que la evaluación debe pasar de ser un paso de QA opcional a un componente central del ciclo de vida del agente. Cubre métricas de eva…"}, {"title": "Claude's 1M Context Window and Multi-Agent Team Architecture", "date": "2026-03-24", "category": "agentic-systems", "score": 7.8, "tags": ["multi-agent", "context-window", "harness-engineering", "commercial-argument", "technical-deep-dive", "claude-code"], "source": "Mat Siems", "url": "https://www.youtube.com/watch?v=rngDEBQuhM0", "telegraph_url": "https://telegra.ph/Claudes-1M-Context-Window-and-Multi-Agent-Team-Architecture-03-25", "excerpt": "- Aplicabilidad: 8 - Novedad: 8 - Calidad: 7 Arquitectura de \"boardroom\" con agentes adversariales especializados para toma de decisiones estratégicas. Un custom harness rechaza prompts conversacionales y exige un template estructurado con 4 parámetros obligatorios. El 1M token context window hace v…"}, {"title": "Skill vs Agent: The Architecture That Makes Openclaw Systems Work", "date": "2026-03-24", "category": "agentic-systems", "score": 9.0, "tags": ["agent-architecture", "skill-design", "knowledge-management", "client-delivery", "case-study"], "source": "Zero Team AI", "url": "https://www.youtube.com/watch?v=BFMkfVSlI8s", "telegraph_url": "https://telegra.ph/Skill-vs-Agent-The-Architecture-That-Makes-Openclaw-Systems-Work-03-25", "excerpt": "- Aplicabilidad: 9 - Novedad: 9 - Calidad: 9 Un practicante con 9 agentes CLI en producción durante 3 meses expone la arquitectura que hace que los sistemas multi-agente funcionen de verdad, no en demo. Distingue skill (herramienta) de agent (worker que usa herramientas), define los 4 ficheros que c…"}, {"title": "42 Agent Architecture Patterns: From Skill Repos to Intent & Harness Engineering", "date": "2026-03-26", "category": "agentic-systems", "score": 8.2, "tags": ["agent-architecture", "harness-engineering", "skill-design", "skill-pattern", "technical-deep-dive", "claude-code"], "source": "Intuition Machine - AGI is the Medium", "url": "https://www.youtube.com/watch?v=qJE2G-Rdq9Y", "telegraph_url": "https://telegra.ph/42-Agent-Architecture-Patterns-From-Skill-Repos-to-Intent--Harness-Engineering-03-26", "excerpt": "- Aplicabilidad: 9 - Novedad: 8 - Calidad: 6 Un \"pattern language\" al estilo Alexandrino para Claude Code: 42 patrones nombrados, interconectados y estructurados para resolver problemas recurrentes en el diseño de sistemas agénticos. Los patrones cubren desde los cimientos estructurales (Skill Repos…"}, {"title": "Oh My Claude Code: Multi-Agent Orchestration with Zero Learning Curve", "date": "2026-03-25", "category": "agentic-systems", "score": 7.3, "tags": ["multi-agent", "tool-use", "skill-pattern", "trend", "claude-code"], "source": "Prism Labs", "url": "https://www.youtube.com/watch?v=VOjZ8Htv9NU", "telegraph_url": "https://telegra.ph/Oh-My-Claude-Code-Multi-Agent-Orchestration-with-Zero-Learning-Curve-03-26", "excerpt": "- Aplicabilidad: 7 - Novedad: 8 - Calidad: 7 Oh My Claude Code (OMC) es un plugin de Claude Code con 11.4k+ estrellas en GitHub que transforma el CLI en una plataforma de orquestación multi-agente: 32 agentes especializados, 6 modos de orquestación, routing inteligente de modelos (Haiku para tareas …"}, {"title": "Automate Your Business with AI (OpenClaw Sub Agents)", "date": "2026-03-26", "category": "agentic-systems", "score": 7.0, "tags": ["multi-agent", "harness-engineering", "client-delivery", "case-study", "claude-code"], "source": "jordanUrbsAI", "url": "https://www.youtube.com/watch?v=SF85aINWXww", "telegraph_url": "https://telegra.ph/Automate-Your-Business-with-AI-OpenClaw-Sub-Agents-03-26", "excerpt": "- Aplicabilidad: 7 - Novedad: 7 - Calidad: 7 El speaker construye un sistema completo para su negocio combinando OpenClaw (24/7 en Raspberry Pi) + Claude Code (agentic harnesses). Tres casos de uso reales: gestión de website, gestión de brand/conocimiento, y pipeline de contenido con sub-agents via …"}, {"title": "EP136: Modular skills for autonomous AI agents", "date": "2026-03-29", "category": "agentic-systems", "score": 8.8, "tags": ["skill-design", "agent-architecture", "mcp", "context-window", "anthropic", "claude-code", "skill-pattern", "workshop-material", "technical-deep-dive"], "source": "Bookworm", "url": "https://www.youtube.com/watch?v=AbxPorccmgA", "telegraph_url": "https://telegra.ph/EP136-Modular-skills-for-autonomous-AI-agents-03-30", "excerpt": "- Aplicabilidad: 9 - Novedad: 9 - Calidad: 8 Deep dive en el paper \"Agent Skills for Large Language Models: Architecture, Acquisition, Security, and the Path Forward\" (Zhejiang University, febrero 2026). Documenta la arquitectura skill.md con progressive disclosure, los cuatro métodos de adquisición…"}, {"title": "Coding Agent Reliability EXPLODES When They Argue (New Adversarial Dev Technique)", "date": "2026-03-30", "category": "agentic-systems", "score": 7.7, "tags": ["multi-agent", "agent-architecture", "evaluation", "skill-pattern", "new-service", "technical-deep-dive"], "source": "Cole Medin", "url": "https://www.youtube.com/watch?v=HAkSUBdsd6M", "telegraph_url": "", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 8 Cole Medin implementa el patrón \"adversarial dev\" — dos agentes que trabajan juntos: un generator que produce el output y un evaluator cuyo único trabajo es criticarlo implacablemente. La inspiración viene de las GANs (Generative Adversarial Networks) y d…"}, {"title": "Guía Definitiva de Skills en Claude Code y Antigravity", "date": "2026-03-23", "category": "claude-code-advanced", "score": 7.5, "tags": ["skill-design", "token-optimization", "skill-pattern", "workshop-material", "tutorial", "claude-code"], "source": "Josema Fernández | IA", "url": "https://www.youtube.com/watch?v=ir--YLU4FiQ", "telegraph_url": "https://telegra.ph/Claude-Code-LangWatch-Skills-for-Product-Managers-03-26", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 7 Josema Fernández ofrece una guía exhaustiva sobre skills en Claude Code — desde la estructura básica (SKILL.md + context/ + templates/) hasta patrones avanzados. Además presenta Antigravity, un framework open-source para organizar y gestionar skills de Cl…"}, {"title": "Claude Code Self-Improving Skills Are the Smarter Way to Build With AI", "date": "2026-03-25", "category": "claude-code-advanced", "score": 7.5, "tags": ["skill-design", "evaluation", "token-optimization", "client-delivery", "tutorial", "claude-code"], "source": "Adrian Szramowski", "url": "https://www.youtube.com/watch?v=vyaRctf_UW0", "telegraph_url": "https://telegra.ph/Claude-Code-Self-Improving-Skills-Are-the-Smarter-Way-to-Build-With-AI-03-25", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 7 Guía práctica sobre cómo crear y mejorar Claude skills usando el flujo Claude.ai dashboard → descarga como .md → renombra a skill.md → importa en Antigravity. Introduce la integración de evals JSON dentro del propio skill.md para crear un bucle de auto-me…"}, {"title": "Claude Code Self-Improving Skills Are the Smarter Way to Build With AI", "date": "2026-03-25", "category": "claude-code-advanced", "score": 7.5, "tags": ["skill-design", "evaluation", "token-optimization", "workshop-material", "tutorial", "claude-code"], "source": "Adrian Szramowski", "url": "https://www.youtube.com/watch?v=vyaRctf_UW0", "telegraph_url": "https://telegra.ph/Claude-Code-Self-Improving-Skills-Are-the-Smarter-Way-to-Build-With-AI-03-25", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 7 Tutorial práctico sobre creación y mejora de Claude skills usando el entorno Antigravity. Cubre dos flujos de creación (desde Claude.ai dashboard, desde el skill creator plugin), la analogía CLAUDE.md = trabajador / skills = herramientas especializadas, y…"}, {"title": "[LIVE] Claude Code Channels Killed OpenClaw", "date": "2026-03-25", "category": "claude-code-advanced", "score": 7.2, "tags": ["mcp", "agent-architecture", "competitive-intel", "trend", "claude-code"], "source": "Ship Sh!t Show", "url": "https://www.youtube.com/watch?v=EC59_bed_yM", "telegraph_url": "https://telegra.ph/LIVE-Claude-Code-Channels-Killed-OpenClaw-03-26", "excerpt": "- Aplicabilidad: 7 - Novedad: 8 - Calidad: 6 Livestream de reacción/análisis a la nueva feature de Anthropic: Claude Code Channels — la capacidad de controlar una sesión de Claude Code desde Discord y Telegram via MCP. El título afirma que esta feature \"mata\" a OpenClaw, el agente autónomo que hasta…"}, {"title": "Claude es teso. Pero con tus skills, es berraco.", "date": "2026-03-26", "category": "claude-code-advanced", "score": 7.3, "tags": ["skill-design", "context-engineering", "workshop-material", "commercial-argument", "opinion", "claude-code"], "source": "medellinjs", "url": "https://www.youtube.com/watch?v=1-8V9ZJ1nQ8", "telegraph_url": "https://telegra.ph/Claude-es-teso-Pero-con-tus-skills-es-berraco-03-26", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 6 Talk en español de la comunidad medellinJS (Medellín, Colombia) sobre cómo los skills en Claude multiplican su potencia de base. El título usa jerga colombiana: \"teso\" = habilidoso/competente, \"berraco\" = formidable/impresionante. La tesis: Claude por sí …"}, {"title": "The Easiest Way to Get Ahead With Claude Code", "date": "2026-03-26", "category": "claude-code-advanced", "score": 7.5, "tags": ["skill-design", "token-optimization", "context-window", "skill-pattern", "technical-deep-dive", "claude-code"], "source": "Simon Scrapes", "url": "https://www.youtube.com/watch?v=p37qo3oLai8", "telegraph_url": "https://telegra.ph/Claude-Code-Self-Improving-Skills-Are-the-Smarter-Way-to-Build-With-AI-03-25", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 7 > **Nota de procesamiento:** el transcript directo no fue accesible (IP bloqueada por YouTube). El brief se construyó a partir de fuentes secundarias que citan y referencian este vídeo: Geeky Gadgets, Marketing Agent Blog, Class Central y búsquedas indexa…"}, {"title": "Claude Code for SWE Teams: Building a Shared AI Coding Toolkit", "date": "2026-03-29", "category": "claude-code-advanced", "score": 7.7, "tags": ["skill-design", "harness-engineering", "mcp", "tool-use", "claude-code", "anthropic", "client-delivery", "workshop-material", "technical-deep-dive"], "source": "Shaw Talebi", "url": "https://www.youtube.com/watch?v=-tk2mG0eXOI", "telegraph_url": "https://telegra.ph/Claude-Code-for-SWE-Teams-Building-a-Shared-AI-Coding-Toolkit-03-30", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 8 Shaw Talebi (ex-PhD física, ex-Toyota Financial, fundador de AI Builder Academy) documenta cómo onboardear Claude Code en equipos de software engineering. El framework articula tres primitivos —MCP, Skills, Hooks— más CLAUDE.md, y cómo combinarlos en plug…"}, {"title": "Claude Code Memory 2.0: ¿Ahora sueña? Así funciona realmente", "date": "2026-03-30", "category": "claude-code-advanced", "score": 7.5, "tags": ["knowledge-management", "context-engineering", "long-running-agents", "client-delivery", "technical-deep-dive", "anthropic"], "source": "Nicolas Neira", "url": "https://www.youtube.com/watch?v=p67ti4Nw7gk", "telegraph_url": "", "excerpt": "- Aplicabilidad: 7 - Novedad: 8 - Calidad: 8 Nicolas Neira documenta en detalle las funcionalidades de auto-memory (activa por defecto desde v2.1.59, febrero 2026) y auto-dream (nueva en v2.1.87, desactivada por defecto). auto-memory escribe archivos Markdown de contexto en background durante cada s…"}, {"title": "Claude Code Secrets for PMs: The Operating System, Skills, and Data Viz", "date": "2026-03-30", "category": "claude-code-advanced", "score": 7.7, "tags": ["context-engineering", "skill-design", "agent-architecture", "commercial-argument", "client-delivery", "technical-deep-dive"], "source": "Aakash Gupta (con Carl Vellotti)", "url": "https://www.youtube.com/watch?v=Eqh2iwSl570", "telegraph_url": "", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 8 Tercer episodio de Carl Vellotti (sus dos anteriores sumaron +1M de vistas). Trata Claude Code como \"sistema operativo\" — la capa más potente sobre la que se construye todo lo demás (CoWork, OpenClaw). Cubre gestión de contexto con sub-agentes, skills con…"}, {"title": "Everything You Thought About Building AI Agents is Wrong", "date": "2026-03-26", "category": "cli-vs-platforms", "score": 7.5, "tags": ["agent-architecture", "context-engineering", "competitive-intel", "commercial-argument", "opinion", "langchain"], "source": "Cole Medin", "url": "https://www.youtube.com/watch?v=gmaHRwijOXs", "telegraph_url": "https://telegra.ph/Everything-You-Thought-About-Building-AI-Agents-is-Wrong-03-26", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 7 Cole Medin — uno de los creadores de contenido más influyentes del ecosistema de AI agents (5k+ views en pocas horas de publicación) — declara que el paradigma dominante hasta hace un año — \"elige un framework como Pydantic AI o LangChain, define tus tool…"}, {"title": "3 Markdown Files Fix AI Agent Memory Forever", "date": "2026-03-23", "category": "context-engineering", "score": 8.2, "tags": ["knowledge-management", "context-engineering", "skill-design", "skill-pattern", "tutorial"], "source": "Deployed-AI", "url": "https://www.youtube.com/watch?v=1PRgb-0s9V4", "telegraph_url": "https://telegra.ph/3-Markdown-Files-Fix-AI-Agent-Memory-Forever-03-30", "excerpt": "- Aplicabilidad: 9 - Novedad: 8 - Calidad: 6 El vídeo presenta el patrón \"Agent Kernel\" — una arquitectura de memoria persistente para agentes IA basada en 3 ficheros markdown: un fichero de identidad (quién es el agente), un fichero de memoria (qué ha aprendido), y un fichero de tareas (qué tiene q…"}, {"title": "NotebookLM Agent Skills: Build POWERFUL Claude AI Agents for ANYTHING!", "date": "2026-03-23", "category": "context-engineering", "score": 8.0, "tags": ["skill-design", "context-engineering", "token-optimization", "workshop-material", "tutorial", "claude-code"], "source": "Universe of AI", "url": "https://www.youtube.com/watch?v=I-4cJgqF_JY", "telegraph_url": "https://telegra.ph/Claude-Cowork---Build-Your-First-Agent-with-Skills-and-Plugins-03-26", "excerpt": "- Aplicabilidad: 9 - Novedad: 7 - Calidad: 7 Josema Fernández (Dominia Academy) presenta una guía práctica sobre agent skills — ficheros .md que convierten a una IA generalista en un equipo de expertos especializados. Cubre la estructura del estándar (skill.md + reference/), la instalación desde el …"}, {"title": "Claude Code SKILLS.md are a token trap.", "date": "2026-03-23", "category": "context-engineering", "score": 8.2, "tags": ["token-optimization", "context-engineering", "skill-design", "competitive-intel", "opinion", "anthropic"], "source": "Tim Carambat", "url": "https://www.youtube.com/watch?v=pBK7RjrtCPw", "telegraph_url": "https://telegra.ph/Claude-Code-Self-Improving-Skills-Are-the-Smarter-Way-to-Build-With-AI-03-25", "excerpt": "- Aplicabilidad: 8 - Novedad: 9 - Calidad: 7 Tim Carambat (creador de AnythingLLM) argumenta que los ficheros SKILLS.md en Claude Code son intencionalmente un \"dark pattern\" que infla el consumo de tokens. Su tesis: cada skill se carga en el contexto completo en cada invocación, multiplicando el cos…"}, {"title": "How My Claude Skills Improve Themselves (Autoresearch)", "date": "2026-03-25", "category": "context-engineering", "score": 8.5, "tags": ["skill-design", "evaluation", "context-engineering", "client-delivery", "technical-deep-dive", "claude-code"], "source": "Kacper Rutkiewicz | AI Made Simple", "url": "https://www.youtube.com/watch?v=aWZG6inDrpU", "telegraph_url": "https://telegra.ph/How-My-Claude-Skills-Improve-Themselves-Autoresearch-03-25", "excerpt": "- Aplicabilidad: 9 - Novedad: 8 - Calidad: 8 Aplicación del concepto \"AutoResearch\" de Andrej Karpathy a la mejora autónoma de Claude skill files. El agente ejecuta un bucle generate → evaluate → modify skill → repeat de forma autónoma, partiendo de un eval suite de preguntas sí/no y un skill.md com…"}, {"title": "Context Poisoning Is Killing Your AI Agents: How to Stop It", "date": "2026-03-25", "category": "context-engineering", "score": 7.2, "tags": ["context-engineering", "long-running-agents", "context-window", "skill-pattern", "technical-deep-dive"], "source": "The Chain of Thought Podcast", "url": "https://www.youtube.com/watch?v=tYJmgpIEd-Y", "telegraph_url": "https://telegra.ph/Context-Poisoning-Is-Killing-Your-AI-Agents-How-to-Stop-It-03-26", "excerpt": "- Aplicabilidad: 7 - Novedad: 7 - Calidad: 8 Episodio de podcast con Michel Tricot, co-fundador de Airbyte (plataforma de integración de datos open source, $1.5B de valoración, 600+ conectores). Tricot introduce y explica el concepto de \"context poisoning\": el fenómeno por el cual el contexto acumul…"}, {"title": "Agent Skills: Code Beats Markdown (Here's Why)", "date": "2026-03-27", "category": "context-engineering", "score": 8.5, "tags": ["skill-design", "token-optimization", "context-engineering", "skill-pattern", "technical-deep-dive", "claude-code"], "source": "Sam Witteveen", "url": "https://www.youtube.com/watch?v=IjiaCOt7bP8", "telegraph_url": "https://telegra.ph/Agent-Skills-Code-Beats-Markdown-Heres-Why-03-28-2", "excerpt": "- Aplicabilidad: 9 - Novedad: 8 - Calidad: 8 Sam Witteveen explica por qué los agent skills que dependen solo de instrucciones en markdown son ineficientes, y por qué los scripts dentro del skill deben hacer el trabajo pesado: filtrar, estructurar y devolver únicamente los tokens que el modelo neces…"}, {"title": "Claude.md is RUINING Claude Code (w/ One Exception)", "date": "2026-03-24", "category": "context-engineering", "score": 7.8, "tags": ["context-engineering", "token-optimization", "skill-design", "competitive-intel", "opinion", "claude-code"], "source": "Chase AI", "url": "https://www.youtube.com/watch?v=V3xDTx2XwGg", "telegraph_url": "https://telegra.ph/Claudemd-is-RUINING-Claude-Code-w-One-Exception-03-30", "excerpt": "- Aplicabilidad: 8 - Novedad: 8 - Calidad: 7 El vídeo argumenta, con respaldo de un paper de arxiv (2602.11988, Feb 2026), que los ficheros CLAUDE.md reducen el rendimiento de Claude Code comparado con no tener contexto: los agentes sobre-exploran, hacen más tests y aumentan el coste de inferencia m…"}, {"title": "Context Engineering: The Skill Every AI Builder Needs in 2026 (Prompt Engineering Is Dead)", "date": "2026-03-30", "category": "context-engineering", "score": 7.0, "tags": ["context-engineering", "context-window", "token-optimization", "knowledge-management", "commercial-argument", "workshop-material", "trend"], "source": "Ai Abhi", "url": "https://www.youtube.com/watch?v=vRCTfnQ8Syc", "telegraph_url": "https://telegra.ph/Context-Engineering-The-Skill-Every-AI-Builder-Needs-in-2026-Prompt-Engineering-Is-Dead-03-30-2", "excerpt": "- Aplicabilidad: 8 - Novedad: 6 - Calidad: 6 Síntesis conceptual del marco de context engineering: definición, cuatro componentes, tres leyes empíricas y conexión con RAG. Consolida vocabulario de Karpathy, Toby Lütke y el equipo de ingeniería de Anthropic, y aporta datos de respaldo (LangChain 2025…"}, {"title": "[Podcast] AI That Learns How to Learn", "date": "2026-03-31", "category": "context-engineering", "score": 8.2, "tags": ["context-engineering", "long-running-agents", "knowledge-management", "commercial-argument", "workshop-material", "technical-deep-dive"], "source": "Vinh Nguyen", "url": "https://www.youtube.com/watch?v=5jMk8z3xKeQ", "telegraph_url": "", "excerpt": "- Aplicabilidad: 8 - Novedad: 9 - Calidad: 7 Podcast que desempaca el paper \"Agentic Context Engineering\" (ACCE) de Stanford y Sonova Systems. El paper identifica dos fallas estructurales en cómo los agentes actuales gestionan su memoria: **brevity bias** (los LLMs destruyen su propia memoria técnic…"}, {"title": "Build Your First AI Team Member: Live in Claude Cowork", "date": "2026-03-25", "category": "delivery-adoption", "score": 7.2, "tags": ["agent-architecture", "skill-design", "client-delivery", "workshop-material", "tutorial", "claude-code"], "source": "Kowalah", "url": "https://www.youtube.com/watch?v=5MVhTfwyGoY", "telegraph_url": "https://telegra.ph/Build-Your-First-AI-Team-Member-Live-in-Claude-Cowork-03-26", "excerpt": "- Aplicabilidad: 8 - Novedad: 6 - Calidad: 7 Demo en vivo de construcción de un \"AI team member\" en Claude Cowork desde cero, sin código, en menos de 15 minutos. El facilitador es Joshua, \"digital solution architect\" — el perfil exacto del champion interno que OPENLAB necesita activar en organizacio…"}, {"title": "Claude Cowork - Build Your First Agent with Skills and Plugins", "date": "2026-03-25", "category": "delivery-adoption", "score": 7.3, "tags": ["skill-design", "agent-architecture", "client-delivery", "workshop-material", "tutorial", "claude-code"], "source": "CharlieCowanAI", "url": "https://www.youtube.com/watch?v=7oSDmSsFcD0", "telegraph_url": "https://telegra.ph/Claude-Cowork---Build-Your-First-Agent-with-Skills-and-Plugins-03-26", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 6 Webinar semanal (Koala Wednesday) que guía en directo el proceso de construir un \"AI team member\" en Claude Cowork usando el agent builder skill y plugins. Formato accesible para no-técnicos: una hora con demo live, preguntas en Q&A y chat. Muestra el flu…"}, {"title": "Claude Code, LangWatch Skills for Product Managers", "date": "2026-03-25", "category": "delivery-adoption", "score": 7.5, "tags": ["evaluation", "mcp", "client-delivery", "new-service", "case-study", "claude-code"], "source": "LangWatch", "url": "https://www.youtube.com/watch?v=6QsBzzFx_1k", "telegraph_url": "https://telegra.ph/Claude-Code-LangWatch-Skills-for-Product-Managers-03-26", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 7 Demostración de cómo un CEO o Product Manager puede usar Claude Code con un MCP server de LangWatch para definir en lenguaje natural el comportamiento de un AI agent y generar automáticamente más de 40 casos de test. Sin código, sin sprint planning, sin t…"}, {"title": "How to Measure AI Impact: Proving ROI from Copilot, Cursor, and Claude", "date": "2026-03-26", "category": "delivery-adoption", "score": 7.5, "tags": ["evaluation", "context-engineering", "commercial-argument", "client-delivery", "case-study", "claude-code"], "source": "LinearB", "url": "https://www.youtube.com/watch?v=zQf0z_BGVG0", "telegraph_url": "https://telegra.ph/How-to-Measure-AI-Impact-Proving-ROI-from-Copilot-Cursor-and-Claude-03-27", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 7 LinearB — plataforma de referencia en métricas de ingeniería de software (DORA metrics, PR cycle time, deployment frequency) — aborda cómo medir el impacto real de las herramientas de IA más adoptadas: GitHub Copilot, Cursor y Claude. La tesis central es …"}, {"title": "I Chained 5 Agent Skills Together. My Business Ran Itself for a Week.", "date": "2026-03-30", "category": "delivery-adoption", "score": 8.5, "tags": ["skill-design", "multi-agent", "client-delivery", "skill-pattern", "case-study"], "source": "Pragati Kunwer | Claude Code Skills", "url": "https://www.youtube.com/watch?v=Ey5EgHJCz4E", "telegraph_url": "", "excerpt": "- Aplicabilidad: 9 - Novedad: 8 - Calidad: 8 Pragati Kunwer documenta 7 días de operación autónoma de su negocio usando 5 skills de Claude Code en cadena — sin intervención humana después del setup inicial. El coste total: $2.31. El resultado es un blueprint reproducible que convierte las skills ind…"}, {"title": "How AI Is Rewriting the Rules of Knowledge Work", "date": "2026-03-24", "category": "enterprise-ai", "score": 7.7, "tags": ["agent-architecture", "knowledge-management", "commercial-argument", "client-delivery", "case-study"], "source": "Intercept (ChatB2B podcast)", "url": "https://www.youtube.com/watch?v=6u4nv4CeiNo", "telegraph_url": "https://telegra.ph/How-AI-Is-Rewriting-the-Rules-of-Knowledge-Work-03-25", "excerpt": "- Aplicabilidad: 8 - Novedad: 7 - Calidad: 8 Entrevista con el director de marketing de CGI, firma global de consultoría con ~100,000 empleados. Explica cómo AI está pasando de herramienta de productividad individual a palanca de transformación organizacional. Distingue \"single player mode\" (co-pilo…"}, {"title": "OPENLAB Radar — Digest Semanal 2026-03-21 a 2026-03-27", "date": "2026-03-27", "category": "weekly-digests", "score": 0.0, "tags": [], "source": "", "url": "", "telegraph_url": "", "excerpt": "- agentic-systems: 9 briefs - claude-code-advanced: 6 briefs - context-engineering: 5 briefs - delivery-adoption: 4 briefs - enterprise-ai: 1 brief - cli-vs-platforms: 1 brief La tendencia más clara y sostenida de la semana: la comunidad está convergiendo en un **lenguaje de patrones estructurado** …"}], "insights": [{"title": "Buenas prácticas: estructura de skills en Claude Code", "date": "2026-03-26", "excerpt": "**Generado:** 2026-03-26 **Fuentes:** 11 briefs de OPENLAB Radar (2026-03-23 a 2026-03-26) **Uso:** checklist para auditar skills globales en laptop y proyectos de clientes Cada sección tiene un bloque **✅ Checklist** al final. Úsalo para revisar tus skills globales en `~/.claude/skills/` uno a uno. El objetivo no es cumplir el 100% — es identificar qué skills tienen deuda técnica o riesgo de degr…"}], "stats": {"total_briefs": 37, "total_insights": 1, "avg_score": 7.8, "last_date": "2026-03-31", "by_category": {"agentic-systems": 11, "claude-code-advanced": 9, "cli-vs-platforms": 1, "context-engineering": 9, "delivery-adoption": 5, "enterprise-ai": 1, "weekly-digests": 1}, "tag_counts": {"skill-design": 21, "claude-code": 21, "agent-architecture": 14, "technical-deep-dive": 14, "client-delivery": 14, "context-engineering": 14, "commercial-argument": 10, "skill-pattern": 10, "workshop-material": 10, "token-optimization": 9, "case-study": 7, "evaluation": 7, "tutorial": 7, "multi-agent": 6, "context-window": 6, "knowledge-management": 6, "anthropic": 5, "mcp": 5, "long-running-agents": 4, "trend": 4, "harness-engineering": 4, "competitive-intel": 4, "opinion": 4, "new-service": 3, "tool-use": 2, "langchain": 1}, "hot_signals": [{"title": "EP136: Modular skills for autonomous AI agents", "date": "2026-03-29", "category": "agentic-systems", "score": 8.8, "tags": ["skill-design", "agent-architecture", "mcp", "context-window", "anthropic", "claude-code", "skill-pattern", "workshop-material", "technical-deep-dive"], "source": "Bookworm", "url": "https://www.youtube.com/watch?v=AbxPorccmgA", "telegraph_url": "https://telegra.ph/EP136-Modular-skills-for-autonomous-AI-agents-03-30", "excerpt": "- Aplicabilidad: 9 - Novedad: 9 - Calidad: 8 Deep dive en el paper \"Agent Skills for Large Language Models: Architecture, Acquisition, Security, and the Path Forward\" (Zhejiang University, febrero 2026). Documenta la arquitectura skill.md con progressive disclosure, los cuatro métodos de adquisición…"}, {"title": "How My Claude Skills Improve Themselves (Autoresearch)", "date": "2026-03-25", "category": "context-engineering", "score": 8.5, "tags": ["skill-design", "evaluation", "context-engineering", "client-delivery", "technical-deep-dive", "claude-code"], "source": "Kacper Rutkiewicz | AI Made Simple", "url": "https://www.youtube.com/watch?v=aWZG6inDrpU", "telegraph_url": "https://telegra.ph/How-My-Claude-Skills-Improve-Themselves-Autoresearch-03-25", "excerpt": "- Aplicabilidad: 9 - Novedad: 8 - Calidad: 8 Aplicación del concepto \"AutoResearch\" de Andrej Karpathy a la mejora autónoma de Claude skill files. El agente ejecuta un bucle generate → evaluate → modify skill → repeat de forma autónoma, partiendo de un eval suite de preguntas sí/no y un skill.md com…"}, {"title": "Agent Skills: Code Beats Markdown (Here's Why)", "date": "2026-03-27", "category": "context-engineering", "score": 8.5, "tags": ["skill-design", "token-optimization", "context-engineering", "skill-pattern", "technical-deep-dive", "claude-code"], "source": "Sam Witteveen", "url": "https://www.youtube.com/watch?v=IjiaCOt7bP8", "telegraph_url": "https://telegra.ph/Agent-Skills-Code-Beats-Markdown-Heres-Why-03-28-2", "excerpt": "- Aplicabilidad: 9 - Novedad: 8 - Calidad: 8 Sam Witteveen explica por qué los agent skills que dependen solo de instrucciones en markdown son ineficientes, y por qué los scripts dentro del skill deben hacer el trabajo pesado: filtrar, estructurar y devolver únicamente los tokens que el modelo neces…"}, {"title": "I Chained 5 Agent Skills Together. My Business Ran Itself for a Week.", "date": "2026-03-30", "category": "delivery-adoption", "score": 8.5, "tags": ["skill-design", "multi-agent", "client-delivery", "skill-pattern", "case-study"], "source": "Pragati Kunwer | Claude Code Skills", "url": "https://www.youtube.com/watch?v=Ey5EgHJCz4E", "telegraph_url": "", "excerpt": "- Aplicabilidad: 9 - Novedad: 8 - Calidad: 8 Pragati Kunwer documenta 7 días de operación autónoma de su negocio usando 5 skills de Claude Code en cadena — sin intervención humana después del setup inicial. El coste total: $2.31. El resultado es un blueprint reproducible que convierte las skills ind…"}, {"title": "42 Agent Architecture Patterns: From Skill Repos to Intent & Harness Engineering", "date": "2026-03-26", "category": "agentic-systems", "score": 8.2, "tags": ["agent-architecture", "harness-engineering", "skill-design", "skill-pattern", "technical-deep-dive", "claude-code"], "source": "Intuition Machine - AGI is the Medium", "url": "https://www.youtube.com/watch?v=qJE2G-Rdq9Y", "telegraph_url": "https://telegra.ph/42-Agent-Architecture-Patterns-From-Skill-Repos-to-Intent--Harness-Engineering-03-26", "excerpt": "- Aplicabilidad: 9 - Novedad: 8 - Calidad: 6 Un \"pattern language\" al estilo Alexandrino para Claude Code: 42 patrones nombrados, interconectados y estructurados para resolver problemas recurrentes en el diseño de sistemas agénticos. Los patrones cubren desde los cimientos estructurales (Skill Repos…"}]}};
+const CN={"agentic-systems": "Agentic Systems", "claude-code-advanced": "Claude Code Advanced", "delivery-adoption": "Delivery & Adoption", "context-engineering": "Context Engineering", "cli-vs-platforms": "CLI vs Platforms", "enterprise-ai": "Enterprise AI"};
+const CI={"agentic-systems": "", "claude-code-advanced": "", "delivery-adoption": "", "context-engineering": "", "cli-vs-platforms": "", "enterprise-ai": ""};
+
+function cn(c){return(CI[c]||'📹')+' '+(CN[c]||c)}
+function sc(s){return s>=8?'#16A34A':s>=7?'#D97706':s>0?'#DC2626':'#6B7280'}
+function sb(s){return s>=8?'#DCFCE7':s>=7?'#FEF3C7':s>0?'#FEE2E2':'#F9FAFB'}
+function e(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function recent(d,days){if(!d)return false;return(new Date()-new Date(d))/86400000<=days}
+
+function scoreBadge(s){
+  if(!s)return'';
+  return`<span class="bs" style="background:${sb(s)};color:${sc(s)};">${s.toFixed(1)}</span>`;
+}
+function catBadge(c){return`<span class="bc">${e(CI[c]||'📹')} ${e(CN[c]||c)}</span>`}
+
+const SKIP_TAGS=new Set(['youtube','brief','briefs','video','vídeo']);
+function card(b){
+  const tags=b.tags.filter(t=>!SKIP_TAGS.has(t.toLowerCase())).map(t=>`<span class="tp" onclick="filterTag('${e(t)}')">${e(t)}</span>`).join('');
+  const links=[];
+  if(b.url)links.push(`<a class="lyt" href="${e(b.url)}" target="_blank">▶ YouTube</a>`);
+  if(b.telegraph_url)links.push(`<a class="ltg" href="${e(b.telegraph_url)}" target="_blank">Ver resumen</a>`);
+  return`<div class="card"><div class="card-body">
+  <div class="ct"><a href="${e(b.url||'#')}" target="_blank">${e(b.title)}</a></div>
+  <div class="cm">${catBadge(b.category)}${scoreBadge(b.score)}${b.date?`<span class="bd">${e(b.date)}</span>`:''}</div>
+  ${b.source?`<div class="csrc">por ${e(b.source)}</div>`:''}
+  ${b.excerpt?`<div class="cx">${e(b.excerpt)}</div>`:''}
+  ${tags?`<div class="tr">${tags}</div>`:''}
+  ${links.length?`<div class="cl">${links.join('')}</div>`:''}
+</div></div>`}
+
+function listItem(b){
+  return`<div class="li">${catBadge(b.category)}<span class="lit"><a href="${e(b.url||'#')}" target="_blank">${e(b.title)}</a></span>${scoreBadge(b.score)}</div>`;
+}
+
+// Stats
+function initStats(){
+  const s=KB.stats;
+  document.getElementById('s-total').textContent=s.total_briefs;
+  document.getElementById('s-score').textContent=s.avg_score;
+  document.getElementById('s-week').textContent=KB.briefs.filter(b=>recent(b.date,7)).length;
+  document.getElementById('s-ins').textContent=s.total_insights;
+}
+
+// Hot
+function initHot(){
+  const h=KB.stats.hot_signals;
+  if(!h||!h.length)return;
+  document.getElementById('hot').innerHTML=h.map(card).join('');
+}
+
+// Recientes
+function initRecientes(){
+  const r=KB.briefs.filter(b=>recent(b.date,7)).sort((a,b)=>b.date.localeCompare(a.date));
+  document.getElementById('rec-sub').textContent=r.length+' briefs';
+  const el=document.getElementById('rec');
+  if(!r.length){el.innerHTML='<div class="empty">Sin briefs nuevos esta semana.</div>';return}
+  const byDay={};
+  r.forEach(b=>{const d=b.date||'Sin fecha';if(!byDay[d])byDay[d]=[];byDay[d].push(b)});
+  let html='';
+  Object.keys(byDay).sort().reverse().forEach(d=>{
+    html+=`<div class="lday">${e(d)}</div>`;
+    html+=byDay[d].map(listItem).join('');
+  });
+  el.innerHTML=html;
+}
+
+// Categorías
+function initCats(){
+  const cats=[...new Set(KB.briefs.map(b=>b.category))].sort();
+  const bar=document.getElementById('cat-tabs');
+  const cont=document.getElementById('cat-contents');
+  cats.forEach((cat,i)=>{
+    const briefs=KB.briefs.filter(b=>b.category===cat).sort((a,b)=>b.score-a.score);
+    const avg=briefs.length?(briefs.reduce((s,b)=>s+b.score,0)/briefs.length).toFixed(1):'—';
+    const btn=document.createElement('button');
+    btn.className='tb'+(i===0?' active':'');
+    btn.textContent=cn(cat);
+    btn.dataset.cat=cat;
+    btn.onclick=()=>showCat(cat);
+    bar.appendChild(btn);
+    const top=briefs.slice(0,3);
+    const rest=briefs.slice(3);
+    const rid='cr-'+cat.replace(/[^a-z0-9]/g,'');
+    const div=document.createElement('div');
+    div.className='tc'+(i===0?' active':'');
+    div.id='t-'+cat;
+    div.innerHTML=`<div class="ch"><div class="cc">${briefs.length}</div><div class="cm2">briefs en <strong>${CN[cat]||cat}</strong><br>Score medio: <strong>${avg}</strong></div></div><div class="grid">${top.map(card).join('')}</div>${rest.length?`<button class="xbtn" onclick="toggleRest('${rid}',this)">Ver ${rest.length} más ↓</button><div id="${rid}" style="display:none;margin-top:16px"><div class="grid">${rest.map(card).join('')}</div></div>`:''}`;
+    cont.appendChild(div);
+  });
+}
+
+function showCat(cat){
+  document.querySelectorAll('.tb').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tc').forEach(c=>c.classList.remove('active'));
+  document.querySelector(`[data-cat="${cat}"]`).classList.add('active');
+  document.getElementById('t-'+cat).classList.add('active');
+}
+
+function toggleRest(id,btn){
+  const el=document.getElementById(id);
+  const open=el.style.display!=='none';
+  el.style.display=open?'none':'block';
+  const n=el.querySelectorAll('.card').length;
+  btn.textContent=open?'Ver '+n+' más ↓':'Ver menos ↑';
+}
+
+// Tags
+function initTags(){
+  const tc=KB.stats.tag_counts;
+  const tags=Object.entries(tc).filter(([t])=>!SKIP_TAGS.has(t.toLowerCase())).sort((a,b)=>b[1]-a[1]);
+  const max=tags[0]?.[1]||1;
+  const el=document.getElementById('tc');
+  tags.forEach(([tag,count])=>{
+    const r=count/max;
+    const span=document.createElement('span');
+    span.className='ct2';
+    span.textContent=tag+' ('+count+')';
+    span.style.fontSize=Math.round(10+r*8)+'px';
+    span.dataset.tag=tag;
+    span.onclick=()=>filterTag(tag);
+    el.appendChild(span);
+  });
+}
+
+let _selectedTag=null;
+function filterTag(tag){
+  if(_selectedTag===tag){
+    _selectedTag=null;
+    document.querySelectorAll('.ct2').forEach(e=>e.classList.remove('sel'));
+    document.getElementById('tag-results-wrap').style.display='none';
+    return;
+  }
+  _selectedTag=tag;
+  document.querySelectorAll('.ct2').forEach(e=>e.classList.toggle('sel',e.dataset.tag===tag));
+  const res=KB.briefs.filter(b=>b.tags.includes(tag)).sort((a,b)=>b.score-a.score);
+  document.getElementById('trc').textContent=res.length+' brief'+(res.length!==1?'s':'')+' con el tag "'+tag+'"';
+  document.getElementById('tag-res').innerHTML=res.length?res.map(card).join(''):'<div class="empty">Sin resultados para este tag.</div>';
+  document.getElementById('tag-results-wrap').style.display='block';
+  document.getElementById('tags-section').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// Insights
+function initInsights(){
+  const el=document.getElementById('ins-grid');
+  if(!KB.insights||!KB.insights.length)return;
+  el.innerHTML=KB.insights.map(i=>`<div class="ic"><div class="itl">${e(i.title)}</div>${i.date?`<div class="id">${e(i.date)}</div>`:''}${i.excerpt?`<div class="ix">${e(i.excerpt)}</div>`:''}</div>`).join('');
+}
+
+// Búsqueda
+function initSearch(){
+  const inp=document.getElementById('si');
+  inp.addEventListener('input',()=>{
+    const q=inp.value.trim();
+    const sec=document.getElementById('ss');
+    if(!q){sec.style.display='none';return}
+    const re=new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'),'i');
+    const found=KB.briefs.filter(b=>re.test(b.title)||re.test(b.source)||b.tags.some(t=>re.test(t))||re.test(b.excerpt)).sort((a,b)=>b.score-a.score);
+    document.getElementById('s-count').textContent=found.length+' resultado'+(found.length!==1?'s':'');
+    document.getElementById('s-res').innerHTML=found.length?found.map(card).join(''):'<div class="empty">Sin resultados.</div>';
+    sec.style.display='block';
+    sec.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  initStats();initHot();initRecientes();initCats();initTags();initInsights();initSearch();
+});
+</script>
+</body>
+</html>

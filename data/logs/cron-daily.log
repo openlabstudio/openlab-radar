@@ -232,3 +232,417 @@ Links Telegraph enviados por Telegram.
 ==========================================
 Pipeline completado: 09:13:30 UTC
 ==========================================
+==========================================
+OPENLAB Radar - Pipeline Diario
+Fecha: 2026-03-27 08:00:01 UTC
+==========================================
+
+>>> PASO 1: Scraper de YouTube
+=== OPENLAB Radar Scraper ===
+Fecha: 2026-03-27
+Lookback: 24h (desde 2026-03-26T08:00:02Z)
+
+--- Buscando en canales monitorizados ---
+  Anthropic (@AnthropicAI)... 0 vídeos
+  Andrej Karpathy (@AndrejKarpathy)... 0 vídeos
+  IndyDevDan (@indydevdan)... 0 vídeos
+  David Ondrej (@DavidOndrej)... 0 vídeos
+  AI Jason (@AIJasonZ)... 0 vídeos
+  Sam Witteveen (@samwitteveen)... 0 vídeos
+  Cole Medin (@ColeMedin)... 0 vídeos
+  Matt Wolfe (@MattWolfe)... 0 vídeos
+  Fireship (@Fireship)... 1 vídeos
+  Latent Space (@LatentSpacePod)... 0 vídeos
+  AI Engineer (@aidotengineer)... 0 vídeos
+  Dot CSV (@DotCSV)... 0 vídeos
+  AI Agents Podcast (@aiagentspodcast)... 0 vídeos
+  Liam Ottley (@LiamOttley)... 0 vídeos
+  Simon Scrapes (@SimonScrapes)... 0 vídeos
+
+--- Buscando por keywords ---
+  30 keywords únicas
+  27 vídeos encontrados por keywords
+
+27 vídeos únicos (de 28 totales)
+Obteniendo detalles de vídeos...
+11 vídeos tras filtros de calidad (de 27)
+11 vídeos nuevos guardados en DB
+Exportados 11 candidatos a /home/openlab/openlab-radar/data/candidates-2026-03-27.json
+
+=== Scraper completado ===
+Candidatos encontrados: 11
+
+>>> PASO 2: Evaluador
+---
+
+# OPENLAB Radar — Briefing 2026-03-27
+
+**Candidatos:** 11 | **Triage:** 6 pasaron | **Briefing:** 1 | **Mención:** 2
+
+---
+
+## Top Vídeos del Día
+
+### 1. [How to Measure AI Impact: Proving ROI from Copilot, Cursor, and Claude](https://www.youtube.com/watch?v=zQf0z_BGVG0)
+- **Canal:** LinearB
+- **Categoría:** delivery-adoption
+- **Duración:** 48min
+- **Fecha:** 2026-03-26
+- **Score:** 7.5
+  - Aplicabilidad: 8
+  - Novedad: 7
+  - Calidad: 7
+- **Para OPENLAB:** La pregunta que todo cliente hace antes de firmar — "¿cómo medimos si la IA realmente funciona?" — tiene aquí un framework estructurado. LinearB, referencia en métricas de engineering (DORA, PR cycle time), aborda cómo medir impacto real de Copilot, Cursor y Claude en equipos. Para OPENLAB: usar este framework como base para el "antes/después" de cada delivery de skills — transformándolo en argumento cuantificable de ROI para clientes que piden justificación presupuestaria.
+
+---
+
+## Mención rápida
+- [How AI Will Change Procurement and Knowledge Work](https://www.youtube.com/watch?v=0u8bfYNlj_M) — The Tech Trek — 6.0 — enterprise-ai — CEO de startup explica cómo la IA transforma procurement y trabajo de conocimiento intensivo — ángulo no-tech que refuerza el discurso de OPENLAB ante compradores de negocio.
+- [Anthropic just released the real Claude Bot...](https://www.youtube.com/watch?v=wfeiCZK0mNs) — Fireship — 5.7 — claude-code-advanced — Cobertura de Fireship (5min, estilo sharp) sobre nuevo lanzamiento de Anthropic — probablemente Agent SDK o Claude.ai enterprise; útil para seguir el estado del arte del ecosistema.
+
+---
+
+## Tendencias
+Día de baja densidad pero con señal clara: el ciclo de **adopción enterprise de AI** está entrando en fase de rendición de cuentas. La pregunta ya no es "¿usamos IA?" sino "¿cómo demostramos que funciona?". LinearB lidera este movimiento con métricas engineering; The Tech Trek lo lleva a procurement y conocimiento intensivo. Para OPENLAB, esto es el contexto perfecto para añadir una capa de medición de impacto a los deliveries de skills — y usarla como argumento de renovación y expansión con clientes.
+
+---
+
+Archivos generados:
+- `briefs/daily-briefings/2026-03-27-briefing.md`
+- `briefs/delivery-adoption/2026-03-27-how-to-measure-ai-impact-proving-roi.md`
+
+**Nota:** El MCP de youtube-transcript y WebFetch no estaban disponibles en esta sesión, por lo que el scoring y los resúmenes se basan en título + descripción (fallback explícito en las instrucciones). El vídeo de LinearB tiene potencial alto — recomiendo revisarlo manualmente para enriquecer el resumen con datos concretos del transcript.
+
+>>> PASO 2b: Notificación Telegram
+Enviando por Telegram... OK
+
+>>> PASO 3: Publicar resúmenes en Telegraph
+Links Telegraph enviados por Telegram.
+  Publicado: https://telegra.ph/OPENLAB-Radar--Briefing-2026-03-27-03-27
+  Publicado: https://telegra.ph/How-to-Measure-AI-Impact-Proving-ROI-from-Copilot-Cursor-and-Claude-03-27
+
+==========================================
+Pipeline completado: 08:04:37 UTC
+==========================================
+
+>>> PASO 4: Email diario
+{
+  "error": {
+    "code": 401,
+    "message": "Gmail auth failed: No credentials found. Run `gws auth setup` to configure, `gws auth login` to authenticate, or set GOOGLE_WORKSPACE_CLI_CREDENTIALS_FILE.\nTip: Application Default Credentials (ADC) are also supported — run `gcloud auth application-default login` or set GOOGLE_APPLICATION_CREDENTIALS.",
+    "reason": "authError"
+  }
+}
+ERROR: Fallo al enviar email diario.
+==========================================
+OPENLAB Radar - Pipeline Diario
+Fecha: 2026-03-28 08:00:01 UTC
+==========================================
+
+>>> PASO 1: Scraper de YouTube
+=== OPENLAB Radar Scraper ===
+Fecha: 2026-03-28
+Lookback: 24h (desde 2026-03-27T08:00:02Z)
+
+--- Buscando en canales monitorizados ---
+  Anthropic (@AnthropicAI)... 0 vídeos
+  Andrej Karpathy (@AndrejKarpathy)... 0 vídeos
+  IndyDevDan (@indydevdan)... 0 vídeos
+  David Ondrej (@DavidOndrej)... 1 vídeos
+  AI Jason (@AIJasonZ)... 0 vídeos
+  Sam Witteveen (@samwitteveen)... 0 vídeos
+  Cole Medin (@ColeMedin)... 1 vídeos
+  Matt Wolfe (@MattWolfe)... 1 vídeos
+  Fireship (@Fireship)... 0 vídeos
+  Latent Space (@LatentSpacePod)... 0 vídeos
+  AI Engineer (@aidotengineer)... 0 vídeos
+  Dot CSV (@DotCSV)... 0 vídeos
+  AI Agents Podcast (@aiagentspodcast)... 0 vídeos
+  Liam Ottley (@LiamOttley)... 0 vídeos
+  Simon Scrapes (@SimonScrapes)... 0 vídeos
+
+--- Buscando por keywords ---
+  30 keywords únicas
+  33 vídeos encontrados por keywords
+
+35 vídeos únicos (de 36 totales)
+Obteniendo detalles de vídeos...
+10 vídeos tras filtros de calidad (de 35)
+10 vídeos nuevos guardados en DB
+Exportados 10 candidatos a /home/openlab/openlab-radar/data/candidates-2026-03-28.json
+
+=== Scraper completado ===
+Candidatos encontrados: 10
+
+>>> PASO 2: Evaluador
+--dangerously-skip-permissions cannot be used with root/sudo privileges for security reasons
+==========================================
+OPENLAB Radar - Pipeline Diario
+Fecha: 2026-03-29 08:00:01 UTC
+==========================================
+
+>>> PASO 1: Scraper de YouTube
+=== OPENLAB Radar Scraper ===
+Fecha: 2026-03-29
+Lookback: 24h (desde 2026-03-28T08:00:02Z)
+
+--- Buscando en canales monitorizados ---
+  Anthropic (@AnthropicAI)... 0 vídeos
+  Andrej Karpathy (@AndrejKarpathy)... 0 vídeos
+  IndyDevDan (@indydevdan)... 0 vídeos
+  David Ondrej (@DavidOndrej)... 0 vídeos
+  AI Jason (@AIJasonZ)... 0 vídeos
+  Sam Witteveen (@samwitteveen)... 0 vídeos
+  Cole Medin (@ColeMedin)... 0 vídeos
+  Matt Wolfe (@MattWolfe)... 0 vídeos
+  Fireship (@Fireship)... 0 vídeos
+  Latent Space (@LatentSpacePod)... 0 vídeos
+  AI Engineer (@aidotengineer)... 0 vídeos
+  Dot CSV (@DotCSV)... 0 vídeos
+  AI Agents Podcast (@aiagentspodcast)... 0 vídeos
+  Liam Ottley (@LiamOttley)... 0 vídeos
+  Simon Scrapes (@SimonScrapes)... 0 vídeos
+
+--- Buscando por keywords ---
+  30 keywords únicas
+  34 vídeos encontrados por keywords
+
+32 vídeos únicos (de 34 totales)
+Obteniendo detalles de vídeos...
+6 vídeos tras filtros de calidad (de 32)
+6 vídeos nuevos guardados en DB
+Exportados 6 candidatos a /home/openlab/openlab-radar/data/candidates-2026-03-29.json
+
+=== Scraper completado ===
+Candidatos encontrados: 6
+
+>>> PASO 2: Evaluador
+---
+
+# OPENLAB Radar — Briefing 2026-03-29
+
+**Candidatos:** 6 | **Triage:** 4 pasaron | **Briefing:** 1 | **Mención:** 0
+
+> Día ligero. Los transcripts no estaban disponibles (IP bloqueada por YouTube). Scoring basado en título + descripción + canal. El único candidato relevante no supera el umbral de calidad por canal de baja credibilidad.
+
+---
+
+## Top Vídeos del Día
+
+### 1. [Build Claude Cowork Skills Better Than 99% Of People (INSANE)](https://www.youtube.com/watch?v=tq9_bvVO-lU)
+- **Canal:** Income stream surfers
+- **Categoría:** delivery-adoption
+- **Duración:** 16min
+- **Fecha:** 2026-03-28
+- **Score:** 5.7
+  - Aplicabilidad: 6
+  - Novedad: 6
+  - Calidad: 4
+- **Para OPENLAB:** El ángulo "Cowork en lugar de Claude Code para construir skills" es directamente aplicable al pitch para clientes no técnicos. Si el método que enseña tiene sustancia, podría aportar patrones de skill design accesibles para DIBEX. *Recomendación: revisar manualmente el vídeo antes de usar el contenido — el canal tiene historial de contenido superficial y el transcript no pudo verificarse.*
+
+---
+
+## Mención rápida
+
+*(Ninguna — el resto de candidatos puntuó por debajo de 4.0)*
+
+---
+
+## Tendencias
+
+Día de bajo volumen y baja calidad. El único candidato que supera el triage aborda Claude Cowork + skill design, señal de que el ecosistema de creadores está empezando a cubrir ese nicho. Los vídeos de "MCP Explained" y "agents vs chatbots" siguen acumulándose sin aportar nada nuevo — el mercado de contenido educativo básico sobre agentes está saturado.
+
+---
+
+No se generaron resúmenes individuales (ningún vídeo alcanzó score ≥ 7.0).
+
+>>> PASO 2b: Notificación Telegram
+Enviando por Telegram... OK
+
+>>> PASO 3: Publicar resúmenes en Telegraph
+Links Telegraph enviados por Telegram.
+  Publicado: https://telegra.ph/OPENLAB-Radar--Briefing-2026-03-29-03-29
+
+==========================================
+Pipeline completado: 08:02:40 UTC
+==========================================
+
+>>> PASO 4: Email diario
+{
+  "id": "19d389ddbbce9b38",
+  "labelIds": [
+    "UNREAD",
+    "SENT",
+    "INBOX"
+  ],
+  "threadId": "19d389ddbbce9b38"
+}
+Email diario enviado a rafa@openlabstudio.com
+
+>>> PASO 5: Sync Google Drive
+briefs/ sincronizado con Drive.
+insights/ sincronizado con Drive.
+==========================================
+OPENLAB Radar - Pipeline Diario
+Fecha: 2026-03-30 08:00:01 UTC
+==========================================
+
+>>> PASO 1: Scraper de YouTube
+=== OPENLAB Radar Scraper ===
+Fecha: 2026-03-30
+Lookback: 24h (desde 2026-03-29T08:00:02Z)
+
+--- Buscando en canales monitorizados ---
+  Anthropic (@AnthropicAI)... 0 vídeos
+  Andrej Karpathy (@AndrejKarpathy)... 0 vídeos
+  IndyDevDan (@indydevdan)... 0 vídeos
+  David Ondrej (@DavidOndrej)... 1 vídeos
+  AI Jason (@AIJasonZ)... 0 vídeos
+  Sam Witteveen (@samwitteveen)... 0 vídeos
+  Cole Medin (@ColeMedin)... 0 vídeos
+  Matt Wolfe (@MattWolfe)... 0 vídeos
+  Fireship (@Fireship)... 0 vídeos
+  Latent Space (@LatentSpacePod)... 0 vídeos
+  AI Engineer (@aidotengineer)... 0 vídeos
+  Dot CSV (@DotCSV)... 0 vídeos
+  AI Agents Podcast (@aiagentspodcast)... 0 vídeos
+  Liam Ottley (@LiamOttley)... 0 vídeos
+  Simon Scrapes (@SimonScrapes)... 0 vídeos
+
+--- Buscando por keywords ---
+  30 keywords únicas
+  31 vídeos encontrados por keywords
+
+31 vídeos únicos (de 32 totales)
+Obteniendo detalles de vídeos...
+12 vídeos tras filtros de calidad (de 31)
+12 vídeos nuevos guardados en DB
+Exportados 12 candidatos a /home/openlab/openlab-radar/data/candidates-2026-03-30.json
+
+=== Scraper completado ===
+Candidatos encontrados: 12
+
+>>> PASO 2: Evaluador
+---
+
+# OPENLAB Radar — Briefing 2026-03-30
+
+**Candidatos:** 12 | **Triage:** 8 pasaron | **Briefing:** 3 | **Mención:** 2
+
+---
+
+## Top Vídeos del Día
+
+### 1. [EP136: Modular skills for autonomous AI agents](https://www.youtube.com/watch?v=AbxPorccmgA)
+- **Canal:** Bookworm
+- **Categoría:** agentic-systems
+- **Duración:** 21min
+- **Fecha:** 2026-03-29
+- **Score:** 8.8
+  - Aplicabilidad: 9
+  - Novedad: 9
+  - Calidad: 8
+- **Para OPENLAB:** Validación académica del modelo de negocio completo. El paper "Agent Skills for LLMs" (Zhejiang University, feb 2026) documenta la arquitectura skill.md con progressive disclosure en tres niveles (30 tokens de metadata → 200-2000 de instrucciones → recursos on-demand), exactamente lo que OPENLAB construye. Dos datos de alto impacto comercial: el 26,1% de las skills en marketplaces públicos tienen vulnerabilidades (sobre 42.000 analizadas), y ya hay 157 skills maliciosas confirmadas. Esto convierte a OPENLAB en proveedor de skills de confianza, no de commodities. El modelo de gobernanza de 4 niveles es un diferencial de pitch en enterprise.
+
+### 2. [Claude Code for SWE Teams: Building a Shared AI Coding Toolkit](https://www.youtube.com/watch?v=-tk2mG0eXOI)
+- **Canal:** Shaw Talebi
+- **Categoría:** claude-code-advanced
+- **Duración:** 26min
+- **Fecha:** 2026-03-29
+- **Score:** 7.7
+  - Aplicabilidad: 8
+  - Novedad: 7
+  - Calidad: 8
+- **Para OPENLAB:** El framework MCP + Skills + Hooks como primitivos de harness engineering para equipos. La idea clave: empaquetar skills, hooks y MCP servers en **plugins** distribuibles por GitHub. OPENLAB puede cambiar el modelo de entrega: en lugar de carpetas sueltas, entrega un plugin instalable con un comando. La distinción entre skills de equipo vs individuales es directamente trasladable a la propuesta de onboarding enterprise. Demo con proyecto real.
+
+### 3. [Context Engineering: The Skill Every AI Builder Needs in 2026](https://www.youtube.com/watch?v=vRCTfnQ8Syc)
+- **Canal:** Ai Abhi
+- **Categoría:** context-engineering
+- **Duración:** 17min
+- **Fecha:** 2026-03-30
+- **Score:** 7.0
+  - Aplicabilidad: 8
+  - Novedad: 6
+  - Calidad: 6
+- **Para OPENLAB:** Consolida el vocabulario y el marco conceptual que OPENLAB usa en ventas y workshops. Los 4 componentes (system prompt, retrieved context, memory, tools), las 3 leyes (context rot, position matters, conflicting context) y el dato clave —el 32% de fallos de agentes en producción son fallos de context management, no del modelo— son argumentos directamente usables en pitch y DIBEX.
+
+---
+
+## Mención rápida
+- [The 8 Levels of Agentic Engineering](https://www.youtube.com/watch?v=9f4B3xzjJkQ) — Baur Urazalinov — 6.3 — agentic-systems — Framework de 8 niveles (tab complete → equipos autónomos); OPENLAB opera en L4-L6 (compounding, skills, harness). El "plan-delegate-assess-codify loop" de L4 es el ciclo de entrega de OPENLAB.
+- [Agentic AI in Enterprise Workflows: EU AI Act Compliance](https://www.youtube.com/watch?v=79-w9kabMXg) — Aetherlink — 6.3 — enterprise-ai — Enforcement EU AI Act agosto 2026; caso real Den Haag: 170h/mes ahorradas, €85K anuales, €340K en optimizaciones autónomas. Ángulo de compliance relevante para clientes enterprise en España.
+
+---
+
+## Tendencias
+El día concentra señales en la maduración del estándar skill.md: el paper académico (Bookworm) y la charla de Shaw Talebi convergen en la misma arquitectura —progressive disclosure, composabilidad, gobernanza por capas— con un giro nuevo hacia seguridad y distribución como plugins. Context engineering sigue ganando terreno como vocabulario de consenso, con datos que lo respaldan. La ventana de agosto 2026 (EU AI Act) empieza a aparecer como presión regulatoria real para despliegue enterprise en Europa.
+
+>>> PASO 2b: Notificación Telegram
+Enviando por Telegram... OK
+
+>>> PASO 3: Publicar resúmenes en Telegraph
+Links Telegraph enviados por Telegram.
+  Publicado: https://telegra.ph/Context-Engineering-The-Skill-Every-AI-Builder-Needs-in-2026-Prompt-Engineering-Is-Dead-03-30
+  Publicado: https://telegra.ph/OPENLAB-Radar--Briefing-2026-03-30-03-30
+
+==========================================
+Pipeline completado: 08:13:47 UTC
+==========================================
+
+>>> PASO 4: Email diario
+{
+  "id": "19d3dce64026557e",
+  "labelIds": [
+    "UNREAD",
+    "SENT",
+    "INBOX"
+  ],
+  "threadId": "19d3dce64026557e"
+}
+Email diario enviado a rafa@openlabstudio.com
+
+>>> PASO 5: Sync Google Drive
+briefs/ sincronizado con Drive.
+insights/ sincronizado con Drive.
+==========================================
+OPENLAB Radar - Pipeline Diario
+Fecha: 2026-03-31 08:00:01 UTC
+==========================================
+
+>>> PASO 1: Scraper de YouTube
+=== OPENLAB Radar Scraper ===
+Fecha: 2026-03-31
+Lookback: 24h (desde 2026-03-30T08:00:01Z)
+
+--- Buscando en canales monitorizados ---
+  Anthropic (@AnthropicAI)... 0 vídeos
+  Andrej Karpathy (@AndrejKarpathy)... 0 vídeos
+  IndyDevDan (@indydevdan)... 1 vídeos
+  David Ondrej (@DavidOndrej)... 0 vídeos
+  AI Jason (@AIJasonZ)... 0 vídeos
+  Sam Witteveen (@samwitteveen)... 0 vídeos
+  Cole Medin (@ColeMedin)... 2 vídeos
+  Matt Wolfe (@MattWolfe)... 0 vídeos
+  Fireship (@Fireship)... 0 vídeos
+  Latent Space (@LatentSpacePod)... 1 vídeos
+  AI Engineer (@aidotengineer)... 0 vídeos
+  Dot CSV (@DotCSV)... 0 vídeos
+  AI Agents Podcast (@aiagentspodcast)... 0 vídeos
+  Liam Ottley (@LiamOttley)... 0 vídeos
+  Simon Scrapes (@SimonScrapes)... 0 vídeos
+
+--- Buscando por keywords ---
+  30 keywords únicas
+  32 vídeos encontrados por keywords
+
+35 vídeos únicos (de 36 totales)
+Obteniendo detalles de vídeos...
+12 vídeos tras filtros de calidad (de 35)
+12 vídeos nuevos guardados en DB
+Exportados 12 candidatos a /home/openlab/openlab-radar/data/candidates-2026-03-31.json
+
+=== Scraper completado ===
+Candidatos encontrados: 12
+
+>>> PASO 2: Evaluador
+Failed to authenticate. API Error: 401 {"type":"error","error":{"type":"authentication_error","message":"OAuth token has expired. Please obtain a new token or refresh your existing token."},"request_id":"req_011CZaofse77jCcC2niK859h"}

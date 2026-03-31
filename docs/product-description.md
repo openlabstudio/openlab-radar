@@ -508,3 +508,5 @@ Para solicitar un insight: abrir Claude Code en el proyecto y pedir el análisis
 6. **VPS + rclone.** Solo monta la carpeta de briefs en el Drive compartido del equipo. Ruta de Drive pendiente de decisión.
 
 7. **Contexto OPENLAB en cada resumen.** El evaluador lee los ficheros de sales, capabilities, references y pilots para generar aplicabilidad concreta — no genérica.
+
+8. **`CLAUDE_CODE_OAUTH_TOKEN` para crons headless.** El token OAuth interactivo de Claude Code caduca periódicamente y los crons fallan con 401. Solución: `claude setup-token` genera un token de ~1 año guardado en `config/.env` como `CLAUDE_CODE_OAUTH_TOKEN`. El pipeline lo carga via `source config/.env` antes de llamar a `claude -p`. **No usar `ANTHROPIC_API_KEY`** — si está en el entorno, `claude -p` factura por token ignorando la suscripción Max. Token actual caduca ~2027-03-31: ejecutar `claude setup-token` y actualizar `config/.env`.

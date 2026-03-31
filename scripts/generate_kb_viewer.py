@@ -26,18 +26,29 @@ try:
 except ImportError:
     HAS_YAML = False
 
+# Logo extraído del email (mismo origen que md_to_email_html.py)
+def _load_logo() -> str:
+    try:
+        email_script = Path(__file__).parent / "md_to_email_html.py"
+        m = re.search(r'LOGO_SRC\s*=\s*"(data:image/[^"]+)"', email_script.read_text())
+        if m:
+            return m.group(1)
+    except Exception:
+        pass
+    return ""
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Metadatos de categorías
 # ──────────────────────────────────────────────────────────────────────────────
 CATEGORY_META = {
-    "agentic-systems":      ("🤖", "Agentic Systems"),
-    "claude-code-advanced": ("⚡", "Claude Code Advanced"),
-    "delivery-adoption":    ("🚀", "Delivery & Adoption"),
-    "context-engineering":  ("🧠", "Context Engineering"),
-    "cli-vs-platforms":     ("🔧", "CLI vs Platforms"),
-    "enterprise-ai":        ("🏢", "Enterprise AI"),
+    "agentic-systems":      ("", "Agentic Systems"),
+    "claude-code-advanced": ("", "Claude Code Advanced"),
+    "delivery-adoption":    ("", "Delivery & Adoption"),
+    "context-engineering":  ("", "Context Engineering"),
+    "cli-vs-platforms":     ("", "CLI vs Platforms"),
+    "enterprise-ai":        ("", "Enterprise AI"),
 }
-CAT_DEFAULT = ("📹", "General")
+CAT_DEFAULT = ("", "General")
 
 
 # ──────────────────────────────────────────────────────────────────────────────
@@ -234,6 +245,12 @@ def build_html(briefs: list, insights: list, stats: dict, generated_at: str) -> 
     cat_icons_js = json.dumps({k: v[0] for k, v in CATEGORY_META.items()})
     nb = len(briefs)
     ni = len(insights)
+    logo_src = _load_logo()
+    logo_html = (
+        f'<img src="{logo_src}" alt="OPENLAB" height="48" style="display:block;height:48px;width:auto;">'
+        if logo_src else
+        '<span style="font-size:28px;font-weight:900;letter-spacing:.1em;color:#CCFF00;font-family:Montserrat,Arial,sans-serif;">OPENLAB_</span>'
+    )
 
     return f"""<!DOCTYPE html>
 <html lang="es">
@@ -242,132 +259,175 @@ def build_html(briefs: list, insights: list, stats: dict, generated_at: str) -> 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-<title>OPENLAB Radar — Knowledge Base</title>
+<title>OPENLAB Radar Viewer</title>
 <style>
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0}}
 :root{{
-  --bg:#000000;--surface:#0F0F23;--s2:#141414;--s3:#1e1e1e;
-  --accent:#CCFF00;--text:#FFFFFF;--muted:#9CA3AF;--border:#2a2a2a;
+  --bg:#F3F4F6;--surface:#FFFFFF;--s2:#F9FAFB;--s3:#F3F4F6;
+  --accent:#CCFF00;--text:#111111;--muted:#6B7280;--border:#E5E7EB;
   --gh:#16A34A;--ghb:#DCFCE7;--gm:#D97706;--gmb:#FEF3C7;--gl:#DC2626;--glb:#FEE2E2;
 }}
 body{{background:var(--bg);color:var(--text);font-family:'Montserrat',Arial,sans-serif;font-size:14px;line-height:1.5}}
 a{{color:inherit;text-decoration:none}}
-/* NAV */
-#nav{{position:sticky;top:0;z-index:100;background:#000;border-bottom:2px solid var(--accent);padding:10px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}}
-.brand{{font-size:12px;font-weight:900;letter-spacing:.15em;color:var(--accent);white-space:nowrap}}
-.brand span{{color:var(--muted);font-weight:400}}
-.nav-stats{{display:flex;gap:20px;flex-wrap:wrap;flex:1}}
-.ns{{font-size:10px;color:var(--muted);white-space:nowrap}}
-.ns strong{{color:var(--accent);font-size:16px;font-weight:900;display:block;line-height:1.1}}
-#si{{background:var(--s3);border:1px solid var(--border);color:var(--text);padding:7px 14px;border-radius:6px;font-family:'Montserrat',Arial,sans-serif;font-size:12px;width:200px;outline:none}}
-#si:focus{{border-color:var(--accent)}}
-#si::placeholder{{color:var(--muted)}}
-/* MAIN */
-main{{max-width:1200px;margin:0 auto;padding:32px 24px 64px}}
+
+/* ── HEADER ── */
+.header-wrap{{padding:20px 24px 0;max-width:900px;margin:0 auto}}
+.header{{background:#000;border-radius:12px;padding:24px 32px;display:flex;align-items:center;justify-content:space-between;gap:16px}}
+.header-right{{text-align:right;line-height:1.2}}
+.header-label{{font-size:11px;font-weight:900;letter-spacing:.2em;color:#CCFF00;text-transform:uppercase}}
+.header-date{{font-size:11px;color:#9CA3AF;margin-top:4px}}
+
+/* ── STATS BAR ── */
+.stats-wrap{{max-width:900px;margin:20px auto 0;padding:0 24px}}
+.stats-bar{{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}}
+@media(max-width:600px){{.stats-bar{{grid-template-columns:repeat(2,1fr)}}}}
+.stat-card{{background:#fff;border:1px solid var(--border);border-radius:10px;padding:16px 20px;text-align:center}}
+.stat-num{{font-size:32px;font-weight:900;color:#111;line-height:1}}
+.stat-label{{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:4px}}
+
+/* ── SEARCH ── */
+.search-wrap{{max-width:900px;margin:20px auto 0;padding:0 24px}}
+.search-box{{background:#fff;border:2px solid var(--border);border-radius:10px;display:flex;align-items:center;gap:12px;padding:12px 18px;transition:border-color .15s}}
+.search-box:focus-within{{border-color:#000}}
+.search-icon{{font-size:18px;color:var(--muted);flex-shrink:0}}
+#si{{flex:1;border:none;outline:none;font-family:'Montserrat',Arial,sans-serif;font-size:14px;font-weight:600;color:var(--text);background:transparent}}
+#si::placeholder{{color:#C4C9D4;font-weight:400}}
+
+/* ── MAIN ── */
+main{{max-width:900px;margin:32px auto 0;padding:0 24px 64px}}
 section{{margin-bottom:48px}}
-.sh{{display:flex;align-items:baseline;gap:10px;margin-bottom:20px;border-left:3px solid var(--accent);padding-left:14px}}
-.st{{font-size:17px;font-weight:800;color:var(--text)}}
+.sh{{display:flex;align-items:baseline;gap:10px;margin-bottom:20px}}
+.sh-line{{width:4px;height:20px;background:#000;border-radius:2px;flex-shrink:0;align-self:center}}
+.st{{font-size:16px;font-weight:800;color:#111}}
 .ss{{font-size:12px;color:var(--muted)}}
-/* GRID */
-.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}}
-/* CARD */
-.card{{background:var(--s2);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:16px;transition:background .1s}}
-.card:hover{{background:var(--s3)}}
-.ct{{font-size:13px;font-weight:700;margin-bottom:8px;line-height:1.4}}
-.ct a:hover{{color:var(--accent)}}
+
+/* ── GRID ── */
+.grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}}
+
+/* ── CARD ── */
+.card{{background:#fff;border:1px solid var(--border);border-left:5px solid #000;border-radius:0 8px 8px 0;display:flex;overflow:hidden;transition:box-shadow .15s}}
+.card:hover{{box-shadow:0 4px 16px rgba(0,0,0,.10)}}
+.card-body{{padding:16px;flex:1;min-width:0}}
+.ct{{font-size:13px;font-weight:700;margin-bottom:8px;line-height:1.4;color:#111}}
+.ct a:hover{{color:#000;text-decoration:underline}}
 .cm{{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-bottom:6px}}
-.bc{{background:var(--accent);color:#000;font-size:10px;font-weight:800;padding:2px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}}
+.bc{{background:#000;color:#CCFF00;font-size:9px;font-weight:800;padding:2px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap}}
 .bs{{font-size:11px;font-weight:800;padding:2px 7px;border-radius:3px;white-space:nowrap}}
-.bd{{font-size:10px;color:var(--muted);margin-left:auto}}
+.bd{{font-size:10px;color:var(--muted)}}
 .csrc{{font-size:11px;color:var(--muted);margin-bottom:5px}}
-.cx{{font-size:11px;color:var(--muted);line-height:1.5;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
+.cx{{font-size:12px;color:#374151;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
 .tr{{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}}
 .tp{{background:var(--s3);border:1px solid var(--border);color:var(--muted);font-size:10px;padding:2px 6px;border-radius:3px;cursor:pointer;transition:background .1s,color .1s}}
-.tp:hover{{background:var(--accent);color:#000}}
+.tp:hover{{background:#000;color:#CCFF00;border-color:#000}}
 .cl{{margin-top:10px;display:flex;gap:8px}}
 .lyt{{font-size:10px;font-weight:700;padding:3px 9px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em;background:#DC2626;color:#fff}}
 .ltg{{font-size:10px;font-weight:700;padding:3px 9px;border-radius:3px;text-transform:uppercase;letter-spacing:.05em;background:#2AABEE;color:#fff}}
-/* LISTA */
+
+/* ── LISTA ── */
 .list{{display:flex;flex-direction:column;gap:0}}
-.lday{{font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;padding:12px 0 4px;border-bottom:1px solid var(--border);margin-bottom:4px}}
+.lday{{font-size:11px;font-weight:700;color:#111;text-transform:uppercase;letter-spacing:.08em;padding:12px 0 4px;border-bottom:2px solid #000;margin-bottom:4px}}
 .li{{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:5px;transition:background .1s}}
-.li:hover{{background:var(--s3)}}
-.lit{{flex:1;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}}
-.lit a:hover{{color:var(--accent)}}
-/* TABS */
-.tabs-bar{{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:20px;border-bottom:1px solid var(--border);padding-bottom:0}}
-.tb{{background:transparent;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;color:var(--muted);font-family:'Montserrat',Arial,sans-serif;font-size:12px;font-weight:600;padding:8px 14px;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap}}
-.tb:hover{{color:var(--text)}}
-.tb.active{{color:var(--accent);border-bottom-color:var(--accent)}}
+.li:hover{{background:#fff}}
+.lit{{flex:1;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#111}}
+.lit a:hover{{color:#000;text-decoration:underline}}
+
+/* ── TABS ── */
+.tabs-bar{{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:20px;border-bottom:2px solid var(--border);padding-bottom:0}}
+.tb{{background:transparent;border:none;border-bottom:3px solid transparent;margin-bottom:-2px;color:var(--muted);font-family:'Montserrat',Arial,sans-serif;font-size:12px;font-weight:700;padding:8px 14px;cursor:pointer;transition:color .15s,border-color .15s;white-space:nowrap}}
+.tb:hover{{color:#111}}
+.tb.active{{color:#111;border-bottom-color:#000}}
 .tc{{display:none}}
 .tc.active{{display:block}}
-.ch{{display:flex;gap:16px;align-items:center;margin-bottom:16px;padding:12px 16px;background:var(--s2);border-radius:8px;border:1px solid var(--border)}}
-.cc{{font-size:28px;font-weight:900;color:var(--accent)}}
+.ch{{display:flex;gap:16px;align-items:center;margin-bottom:16px;padding:12px 16px;background:#fff;border-radius:8px;border:1px solid var(--border);border-left:5px solid #000}}
+.cc{{font-size:28px;font-weight:900;color:#111}}
 .cm2{{font-size:11px;color:var(--muted)}}
-.cm2 strong{{color:var(--text)}}
-/* TAG CLOUD */
+.cm2 strong{{color:#111}}
+
+/* ── TAG CLOUD ── */
 #tc{{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}}
-.ct2{{cursor:pointer;border-radius:4px;padding:4px 10px;font-weight:700;transition:background .1s,color .1s,transform .1s;border:1px solid transparent}}
-.ct2:hover,.ct2.sel{{background:var(--accent)!important;color:#000!important;transform:scale(1.05)}}
-/* INSIGHTS */
-.ic{{background:var(--s2);border:1px solid var(--border);border-left:3px solid #6366F1;border-radius:8px;padding:16px;transition:border-left-color .15s}}
-.ic:hover{{border-left-color:var(--accent)}}
-.itl{{font-size:14px;font-weight:700;margin-bottom:4px}}
+.ct2{{cursor:pointer;border-radius:4px;padding:4px 10px;font-weight:700;transition:background .1s,color .1s,transform .1s;border:1px solid #D1D5DB;color:#374151}}
+.ct2:hover,.ct2.sel{{background:#000!important;color:#CCFF00!important;border-color:#000!important;transform:scale(1.05)}}
+
+/* ── INSIGHTS ── */
+.ic{{background:#fff;border:1px solid var(--border);border-left:5px solid #6366F1;border-radius:0 8px 8px 0;padding:16px;transition:border-left-color .15s}}
+.ic:hover{{border-left-color:#000}}
+.itl{{font-size:14px;font-weight:700;margin-bottom:4px;color:#111}}
 .id{{font-size:11px;color:var(--muted);margin-bottom:6px}}
-.ix{{font-size:12px;color:var(--muted);line-height:1.5}}
-/* MISC */
-.empty{{text-align:center;padding:40px;color:var(--muted);font-size:13px;border:1px dashed var(--border);border-radius:8px}}
-.xbtn{{background:transparent;border:1px solid var(--border);color:var(--muted);font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:600;padding:6px 14px;border-radius:4px;cursor:pointer;margin-top:12px;transition:border-color .1s,color .1s}}
-.xbtn:hover{{border-color:var(--accent);color:var(--accent)}}
+.ix{{font-size:12px;color:#374151;line-height:1.5}}
+
+/* ── MISC ── */
+.empty{{text-align:center;padding:40px;color:var(--muted);font-size:13px;border:2px dashed var(--border);border-radius:8px;background:#fff}}
+.xbtn{{background:#fff;border:2px solid #000;color:#111;font-family:'Montserrat',Arial,sans-serif;font-size:11px;font-weight:700;padding:6px 16px;border-radius:4px;cursor:pointer;margin-top:12px;transition:background .1s,color .1s}}
+.xbtn:hover{{background:#000;color:#CCFF00}}
 #ss{{display:none;margin-bottom:32px}}
-footer{{text-align:center;padding:24px;color:var(--muted);font-size:11px;border-top:1px solid var(--border)}}
-footer strong{{color:var(--accent)}}
-@media(max-width:600px){{main{{padding:20px 16px 48px}}.grid{{grid-template-columns:1fr}}#si{{width:130px}}}}
+footer{{text-align:center;padding:24px;color:var(--muted);font-size:11px;border-top:1px solid var(--border);background:var(--bg)}}
+footer strong{{color:#111}}
+@media(max-width:600px){{
+  .stats-bar{{grid-template-columns:repeat(2,1fr)}}
+  main,.stats-wrap,.search-wrap,.header-wrap{{padding-left:16px;padding-right:16px}}
+  .grid{{grid-template-columns:1fr}}
+  .header{{padding:20px}}
+}}
 </style>
 </head>
 <body>
 
-<nav id="nav">
-  <div class="brand">OPENLAB <span>RADAR</span></div>
-  <div class="nav-stats">
-    <div class="ns"><strong id="s-total">—</strong>briefs</div>
-    <div class="ns"><strong id="s-score">—</strong>score medio</div>
-    <div class="ns"><strong id="s-last">—</strong>último brief</div>
-    <div class="ns"><strong id="s-ins">—</strong>insights</div>
+<div class="header-wrap">
+  <div class="header">
+    {logo_html}
+    <div class="header-right">
+      <div class="header-label">Radar Viewer</div>
+      <div class="header-date">{escape(generated_at)}</div>
+    </div>
   </div>
-  <input type="search" id="si" placeholder="Buscar briefs…" autocomplete="off">
-</nav>
+</div>
+
+<div class="stats-wrap">
+  <div class="stats-bar">
+    <div class="stat-card"><div class="stat-num" id="s-total">—</div><div class="stat-label">Briefs</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-score">—</div><div class="stat-label">Score medio</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-week">—</div><div class="stat-label">Esta semana</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-ins">—</div><div class="stat-label">Insights</div></div>
+  </div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="search" id="si" placeholder="Buscar en los briefs…" autocomplete="off">
+  </div>
+</div>
 
 <main>
 
   <!-- Búsqueda -->
   <section id="ss">
-    <div class="sh"><span class="st">Resultados de búsqueda</span><span class="ss" id="s-count"></span></div>
+    <div class="sh"><div class="sh-line"></div><span class="st">Resultados de búsqueda</span><span class="ss" id="s-count"></span></div>
     <div id="s-res" class="grid"></div>
   </section>
 
   <!-- Hot Signals -->
   <section>
-    <div class="sh"><span class="st">⚡ Hot Signals</span><span class="ss">Score ≥ 8.0 · últimos 7 días</span></div>
+    <div class="sh"><div class="sh-line"></div><span class="st">Hot Signals</span><span class="ss">Score ≥ 8.0 · últimos 7 días</span></div>
     <div id="hot" class="grid"><div class="empty">Sin briefs con score ≥ 8.0 en los últimos 7 días.</div></div>
   </section>
 
   <!-- Nuevos esta semana -->
   <section>
-    <div class="sh"><span class="st">🗓 Nuevos esta semana</span><span class="ss" id="rec-sub"></span></div>
+    <div class="sh"><div class="sh-line"></div><span class="st">Nuevos esta semana</span><span class="ss" id="rec-sub"></span></div>
     <div id="rec" class="list"></div>
   </section>
 
   <!-- Por categoría -->
   <section>
-    <div class="sh"><span class="st">📂 Por categoría</span><span class="ss">Click en la pestaña para explorar</span></div>
+    <div class="sh"><div class="sh-line"></div><span class="st">Por categoría</span><span class="ss">Click en la pestaña para explorar</span></div>
     <div class="tabs-bar" id="cat-tabs"></div>
     <div id="cat-contents"></div>
   </section>
 
   <!-- Tag Explorer -->
   <section id="tags-section">
-    <div class="sh"><span class="st">🏷 Tag Explorer</span><span class="ss">Click en un tag para filtrar todos los briefs relacionados</span></div>
+    <div class="sh"><div class="sh-line"></div><span class="st">Tag Explorer</span><span class="ss">Click en un tag para filtrar</span></div>
     <div id="tc"></div>
     <div id="tag-results-wrap" style="display:none">
       <div class="ss" id="trc" style="margin-bottom:12px"></div>
@@ -377,7 +437,7 @@ footer strong{{color:var(--accent)}}
 
   <!-- Insights -->
   <section>
-    <div class="sh"><span class="st">💡 Insights</span><span class="ss">Síntesis generadas bajo demanda</span></div>
+    <div class="sh"><div class="sh-line"></div><span class="st">Insights</span><span class="ss">Síntesis generadas bajo demanda</span></div>
     <div id="ins-grid" class="grid"><div class="empty">Sin insights generados todavía.</div></div>
   </section>
 
@@ -404,19 +464,20 @@ function scoreBadge(s){{
 }}
 function catBadge(c){{return`<span class="bc">${{e(CI[c]||'📹')}} ${{e(CN[c]||c)}}</span>`}}
 
+const SKIP_TAGS=new Set(['youtube','brief','briefs','video','vídeo']);
 function card(b){{
-  const tags=b.tags.map(t=>`<span class="tp" onclick="filterTag('${{e(t)}}')">${{e(t)}}</span>`).join('');
+  const tags=b.tags.filter(t=>!SKIP_TAGS.has(t.toLowerCase())).map(t=>`<span class="tp" onclick="filterTag('${{e(t)}}')">${{e(t)}}</span>`).join('');
   const links=[];
   if(b.url)links.push(`<a class="lyt" href="${{e(b.url)}}" target="_blank">▶ YouTube</a>`);
-  if(b.telegraph_url)links.push(`<a class="ltg" href="${{e(b.telegraph_url)}}" target="_blank">📖 Brief</a>`);
-  return`<div class="card">
+  if(b.telegraph_url)links.push(`<a class="ltg" href="${{e(b.telegraph_url)}}" target="_blank">Ver resumen</a>`);
+  return`<div class="card"><div class="card-body">
   <div class="ct"><a href="${{e(b.url||'#')}}" target="_blank">${{e(b.title)}}</a></div>
   <div class="cm">${{catBadge(b.category)}}${{scoreBadge(b.score)}}${{b.date?`<span class="bd">${{e(b.date)}}</span>`:''}}</div>
   ${{b.source?`<div class="csrc">por ${{e(b.source)}}</div>`:''}}
   ${{b.excerpt?`<div class="cx">${{e(b.excerpt)}}</div>`:''}}
   ${{tags?`<div class="tr">${{tags}}</div>`:''}}
   ${{links.length?`<div class="cl">${{links.join('')}}</div>`:''}}
-</div>`}}
+</div></div>`}}
 
 function listItem(b){{
   return`<div class="li">${{catBadge(b.category)}}<span class="lit"><a href="${{e(b.url||'#')}}" target="_blank">${{e(b.title)}}</a></span>${{scoreBadge(b.score)}}</div>`;
@@ -427,7 +488,7 @@ function initStats(){{
   const s=KB.stats;
   document.getElementById('s-total').textContent=s.total_briefs;
   document.getElementById('s-score').textContent=s.avg_score;
-  document.getElementById('s-last').textContent=s.last_date||'—';
+  document.getElementById('s-week').textContent=KB.briefs.filter(b=>recent(b.date,7)).length;
   document.getElementById('s-ins').textContent=s.total_insights;
 }}
 
@@ -497,7 +558,7 @@ function toggleRest(id,btn){{
 // Tags
 function initTags(){{
   const tc=KB.stats.tag_counts;
-  const tags=Object.entries(tc).sort((a,b)=>b[1]-a[1]);
+  const tags=Object.entries(tc).filter(([t])=>!SKIP_TAGS.has(t.toLowerCase())).sort((a,b)=>b[1]-a[1]);
   const max=tags[0]?.[1]||1;
   const el=document.getElementById('tc');
   tags.forEach(([tag,count])=>{{
@@ -506,8 +567,6 @@ function initTags(){{
     span.className='ct2';
     span.textContent=tag+' ('+count+')';
     span.style.fontSize=Math.round(10+r*8)+'px';
-    span.style.color=`rgba(204,255,0,${{(0.4+r*0.6).toFixed(2)}})`;
-    span.style.borderColor=`rgba(204,255,0,${{(0.15+r*0.25).toFixed(2)}})`;
     span.dataset.tag=tag;
     span.onclick=()=>filterTag(tag);
     el.appendChild(span);
@@ -587,7 +646,7 @@ def main():
     print(f"Insights encontrados: {len(insights)}")
 
     stats = compute_stats(briefs, insights)
-    generated_at = datetime.now().strftime("%Y-%m-%d %H:%M UTC")
+    generated_at = datetime.now().strftime("%Y-%m-%d %H:%M CET")
 
     html = build_html(briefs, insights, stats, generated_at)
 
