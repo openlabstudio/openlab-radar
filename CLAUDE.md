@@ -6,6 +6,54 @@ Sistema de inteligencia continua que monitoriza YouTube diariamente para detecta
 
 Empresa de **context engineering**. Diseña skills (ficheros .md) que se ejecutan en Claude Code CLI como agentes de IA para procesos de conocimiento intensivo en empresas. Stack: Claude Code CLI + skills en lenguaje natural + MCP. Zero lock-in, zero código propio.
 
+## Arquitectura: VPS, laptop y Drive
+
+El sistema vive en tres sitios sincronizados:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  VPS (212.227.104.123)  —  FUENTE DE VERDAD                    │
+│  /home/openlab/openlab-radar/                                   │
+│                                                                 │
+│  Todo el sistema: scripts, config, prompts, data, briefs,       │
+│  insights, crons. Aquí corre el pipeline y Claude headless.     │
+│                                                                 │
+│  rclone sync ──→  Google Shared Drive "OPENLAB Radar"           │
+│  git push    ──→  GitHub repo (origin)                          │
+└─────────────────────────────────────────────────────────────────┘
+        │ git                              │ rclone
+        ▼                                  ▼
+┌──────────────────────┐    ┌──────────────────────────────────┐
+│  GitHub repo         │    │  Google Shared Drive             │
+│  (origin remoto)     │    │  "OPENLAB Radar"                 │
+│                      │    │                                  │
+│  Código, docs,       │    │  briefs/, insights/,             │
+│  CLAUDE.md           │    │  data/kb_viewer.html             │
+│  (no briefs ni data) │    │  (contenido generado para el     │
+└──────────────────────┘    │   equipo)                        │
+        │ git pull          └──────────────────────────────────┘
+        ▼                                  │ Drive for Desktop
+┌──────────────────────┐                   ▼
+│  Laptop de Rafael    │    ┌──────────────────────────────────┐
+│  ~/dev/openlab-radar │    │  Laptop — Drive for Desktop      │
+│                      │    │  ~/Library/CloudStorage/          │
+│  Solo docs y         │    │    GoogleDrive-gavalle@openlab.st │
+│  configuración del   │    │    /Shared drives/OPENLAB Radar/  │
+│  sistema (lo que     │    │                                  │
+│  está en git).       │    │  briefs/, insights/ y            │
+│  NO tiene briefs,    │    │  kb_viewer.html accesibles       │
+│  insights ni data.   │    │  en local vía Drive for Desktop  │
+└──────────────────────┘    └──────────────────────────────────┘
+```
+
+**Flujo de datos:**
+- **VPS → Drive:** rclone sincroniza `briefs/`, `insights/` y `data/kb_viewer.html` con el Shared Drive del equipo tras cada pipeline.
+- **VPS → GitHub:** los cambios en código/docs se pushean al repo.
+- **GitHub → Laptop:** `git pull` trae docs, CLAUDE.md, scripts (referencia). La laptop NO ejecuta pipelines.
+- **Drive → Laptop:** Drive for Desktop monta el Shared Drive, dando acceso local a briefs e insights sin necesidad de SSH.
+
+**Regla clave:** toda ejecución (crons, añadir vídeos, generar insights) ocurre en el VPS. La laptop es solo para consultar docs y lanzar skills que hacen SSH al VPS.
+
 ## Estructura del proyecto
 
 ```
