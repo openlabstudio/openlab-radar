@@ -102,6 +102,19 @@ if [ -n "$BRIEF_FILES" ]; then
 
         echo "$TELEGRAPH_OUTPUT" | while IFS=$'\t' read -r filepath url; do
             echo "  Publicado: $url"
+            # Escribir URL de vuelta al .md si no está ya
+            if ! grep -q "^\*\*Telegraph:\*\*" "$filepath" 2>/dev/null; then
+                python3 -c "
+import re, sys
+path, url = sys.argv[1], sys.argv[2]
+content = open(path).read()
+old = re.search(r'^- \*\*Fuente:\*\*', content, re.MULTILINE)
+if old:
+    insert = '- **Telegraph:** ' + url + '\n'
+    content = content[:old.start()] + insert + content[old.start():]
+    open(path, 'w').write(content)
+" "$filepath" "$url" && echo "    URL escrita en $filepath"
+            fi
         done
     else
         echo "WARN: No se pudieron publicar en Telegraph."
