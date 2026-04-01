@@ -49,6 +49,7 @@ El sistema vive en tres sitios sincronizados:
 **Flujo de datos:**
 - **VPS → Drive:** rclone sincroniza `briefs/`, `insights/` y `data/kb_viewer.html` con el Shared Drive del equipo tras cada pipeline.
 - **VPS → GitHub:** los cambios en código/docs se pushean al repo.
+- **VPS → Web:** nginx en el VPS sirve `kb_viewer.html` en `https://radar.openlabstudio.com` (SSL vía Let's Encrypt). La página WordPress `openlabstudio.com/radar/` lo embebe en un iframe.
 - **GitHub → Laptop:** `git pull` trae docs, CLAUDE.md, scripts (referencia). La laptop NO ejecuta pipelines.
 - **Drive → Laptop:** Drive for Desktop monta el Shared Drive, dando acceso local a briefs e insights sin necesidad de SSH.
 
@@ -164,6 +165,7 @@ Lee `briefs/` local, guarda en `insights/FECHA-slug.md`. El siguiente pipeline s
 | Email diario a Rafael | ✅ Activo |
 | rclone → Google Drive | ✅ Activo |
 | KB Viewer HTML (Drive) | ✅ Activo |
+| KB Viewer Web (`openlabstudio.com/radar/`) | ✅ Activo |
 | Skill `radar-check-video` (check previo) | ✅ Activo |
 | Skill `radar-add-video-remote` (añadir vídeo) | ✅ Activo |
 | Email digest semanal al equipo | ⏳ Pendiente auth gws (`docs/improvements/setup-email-digest-semanal.md`) |

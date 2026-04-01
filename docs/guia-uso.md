@@ -25,13 +25,21 @@ No tienes que hacer nada. Solo leer.
 ### 1. Email (uso diario)
 El briefing llega a `rafa@openlabstudio.com` cada mañana. Formato HTML con los vídeos del día ordenados por score. Lectura de 3-5 minutos.
 
-### 2. KB Viewer — `kb_viewer.html` en Drive (escaneo visual)
-Dashboard autocontenido que se abre con doble clic desde Drive for Desktop. Sin servidor, funciona offline. Vistas:
-- **Hot Signals** — top 5 de los últimos 7 días
+### 2. KB Viewer — web + Drive (escaneo visual)
+Dashboard interactivo con todos los briefs del radar. Dos formas de acceder:
+
+- **Web (compartible):** [`openlabstudio.com/radar/`](https://www.openlabstudio.com/radar/) — embebido en la web de OPENLAB con header/footer del site. URL directa para compartir con quien quieras. Se actualiza automáticamente cada día.
+- **Drive (offline):** doble clic en `kb_viewer.html` desde Drive for Desktop. Mismo contenido, funciona sin conexión.
+
+Vistas:
+- **Hot Signals** — top briefs de los últimos 7 días (score ≥ 8.0)
 - **Por categoría** — context-engineering, claude-code-advanced, agentic-systems, enterprise-ai, cli-vs-platforms, delivery-adoption
 - **Tag Explorer** — filtra por tags (commercial-argument, skill-pattern, case-study, etc.)
 - **Buscador** — búsqueda libre en títulos y resúmenes
-- **Insights** — documentos de análisis generados a petición
+
+Stats: total briefs, score medio, briefs esta semana, canales monitorizados.
+
+Cada card tiene links a **YouTube** (vídeo original) y **VER RESUMEN** (Telegraph, lectura rápida).
 
 Ruta en Drive: `OPENLAB/inteligencia/radar/kb_viewer.html`
 
@@ -145,7 +153,8 @@ El insight incluye: síntesis de los briefs relevantes, patrones detectados, imp
 | Telegram + Telegraph | ✅ Activo |
 | Email diario a Rafael | ✅ Activo |
 | rclone → Google Drive | ✅ Activo |
-| KB Viewer HTML | ✅ Activo |
+| KB Viewer HTML (Drive) | ✅ Activo |
+| KB Viewer Web (`openlabstudio.com/radar/`) | ✅ Activo |
 | Skill check previo (`radar-check-video`) | ✅ Activo |
 | Skill añadir vídeo remoto (`radar-add-video-remote`) | ✅ Activo |
 | Email digest semanal al equipo | ⏳ Pendiente auth gws |

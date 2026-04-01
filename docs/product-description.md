@@ -459,19 +459,31 @@ Ambos skills son puentes SSH desde el laptop. Todo el procesamiento (Claude head
 
 ## KB Viewer — Dashboard visual del knowledge base
 
-Fichero `data/kb_viewer.html` generado automáticamente al final de cada pipeline diario y sincronizado a Drive.
+Fichero `data/kb_viewer.html` generado automáticamente al final de cada pipeline diario. Distribuido por tres vías:
 
-**Acceso:** doble clic desde Drive for Desktop → se abre en el navegador. Funciona offline, sin servidor.
+**Acceso web (principal):** [`openlabstudio.com/radar/`](https://www.openlabstudio.com/radar/) — página de WordPress con iframe que carga `https://radar.openlabstudio.com/`. Mantiene header/footer del site. URL compartible sin login. Se actualiza sola cada día.
+
+**Acceso Drive (offline):** doble clic desde Drive for Desktop → se abre en el navegador local. Funciona sin conexión.
+
+**Arquitectura web:**
+- nginx en el VPS sirve `data/kb_viewer.html` en `radar.openlabstudio.com` (SSL con Let's Encrypt, auto-renewal)
+- Registro DNS A en GoDaddy: `radar` → `212.227.104.123`
+- WordPress page (post 949, slug `/radar/`) con widget HTML de Elementor que contiene el iframe
+- Header `Content-Security-Policy: frame-ancestors` restringe el iframe solo a `openlabstudio.com`
+- Cache nginx: 1 hora. El cron regenera el HTML cada mañana → contenido fresco sin tocar WP
 
 **Vistas:**
-- **Hot Signals** — top 5 briefs de los últimos 7 días por score
-- **Nuevos** — últimos briefs añadidos
-- **Por categoría** — 6 categorías con briefs listados
+- **Hot Signals** — top briefs de los últimos 7 días (score ≥ 8.0)
+- **Nuevos esta semana** — cronología de briefs recientes
+- **Por categoría** — 6 categorías con briefs listados y stats por categoría
 - **Tag Explorer** — filtra por tags (commercial-argument, skill-pattern, case-study, etc.)
-- **Insights** — documentos de análisis guardados en `insights/`
-- **Buscador** — búsqueda libre en títulos y resúmenes
+- **Buscador** — búsqueda libre en títulos, fuentes, tags y resúmenes
 
-**Diseño:** fondo negro #000000, acento lima #CCFF00, tipografía Montserrat. Datos JSON embebidos, JS vanilla.
+**Stats bar:** total briefs, score medio, briefs esta semana, canales monitorizados.
+
+**Diseño:** header negro #000000 con acento lima #CCFF00, tipografía Montserrat (Google Fonts), logo embebido en base64. Datos JSON embebidos, JS vanilla. Responsive.
+
+**Excerpts:** texto narrativo limpio (sin scores Aplicabilidad/Novedad/Calidad, sin markdown). Cortados en frase completa, sin puntos suspensivos.
 
 **Ruta en Drive:** `OPENLAB/inteligencia/radar/kb_viewer.html`
 

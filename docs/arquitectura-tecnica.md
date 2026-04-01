@@ -15,13 +15,14 @@ Sistema de inteligencia continua que monitoriza YouTube diariamente para detecta
 - MCP server propio para transcripts (Python + FastMCP)
 - Knowledge base en Markdown con frontmatter YAML
 - Dashboard HTML self-contained (KB Viewer)
-- Distribución vía Telegram, Telegraph, email HTML y Google Drive
+- Distribución vía Telegram, Telegraph, email HTML, Google Drive y web (`openlabstudio.com/radar/`)
 
 **Stack:**
 ```
 Python 3.12 + Bash + Claude Code CLI + MCP + SQLite
 YouTube Data API v3 + youtube-transcript-api + Webshare proxy
 Telegram Bot API + Telegraph API + rclone + Google Drive
+nginx + Let's Encrypt + WordPress/Elementor (iframe embed)
 ```
 
 ---
@@ -665,27 +666,42 @@ gws gmail +send --to destinatario@empresa.com --subject "..." --body "$HTML" --h
 ## 12. KB Viewer (dashboard HTML)
 
 **Generado por:** `scripts/generate_kb_viewer.py`
-**Output:** `data/kb_viewer.html` (fichero único, self-contained)
+**Output:** `data/kb_viewer.html` (fichero único, self-contained, ~60KB)
 
 **Características:**
-- Sin dependencias externas (CSS y JS embebidos)
-- Funciona offline y sin servidor web
-- Búsqueda full-text cliente-side
-- Filtros por categoría, tags, rango de fechas
-- Hot signals: briefs con score ≥ 8 en los últimos 7 días
-- Stats: total briefs, score medio, distribución por categoría
-- Links directos a YouTube y Telegraph
-- Sección de insights
+- Sin dependencias externas (CSS y JS embebidos, logo en base64)
+- Google Fonts (Montserrat) como única dependencia externa
+- Búsqueda full-text client-side (regex sobre títulos, fuentes, tags y excerpts)
+- Filtros por categoría, tags
+- Hot signals: briefs con score ≥ 8.0 en los últimos 7 días
+- Stats bar: total briefs, score medio, briefs esta semana, canales únicos
+- Links directos a YouTube y Telegraph ("VER RESUMEN")
+- Excerpts limpios: sin scores (Aplicabilidad/Novedad/Calidad), sin markdown, cortados en frase completa
 
 **Proceso de generación:**
 1. Lee todos los `.md` de `briefs/` (excepto `daily-briefings/`)
 2. Parsea frontmatter YAML de cada brief
-3. Lee todos los `.md` de `insights/`
-4. Computa estadísticas
+3. Limpia excerpts: elimina líneas de scoring, strips markdown (`**`, `*`), corta en frase completa (~250 chars)
+4. Computa estadísticas (total, avg score, canales únicos)
 5. Embebe datos como JSON en el HTML
 6. Genera HTML completo con interactividad JS
 
-**Distribución:** sincronizado a Drive → accesible via Drive for Desktop en el laptop del cliente.
+**Distribución (3 vías):**
+
+1. **Web pública:** nginx en el VPS sirve el fichero en `https://radar.openlabstudio.com/`
+   - Registro DNS A: `radar.openlabstudio.com` → `212.227.104.123` (GoDaddy)
+   - SSL: Let's Encrypt con auto-renewal (`certbot --nginx`)
+   - Config: `/etc/nginx/sites-available/radar-viewer`
+   - Headers: `Content-Security-Policy: frame-ancestors https://openlabstudio.com`
+   - Cache: `max-age=3600` (1 hora)
+
+2. **WordPress embed:** página en `openlabstudio.com/radar/` (post 949, Elementor)
+   - Widget HTML con iframe apuntando a `https://radar.openlabstudio.com/`
+   - Mantiene header/footer del theme de WordPress
+   - No enlazada desde ninguna otra página (acceso solo por URL directa)
+   - No requiere actualización: el iframe siempre carga el HTML fresco del VPS
+
+3. **Google Drive:** `rclone copyto` sincroniza `data/kb_viewer.html` con el Shared Drive tras cada pipeline. Accesible offline vía Drive for Desktop.
 
 ---
 
