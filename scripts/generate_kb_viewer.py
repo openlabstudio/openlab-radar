@@ -202,7 +202,7 @@ def collect_all_briefs(briefs_dir: Path) -> list:
         return []
     result = []
     for md in sorted(briefs_dir.rglob("*.md")):
-        if 'daily-briefings' in md.parts:
+        if 'daily-briefings' in md.parts or 'weekly-digests' in md.parts:
             continue
         try:
             result.append(parse_brief(md))

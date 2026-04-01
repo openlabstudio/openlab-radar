@@ -566,7 +566,7 @@ pip install youtube-transcript-api==1.2.4 mcp --break-system-packages
    "
    ```
 
-**Coste estimado:** plan gratuito (1GB/mes) suficiente para < 50 vídeos/día. Plan de pago ~$5-20/mes para volúmenes mayores.
+**Coste estimado:** sin plan gratuito. ~$5/mes por 1 GB (suficiente para < 50 vídeos/día). Planes mayores hasta ~$20/mes.
 
 ---
 

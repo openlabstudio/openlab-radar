@@ -187,10 +187,12 @@ def publish(md_path, token):
     # Strip YAML frontmatter si existe
     md_text = re.sub(r'^---\n.*?\n---\n?', '', md_text, flags=re.DOTALL)
 
-    # Extraer título del primer heading
+    # Extraer título del primer heading y eliminarlo del contenido
     m = re.search(r'^#\s+(.+)', md_text, re.MULTILINE)
     title = m.group(1).strip() if m else os.path.basename(md_path).replace('.md', '')
     title = title[:256]
+    if m:
+        md_text = md_text[:m.start()] + md_text[m.end():].lstrip('\n')
 
     html = md_to_html(md_text)
     parser = HtmlToNodes()
