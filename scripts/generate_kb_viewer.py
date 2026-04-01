@@ -275,11 +275,12 @@ def build_html(briefs: list, insights: list, stats: dict, generated_at: str) -> 
     nb = len(briefs)
     ni = len(insights)
     logo_src = _load_logo()
-    logo_html = (
+    logo_img = (
         f'<img src="{logo_src}" alt="OPENLAB" style="display:block;height:auto;width:auto;max-height:48px;max-width:70%;">'
         if logo_src else
         '<span style="font-size:28px;font-weight:900;letter-spacing:.1em;color:#CCFF00;font-family:Montserrat,Arial,sans-serif;">OPENLAB_</span>'
     )
+    logo_html = f'<a href="https://www.openlabstudio.com" target="_blank" rel="noopener">{logo_img}</a>'
 
     return f"""<!DOCTYPE html>
 <html lang="es">
