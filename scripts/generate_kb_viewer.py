@@ -247,7 +247,7 @@ def build_html(briefs: list, insights: list, stats: dict, generated_at: str) -> 
     ni = len(insights)
     logo_src = _load_logo()
     logo_html = (
-        f'<img src="{logo_src}" alt="OPENLAB" height="48" style="display:block;height:48px;width:auto;">'
+        f'<img src="{logo_src}" alt="OPENLAB" height="48" style="display:block;height:48px;width:auto;max-width:70%;">'
         if logo_src else
         '<span style="font-size:28px;font-weight:900;letter-spacing:.1em;color:#CCFF00;font-family:Montserrat,Arial,sans-serif;">OPENLAB_</span>'
     )
@@ -366,7 +366,8 @@ footer strong{{color:#111}}
   .stats-bar{{grid-template-columns:repeat(2,1fr)}}
   main,.stats-wrap,.search-wrap,.header-wrap{{padding-left:16px;padding-right:16px}}
   .grid{{grid-template-columns:1fr}}
-  .header{{padding:20px}}
+  .header{{padding:20px;flex-wrap:wrap}}
+  .header img{{height:36px;max-width:100%}}
 }}
 </style>
 </head>
