@@ -118,6 +118,8 @@ Ordena por score final descendente. Genera `briefs/daily-briefings/FECHA-briefin
 
 ## Top Vídeos del Día
 
+*(solo vídeos con score >= 7,0 — omitir los que no lleguen)*
+
 ### 1. [Título del vídeo](URL)
 - **Canal:** nombre
 - **Categoría:** cat
@@ -135,10 +137,11 @@ Ordena por score final descendente. Genera `briefs/daily-briefings/FECHA-briefin
 ---
 
 ## Mención rápida
-- [Título](URL) — canal — X.X — cat — Una frase.
-- [Título](URL) — canal — X.X — cat — Una frase.
 
-*(máximo 2 menciones por día, solo los mejores scores no incluidos en Top)*
+*(solo vídeos con score >= 6,0 — omitir los que no lleguen; máximo 2 menciones por día, mejores scores no incluidos en Top)*
+
+- [Título](URL) — canal — X.X — cat — Una frase.
+- [Título](URL) — canal — X.X — cat — Una frase.
 
 ---
 

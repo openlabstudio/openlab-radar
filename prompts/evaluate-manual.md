@@ -57,6 +57,8 @@ Usando título + canal + descripción (y transcript si está disponible), clasif
 
 Si el resultado es NO, imprime el motivo y termina sin generar brief.
 
+Si el resultado es SÍ o QUIZÁ pero el score final (Etapa 3) es < 7,0, imprime el score y el motivo y termina sin generar brief.
+
 ---
 
 ## Etapa 3 — Scoring
