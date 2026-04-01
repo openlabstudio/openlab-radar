@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "youtube-transcript": {
+      "type": "stdio",
+      "command": "python3",
+      "args": ["/home/openlab/openlab-radar/scripts/mcp_transcript_server.py"]
+    }
+  }
+}

@@ -58,7 +58,7 @@ Fecha de hoy: $TODAY
 Fichero de candidatos: $CANDIDATES_FILE
 
 Lee el fichero de candidatos y genera el briefing. Guarda el resultado en: $BRIEFING_FILE" \
-  --allowedTools "Read,Write,Glob" \
+  --allowedTools "Read,Write,Glob,mcp__youtube-transcript__get_transcript" \
   --output-format text
 
 if [ ! -s "$BRIEFING_FILE" ]; then
