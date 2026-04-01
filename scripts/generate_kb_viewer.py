@@ -81,29 +81,57 @@ def extract_title_from_body(body: str) -> str:
     return m.group(1).strip() if m else ""
 
 
-def extract_excerpt(body: str, max_chars: int = 300) -> str:
-    """Extrae el primer texto narrativo del cuerpo del brief."""
-    lines = []
+def extract_excerpt(body: str, max_chars: int = 250) -> str:
+    """Extrae texto narrativo limpio del brief, sin markdown ni scores."""
+    raw_lines = []
     total = 0
+    score_re = re.compile(r'^-?\s*(Aplicabilidad|Novedad|Calidad)\s*:', re.IGNORECASE)
+    inline_score_re = re.compile(r'^-?\s*Aplicabilidad:\s*\d+\s*-\s*Novedad:\s*\d+\s*-\s*Calidad:\s*\d+\s*', re.IGNORECASE)
     for line in body.split('\n'):
         line = line.strip()
         if not line:
             continue
-        if line.startswith('#'):
+        if line.startswith('#') or line.startswith('**Telegraph') or line.startswith('---'):
             continue
-        if line.startswith('**Telegraph'):
+        if re.match(r'^[-*]\s+\*\*', line):
             continue
-        if line.startswith('---'):
+        if score_re.match(line):
             continue
-        if re.match(r'^[-*]\s+\*\*', line):  # líneas de metadatos tipo "- **Score:** 8.5"
+        line = inline_score_re.sub('', line).strip()
+        if not line:
             continue
-        lines.append(line)
+        # Limpiar markdown: **bold**, *italic*, __underline__, _italic_
+        line = re.sub(r'\*\*(.+?)\*\*', r'\1', line)
+        line = re.sub(r'\*(.+?)\*', r'\1', line)
+        line = re.sub(r'__(.+?)__', r'\1', line)
+        line = re.sub(r'_(.+?)_', r'\1', line)
+        raw_lines.append(line)
         total += len(line)
-        if total >= max_chars:
+        if total >= max_chars + 100:
             break
-    text = ' '.join(lines)
-    return text[:max_chars] + ('…' if len(text) > max_chars else '')
-
+    text = ' '.join(raw_lines)
+    if len(text) <= max_chars:
+        return text
+    # Cortar en la ultima frase completa
+    truncated = text[:max_chars + 80]
+    # Buscar puntos de corte naturales: ". ", ".)", "!",  "?" etc.
+    best_cut = -1
+    for m in re.finditer(r'[.!?](?:\s|"|\)|$)', truncated):
+        pos = m.start() + 1
+        if pos <= max_chars + 40:
+            best_cut = pos
+    if best_cut > max_chars * 0.3:
+        return truncated[:best_cut].strip()
+    # Si no hay punto, buscar corte en dos puntos o punto y coma
+    for sep in [': ', '; ']:
+        idx = truncated[:max_chars].rfind(sep)
+        if idx > max_chars * 0.4:
+            return truncated[:idx + 1].strip()
+    # Ultimo recurso: cortar en espacio
+    last_space = truncated[:max_chars].rfind(' ')
+    if last_space > max_chars * 0.5:
+        return truncated[:last_space].strip()
+    return truncated[:max_chars].strip()
 
 def extract_telegraph_url(body: str) -> str:
     m = re.search(r'\*\*Telegraph:\*\*\s*(https://telegra\.ph/\S+)', body)
@@ -225,6 +253,7 @@ def compute_stats(briefs: list, insights: list) -> dict:
         "total_briefs": len(briefs),
         "total_insights": len(insights),
         "avg_score": avg_score,
+        "total_channels": len(set(b["source"] for b in briefs if b.get("source"))),
         "last_date": last_date,
         "by_category": by_category,
         "tag_counts": tag_counts,
@@ -315,7 +344,7 @@ section{{margin-bottom:48px}}
 .bs{{font-size:11px;font-weight:800;padding:2px 7px;border-radius:3px;white-space:nowrap}}
 .bd{{font-size:10px;color:var(--muted)}}
 .csrc{{font-size:11px;color:var(--muted);margin-bottom:5px}}
-.cx{{font-size:12px;color:#374151;line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
+.cx{{font-size:12px;color:#374151;line-height:1.55}}
 .tr{{margin-top:8px;display:flex;flex-wrap:wrap;gap:4px}}
 .tp{{background:var(--s3);border:1px solid var(--border);color:var(--muted);font-size:10px;padding:2px 6px;border-radius:3px;cursor:pointer;transition:background .1s,color .1s}}
 .tp:hover{{background:#000;color:#CCFF00;border-color:#000}}
@@ -388,7 +417,7 @@ footer strong{{color:#111}}
     <div class="stat-card"><div class="stat-num" id="s-total">—</div><div class="stat-label">Briefs</div></div>
     <div class="stat-card"><div class="stat-num" id="s-score">—</div><div class="stat-label">Score medio</div></div>
     <div class="stat-card"><div class="stat-num" id="s-week">—</div><div class="stat-label">Esta semana</div></div>
-    <div class="stat-card"><div class="stat-num" id="s-ins">—</div><div class="stat-label">Insights</div></div>
+    <div class="stat-card"><div class="stat-num" id="s-chan">—</div><div class="stat-label">Canales</div></div>
   </div>
 </div>
 
@@ -436,16 +465,11 @@ footer strong{{color:#111}}
     </div>
   </section>
 
-  <!-- Insights -->
-  <section>
-    <div class="sh"><div class="sh-line"></div><span class="st">Insights</span><span class="ss">Síntesis generadas bajo demanda</span></div>
-    <div id="ins-grid" class="grid"><div class="empty">Sin insights generados todavía.</div></div>
-  </section>
 
 </main>
 
 <footer>
-  Generado por <strong>OPENLAB Radar</strong> · {escape(generated_at)} · {nb} brief{'s' if nb != 1 else ''} · {ni} insight{'s' if ni != 1 else ''}
+  Generado por <strong>OPENLAB Radar</strong> · {escape(generated_at)} · {nb} brief{'s' if nb != 1 else ''}
 </footer>
 
 <script>
@@ -490,7 +514,7 @@ function initStats(){{
   document.getElementById('s-total').textContent=s.total_briefs;
   document.getElementById('s-score').textContent=s.avg_score;
   document.getElementById('s-week').textContent=KB.briefs.filter(b=>recent(b.date,7)).length;
-  document.getElementById('s-ins').textContent=s.total_insights;
+  document.getElementById("s-chan").textContent=s.total_channels;
 }}
 
 // Hot
@@ -591,12 +615,6 @@ function filterTag(tag){{
   document.getElementById('tags-section').scrollIntoView({{behavior:'smooth',block:'start'}});
 }}
 
-// Insights
-function initInsights(){{
-  const el=document.getElementById('ins-grid');
-  if(!KB.insights||!KB.insights.length)return;
-  el.innerHTML=KB.insights.map(i=>`<div class="ic"><div class="itl">${{e(i.title)}}</div>${{i.date?`<div class="id">${{e(i.date)}}</div>`:''}}${{i.excerpt?`<div class="ix">${{e(i.excerpt)}}</div>`:''}}</div>`).join('');
-}}
 
 // Búsqueda
 function initSearch(){{
@@ -615,7 +633,7 @@ function initSearch(){{
 }}
 
 document.addEventListener('DOMContentLoaded',()=>{{
-  initStats();initHot();initRecientes();initCats();initTags();initInsights();initSearch();
+  initStats();initHot();initRecientes();initCats();initTags();initSearch();
 }});
 </script>
 </body>
