@@ -77,8 +77,8 @@ prompts/
 scripts/
   scraper.py               → YouTube Data API scraper
   add_video.sh             → añadir un vídeo manualmente al pipeline
-  run_daily.sh             → pipeline diario + email HTML a Rafael (cron 08:00 UTC)
-  run_weekly.sh            → digest semanal + email HTML al equipo (cron viernes 08:30 UTC)
+  run_daily.sh             → pipeline diario + email HTML a Rafael (cron 07:00 UTC = 09:00 CEST)
+  run_weekly.sh            → digest semanal + email HTML al equipo (cron viernes 07:30 UTC = 09:30 CEST)
   publish_telegraph.py     → publica briefs en Telegraph (Instant View en Telegram)
   md_to_email_html.py      → convierte briefing diario a HTML newsletter para email
   md_to_weekly_html.py     → convierte digest semanal a HTML newsletter para email
@@ -96,8 +96,8 @@ docs/
 ## Crons activos (usuario openlab)
 
 ```
-0  8 * * *   run_daily.sh   → pipeline diario 09:00 CET (email a Rafael)
-30 8 * * 5   run_weekly.sh  → digest semanal viernes 09:30 CET (email al equipo)
+0  7 * * *   run_daily.sh   → pipeline diario 09:00 CEST / 08:00 CET (email a Rafael)
+30 7 * * 5   run_weekly.sh  → digest semanal viernes 09:30 CEST / 08:30 CET (email al equipo)
 ```
 
 Ver con: `crontab -l` (como usuario openlab, NO root)
@@ -159,7 +159,7 @@ Lee `briefs/` local, guarda en `insights/FECHA-slug.md`. El siguiente pipeline s
 
 | Componente | Estado |
 |---|---|
-| Scraper + cron diario (09:00 CET) | ✅ Activo |
+| Scraper + cron diario (09:00 CEST = 07:00 UTC) | ✅ Activo |
 | Evaluador + briefs + Telegraph + Telegram | ✅ Activo |
 | Email diario a Rafael | ✅ Activo |
 | rclone → Google Drive | ✅ Activo |

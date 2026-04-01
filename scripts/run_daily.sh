@@ -14,6 +14,14 @@ mkdir -p "$PROJECT_DIR/data/logs"
 
 exec > >(tee -a "$LOG_FILE") 2>&1
 
+# Helper: enviar estado por Telegram (no falla el pipeline si Telegram falla)
+notify_status() {
+    python3 "$PROJECT_DIR/scripts/notify.py" --status "$1" 2>/dev/null || true
+}
+
+# Trap: notificar si el pipeline muere inesperadamente
+trap 'notify_status "🚨 ERROR — Pipeline diario $TODAY ha fallado inesperadamente. Revisar log: data/logs/run-$TODAY.log"' ERR
+
 echo "=========================================="
 echo "OPENLAB Radar - Pipeline Diario"
 echo "Fecha: $TODAY $(date -u +%H:%M:%S) UTC"
@@ -24,6 +32,50 @@ if [ -f "$PROJECT_DIR/config/.env" ]; then
     set -a
     source "$PROJECT_DIR/config/.env"
     set +a
+fi
+
+# --- Check previo: youtube-transcript-api ---
+echo ""
+echo ">>> CHECK: youtube-transcript-api"
+TRANSCRIPT_CHECK=$(python3 - <<'PYEOF' 2>&1
+import os, sys
+try:
+    from youtube_transcript_api import YouTubeTranscriptApi
+    from youtube_transcript_api._errors import IpBlocked
+    from youtube_transcript_api.proxies import WebshareProxyConfig, GenericProxyConfig
+
+    username = os.environ.get("WEBSHARE_USERNAME", "").strip()
+    password = os.environ.get("WEBSHARE_PASSWORD", "").strip()
+    proxy_url = os.environ.get("YOUTUBE_PROXY_URL", "").strip()
+
+    if username and password:
+        proxy_config = WebshareProxyConfig(proxy_username=username, proxy_password=password, retries_when_blocked=3)
+    elif proxy_url:
+        proxy_config = GenericProxyConfig(http_url=proxy_url, https_url=proxy_url)
+    else:
+        proxy_config = None
+
+    api = YouTubeTranscriptApi(proxy_config=proxy_config)
+    # Video de test: TED Talk corto, siempre disponible con transcripts
+    t = api.fetch("8S0FDjFBj8o", languages=["en"])
+    snippets = t.to_raw_data()
+    if snippets:
+        print("OK")
+    else:
+        print("EMPTY")
+except IpBlocked:
+    print("IP_BLOCKED")
+except Exception as e:
+    print(f"ERROR:{e}")
+PYEOF
+)
+
+echo "Resultado check transcript: $TRANSCRIPT_CHECK"
+if [[ "$TRANSCRIPT_CHECK" != "OK" ]]; then
+    notify_status "⚠️ ALERTA — youtube-transcript-api ($TODAY): $TRANSCRIPT_CHECK. Los briefs de hoy se generarán solo con título + descripción (calidad reducida). Revisar config o actualizar librería."
+    echo "WARN: Transcript check fallido — continuando pipeline con calidad reducida."
+else
+    echo "Transcript API: OK"
 fi
 
 # --- Paso 1: Scraper ---
@@ -132,13 +184,37 @@ echo "=========================================="
 echo ""
 echo ">>> PASO 4: Email diario"
 
+EMAIL_SENT=false
 if [ -n "${DIGEST_EMAIL_RECIPIENTS:-}" ] && [ -f "${BRIEFING_FILE:-}" ]; then
     SUBJECT="OPENLAB Radar — Briefing $TODAY"
     HTML_BODY=$(python3 "$PROJECT_DIR/scripts/md_to_email_html.py" "$BRIEFING_FILE" 2>/dev/null)
     if [ -n "$HTML_BODY" ]; then
-        gws gmail +send             --to "rafa@openlabstudio.com"             --subject "$SUBJECT"             --body "$HTML_BODY"             --html             2>/dev/null             && echo "Email diario enviado a rafa@openlabstudio.com"             || echo "ERROR: Fallo al enviar email diario."
+        if gws gmail +send \
+            --to "rafa@openlabstudio.com" \
+            --subject "$SUBJECT" \
+            --body "$HTML_BODY" \
+            --html \
+            2>/dev/null; then
+            echo "Email diario enviado a rafa@openlabstudio.com"
+            EMAIL_SENT=true
+        else
+            echo "ERROR: Fallo al enviar email diario."
+            notify_status "⚠️ ALERTA — Email diario ($TODAY) no pudo enviarse. Revisar auth gws."
+        fi
     fi
 fi
+
+# Notificación de estado al finalizar el pipeline
+BRIEF_COUNT=$(find "$PROJECT_DIR/briefs" -mindepth 2 -name "${TODAY}*.md" -not -name "*briefing*" -type f 2>/dev/null | wc -l | tr -d ' ')
+TRANSCRIPT_STATUS=""
+if [[ "${TRANSCRIPT_CHECK:-}" != "OK" ]]; then
+    TRANSCRIPT_STATUS=$'\n'"⚠️ Transcripts: ${TRANSCRIPT_CHECK:-desconocido} (briefs sin transcript)"
+fi
+EMAIL_STATUS=""
+if [ "$EMAIL_SENT" = true ]; then
+    EMAIL_STATUS=$'\n'"📧 Email enviado a rafa@openlabstudio.com"
+fi
+notify_status "✅ Pipeline diario completado — $TODAY"$'\n'"📺 $CANDIDATE_COUNT candidatos → $BRIEF_COUNT briefs generados${TRANSCRIPT_STATUS}${EMAIL_STATUS}"
 
 # --- Paso 4b: Generar KB Viewer HTML ---
 echo ""

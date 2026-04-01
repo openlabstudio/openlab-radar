@@ -611,10 +611,33 @@ CLAUDE_CODE_OAUTH_TOKEN="sk-ant-oat01-..."
 **Bot:** creado en @BotFather, token en `TELEGRAM_BOT_TOKEN`
 
 **Dos destinos:**
-- `TELEGRAM_CHAT_ID`: chat privado del responsable (briefing diario completo)
+- `TELEGRAM_CHAT_ID`: chat privado del responsable
 - `TELEGRAM_CHANNEL_ID`: canal del equipo (links Telegraph + digest semanal)
 
+**Dos tipos de mensajes:**
+1. **Contenido** — briefing diario completo (vía `notify.py <briefing_file> --telegram-only`)
+2. **Estado** — confirmaciones y alertas del pipeline (vía `notify.py --status "mensaje"`)
+
+**Mensajes de estado del pipeline diario:**
+- `⚠️ ALERTA` al inicio si `youtube-transcript-api` falla el health check
+- `✅ Pipeline diario completado` al final con resumen: candidatos, briefs generados, estado email
+- `⚠️ ALERTA` si el email falla al enviarse
+- `🚨 ERROR` si el pipeline muere inesperadamente (trap ERR)
+
+**Mensajes de estado del digest semanal:**
+- `✅ Digest semanal completado` con confirmación de email y link Telegraph
+- `⚠️ ALERTA` si el email falla al enviarse
+- `🚨 ERROR` si el pipeline muere inesperadamente (trap ERR)
+
 **Chunking:** si el mensaje supera 4.096 chars, se divide automáticamente.
+
+### Health check de youtube-transcript-api
+
+Antes de cada pipeline diario, `run_daily.sh` verifica que `youtube-transcript-api` puede obtener un transcript real (vídeo de test fijo). Si falla:
+- Se envía alerta Telegram inmediata con el error específico (`IP_BLOCKED`, `ERROR:...`)
+- El pipeline continúa pero los briefs se generan solo con título + descripción (calidad reducida)
+
+Esto detecta roturas de la librería (cambios en endpoints internos de YouTube) o bloqueos de IP antes de que el pipeline completo falle silenciosamente.
 
 ### Telegraph (Instant View)
 

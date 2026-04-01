@@ -15,6 +15,14 @@ mkdir -p "$PROJECT_DIR/data/logs"
 
 exec > >(tee -a "$LOG_FILE") 2>&1
 
+# Helper: enviar estado por Telegram
+notify_status() {
+    python3 "$PROJECT_DIR/scripts/notify.py" --status "$1" 2>/dev/null || true
+}
+
+# Trap: notificar si el pipeline muere inesperadamente
+trap 'notify_status "🚨 ERROR — Digest semanal $TODAY ha fallado inesperadamente. Revisar log: data/logs/weekly-$TODAY.log"' ERR
+
 echo "=========================================="
 echo "OPENLAB Radar - Digest Semanal"
 echo "Fecha: $TODAY"
@@ -126,6 +134,7 @@ fi
 echo ""
 echo ">>> PASO 3: Email digest al equipo"
 
+EMAIL_SENT=false
 if [ -z "${DIGEST_EMAIL_RECIPIENTS:-}" ]; then
     echo "WARN: DIGEST_EMAIL_RECIPIENTS no configurado. Saltando email."
 else
@@ -133,33 +142,33 @@ else
     SUBJECT="OPENLAB Radar — Digest Semanal $WEEK_START a $TODAY"
 
     HTML_BODY=$(python3 "$PROJECT_DIR/scripts/md_to_weekly_html.py" "$DIGEST_FILE" 2>/dev/null)
-    gws gmail +send \
+    if gws gmail +send \
         --to "$DIGEST_EMAIL_RECIPIENTS" \
         --subject "$SUBJECT" \
         --body "$HTML_BODY" \
         --html \
-        2>/dev/null \
-        && echo "Email enviado a: $DIGEST_EMAIL_RECIPIENTS" \
-        || echo "ERROR: Fallo al enviar email. Verificar auth de gws."
-fi
-
-# --- Paso 4: Notificar a Rafael (chat privado Telegram) ---
-echo ""
-echo ">>> PASO 4: Notificar a Rafael"
-
-if [ -z "${TELEGRAM_BOT_TOKEN:-}" ] || [ -z "${TELEGRAM_CHAT_ID:-}" ]; then
-    echo "WARN: Chat ID personal no configurado. Saltando."
-else
-    NOTIFY_TEXT="Digest semanal publicado en el canal y enviado por email."
-    if [ -n "${TELEGRAPH_URL:-}" ]; then
-        NOTIFY_TEXT+=$'\n'"${TELEGRAPH_URL}"
+        2>/dev/null; then
+        echo "Email enviado a: $DIGEST_EMAIL_RECIPIENTS"
+        EMAIL_SENT=true
+    else
+        echo "ERROR: Fallo al enviar email. Verificar auth de gws."
+        notify_status "⚠️ ALERTA — Email digest semanal ($TODAY) no pudo enviarse. Revisar auth gws."
     fi
-    curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-        -d chat_id="${TELEGRAM_CHAT_ID}" \
-        --data-urlencode "text=${NOTIFY_TEXT}" \
-        > /dev/null
-    echo "Notificación enviada a Rafael."
 fi
+
+# --- Paso 4: Notificación de estado a Rafael ---
+echo ""
+echo ">>> PASO 4: Notificación de estado"
+
+STATUS_MSG="✅ Digest semanal completado — $TODAY"
+if [ "$EMAIL_SENT" = true ]; then
+    STATUS_MSG+=$'\n'"📧 Email enviado a: ${DIGEST_EMAIL_RECIPIENTS:-equipo}"
+fi
+if [ -n "${TELEGRAPH_URL:-}" ]; then
+    STATUS_MSG+=$'\n'"📖 Telegraph: ${TELEGRAPH_URL}"
+fi
+notify_status "$STATUS_MSG"
+echo "Notificación de estado enviada a Rafael."
 
 # --- Paso 5: Sync con Google Drive ---
 echo ""

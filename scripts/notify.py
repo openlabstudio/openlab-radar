@@ -64,14 +64,48 @@ def send_telegram(text, bot_token, chat_id):
     return True
 
 
+def _load_env():
+    """Carga config/.env si existe (para uso standalone del modo --status)."""
+    env_path = Path(__file__).parent.parent / "config" / ".env"
+    if env_path.exists():
+        with open(env_path) as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    key, _, value = line.partition("=")
+                    value = value.strip().strip('"').strip("'")
+                    os.environ.setdefault(key.strip(), value)
+
+
+def send_status(text):
+    """Envía un mensaje de estado simple por Telegram. Retorna True si OK."""
+    bot_token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+    if not bot_token or not chat_id:
+        print("WARN: TELEGRAM_BOT_TOKEN o TELEGRAM_CHAT_ID no configuradas.", file=sys.stderr)
+        return False
+    return send_telegram(text, bot_token, chat_id)
+
+
 def main():
     parser = argparse.ArgumentParser(description="OPENLAB Radar - Notificador")
-    parser.add_argument("briefing_file", help="Path al fichero de briefing .md")
+    parser.add_argument("briefing_file", nargs="?", help="Path al fichero de briefing .md")
+    parser.add_argument("--status", metavar="MENSAJE",
+                        help="Enviar mensaje de estado por Telegram y salir")
     parser.add_argument("--telegram-only", action="store_true",
                         help="Solo enviar por Telegram")
     parser.add_argument("--email-only", action="store_true",
                         help="Solo enviar por email")
     args = parser.parse_args()
+
+    # Modo status: enviar mensaje simple y salir
+    if args.status:
+        _load_env()
+        ok = send_status(args.status)
+        sys.exit(0 if ok else 1)
+
+    if not args.briefing_file:
+        parser.error("briefing_file es obligatorio cuando no se usa --status")
 
     briefing_path = Path(args.briefing_file)
     if not briefing_path.exists():
