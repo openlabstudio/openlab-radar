@@ -4,7 +4,9 @@ MCP server para transcripts de YouTube con soporte de proxy residencial.
 Implementa la tool: get_transcript(url, lang)
 
 Configuración via variables de entorno (config/.env):
-  YOUTUBE_PROXY_URL  — URL del proxy residencial (opcional)
+  WEBSHARE_USERNAME  — usuario de proxy Webshare (recomendado)
+  WEBSHARE_PASSWORD  — password de proxy Webshare (recomendado)
+  YOUTUBE_PROXY_URL  — URL de proxy genérico (fallback)
                        Formato: http://usuario:password@host:puerto
 
 Uso como MCP server (stdio):
@@ -13,7 +15,6 @@ Uso como MCP server (stdio):
 
 import os
 import re
-import sys
 from mcp.server.fastmcp import FastMCP
 from youtube_transcript_api import YouTubeTranscriptApi
 from youtube_transcript_api._errors import (
@@ -22,6 +23,7 @@ from youtube_transcript_api._errors import (
     VideoUnavailable,
     IpBlocked,
 )
+from youtube_transcript_api.proxies import WebshareProxyConfig, GenericProxyConfig
 
 # Cargar .env si existe
 _env_path = os.path.join(os.path.dirname(__file__), "..", "config", ".env")
@@ -50,12 +52,22 @@ def _extract_video_id(url: str) -> str:
     raise ValueError(f"No se pudo extraer el video ID de: {url}")
 
 
-def _build_proxies() -> dict | None:
-    """Construye el dict de proxies si YOUTUBE_PROXY_URL está configurado."""
+def _build_proxy_config():
+    """Construye la configuración de proxy a partir de las variables de entorno."""
+    # Opción A: Webshare (recomendado — proxies residenciales rotativos)
+    username = os.environ.get("WEBSHARE_USERNAME", "").strip()
+    password = os.environ.get("WEBSHARE_PASSWORD", "").strip()
+    if username and password:
+        return WebshareProxyConfig(
+            proxy_username=username,
+            proxy_password=password,
+            retries_when_blocked=5,
+        )
+    # Opción B: proxy genérico via URL (fallback)
     proxy_url = os.environ.get("YOUTUBE_PROXY_URL", "").strip()
-    if not proxy_url:
-        return None
-    return {"http": proxy_url, "https": proxy_url}
+    if proxy_url:
+        return GenericProxyConfig(http_url=proxy_url, https_url=proxy_url)
+    return None
 
 
 @mcp.tool()
@@ -75,8 +87,8 @@ def get_transcript(url: str, lang: str = "en") -> str:
     except ValueError as e:
         return f"ERROR: {e}"
 
-    proxies = _build_proxies()
-    api = YouTubeTranscriptApi(proxies=proxies)
+    proxy_config = _build_proxy_config()
+    api = YouTubeTranscriptApi(proxy_config=proxy_config)
 
     # Intentar idioma solicitado, luego inglés, luego cualquier disponible
     langs_to_try = [lang]
@@ -98,7 +110,7 @@ def get_transcript(url: str, lang: str = "en") -> str:
         except VideoUnavailable:
             return "ERROR: El vídeo no está disponible."
         except IpBlocked:
-            proxy_hint = "" if proxies else " Configura YOUTUBE_PROXY_URL en config/.env."
+            proxy_hint = "" if proxy_config else " Configura WEBSHARE_USERNAME/WEBSHARE_PASSWORD en config/.env."
             return f"ERROR: IP bloqueada por YouTube.{proxy_hint}"
         except Exception as e:
             return f"ERROR inesperado: {e}"
