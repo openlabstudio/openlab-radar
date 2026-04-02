@@ -289,6 +289,9 @@ def build_html(briefs: list, insights: list, stats: dict, generated_at: str) -> 
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.openlabstudio.com/wp-content/uploads/2025/01/linkedin-corporate-icon-150x150.png">
+<link rel="icon" type="image/png" sizes="192x192" href="https://www.openlabstudio.com/wp-content/uploads/2025/01/linkedin-corporate-icon-300x300.png">
+<link rel="apple-touch-icon" href="https://www.openlabstudio.com/wp-content/uploads/2025/01/linkedin-corporate-icon-300x300.png">
 <title>OPENLAB Radar Viewer</title>
 <style>
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0}}
