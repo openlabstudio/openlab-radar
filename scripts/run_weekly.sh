@@ -180,11 +180,8 @@ if [ -n "${GDRIVE_BRIEFS_PATH:-}" ]; then
         || echo "WARN: Error sincronizando briefs/ con Drive."
 fi
 
-if [ -n "${GDRIVE_INSIGHTS_PATH:-}" ]; then
-    rclone sync "$PROJECT_DIR/insights/" "$GDRIVE_INSIGHTS_PATH" --quiet \
-        && echo "insights/ sincronizado con Drive." \
-        || echo "WARN: Error sincronizando insights/ con Drive."
-fi
+# insights/ NO se sincroniza desde el VPS — los insights se generan
+# directamente en el Shared Drive desde los laptops del equipo.
 
 echo ""
 echo "=========================================="

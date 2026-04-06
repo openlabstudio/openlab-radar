@@ -11,8 +11,7 @@ Cada mañana a las **09:00 CET** el sistema hace solo su trabajo:
 1. Rastrea los 15 canales de YouTube monitorizados + 18 búsquedas por keywords
 2. Evalúa cada vídeo en 4 etapas: triage → transcript → scoring 3D → brief
 3. Te manda el **briefing del día** por email con los mejores vídeos ordenados por score
-4. Publica los briefs individuales (score ≥ 7) en **Telegraph** y te avisa por Telegram
-5. Actualiza el **KB Viewer** en HTML y sincroniza todo con **Google Drive**
+4. Actualiza el **KB Viewer** en HTML y sincroniza todo con **Google Drive**
 
 Los viernes a las **09:30 CET** hace lo mismo pero en modo digest semanal, y el email va al equipo.
 
@@ -20,15 +19,18 @@ No tienes que hacer nada. Solo leer.
 
 ---
 
-## Las 5 interfaces del radar
+## Las 3 interfaces del radar
 
 ### 1. Email (uso diario)
-El briefing llega a `rafa@openlabstudio.com` cada mañana. Formato HTML con los vídeos del día ordenados por score. Lectura de 3-5 minutos.
+El briefing llega cada mañana. Formato HTML con los vídeos del día ordenados por score. Lectura de 3-5 minutos.
+
+Los viernes llega el digest semanal con el resumen de toda la semana.
 
 ### 2. KB Viewer — web + Drive (escaneo visual)
-Dashboard interactivo con todos los briefs del radar. Dos formas de acceder:
+Dashboard interactivo con todos los briefs del radar. Tres formas de acceder:
 
 - **Web (compartible):** [`openlabstudio.com/radar/`](https://www.openlabstudio.com/radar/) — embebido en la web de OPENLAB con header/footer del site. URL directa para compartir con quien quieras. Se actualiza automáticamente cada día.
+- **Web (directa):** [`radar.openlabstudio.com`](https://radar.openlabstudio.com) — el dashboard sin embeber, a pantalla completa. Mismo contenido que la versión embebida.
 - **Drive (offline):** doble clic en `kb_viewer.html` desde Drive for Desktop. Mismo contenido, funciona sin conexión.
 
 Vistas:
@@ -41,19 +43,9 @@ Stats: total briefs, score medio, briefs esta semana, canales monitorizados.
 
 Cada card tiene links a **YouTube** (vídeo original) y **VER RESUMEN** (Telegraph, lectura rápida).
 
-Ruta en Drive: `OPENLAB/inteligencia/radar/kb_viewer.html`
+Ruta en Drive: `OPENLAB-RADAR/kb_viewer.html`
 
-### 3. Telegram + Telegraph (lectura en móvil)
-Cada brief individual se publica en Telegraph (Instant View nativo de Telegram). Recibes el link por el canal privado del radar. Ideal para leer en el móvil sin abrir el ordenador.
-
-### 4. Obsidian (exploración del conocimiento)
-El vault de Obsidian está montado sobre la raíz `OPENLAB-RADAR/` en Drive. Útil para:
-- **Graph view** — ver conexiones entre briefs por tags y categorías
-- **Dataview queries** — filtrar briefs por score, fecha, categoría o tag
-- **Backlinks** — ver qué briefs hablan del mismo tema
-- Ejemplo de query Dataview: `TABLE score, tags FROM "briefs/context-engineering" SORT score DESC`
-
-### 5. Claude Code — esta sesión (todo lo demás)
+### 3. Claude Code (todo lo demás)
 Desde aquí puedes hacer todo lo que no es automático: añadir vídeos, consultar briefs, generar insights. Ver secciones siguientes.
 
 ---
@@ -99,15 +91,7 @@ Claude cita los .md relevantes con el score y la categoría.
 
 Un insight es un documento de síntesis que pides cuando quieres profundizar en un tema a partir de lo acumulado en el radar.
 
-**Dónde:** desde una sesión interactiva de Claude Code en el VPS, no desde el laptop. El VPS es el único escritor del Shared Drive — así los insights llegan al equipo por el mismo canal que los briefs.
-
-```bash
-ssh openlab@212.227.104.123
-cd /home/openlab/openlab-radar
-claude
-```
-
-**Cómo funciona:** Claude lee `briefs/` local (están ahí, son los originales), sintetiza los relevantes para el tema que pides, y guarda el resultado en `insights/`. El siguiente pipeline diario lo sincroniza con el Shared Drive del equipo.
+**Dónde:** desde tu laptop, en cualquier sesión de Claude Code. Los briefs ya están en el Shared Drive, así que Claude los lee directamente y guarda el insight en `insights/`. Como el Drive es compartido, el insight está disponible para todo el equipo inmediatamente.
 
 Di simplemente:
 > "Genera un insight sobre por qué los CLI agents superan a n8n para procesos de negocio"
@@ -150,12 +134,10 @@ El insight incluye: síntesis de los briefs relevantes, patrones detectados, imp
 |---|---|
 | Scraper YouTube + cron diario | ✅ Activo |
 | Evaluador + briefs individuales | ✅ Activo |
-| Telegram + Telegraph | ✅ Activo |
-| Email diario a Rafael | ✅ Activo |
+| Email diario | ✅ Activo |
 | rclone → Google Drive | ✅ Activo |
 | KB Viewer HTML (Drive) | ✅ Activo |
-| KB Viewer Web (`openlabstudio.com/radar/`) | ✅ Activo |
+| KB Viewer Web (`openlabstudio.com/radar/` + `radar.openlabstudio.com`) | ✅ Activo |
 | Skill check previo (`radar-check-video`) | ✅ Activo |
 | Skill añadir vídeo remoto (`radar-add-video-remote`) | ✅ Activo |
 | Email digest semanal al equipo | ⏳ Pendiente auth gws |
-| Obsidian vault completo | ✅ Configurado |

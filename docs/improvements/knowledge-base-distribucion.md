@@ -2,12 +2,12 @@
 
 Documento de diseño completo para organizar el conocimiento de OPENLAB en Google Drive, distribuirlo al equipo y hacerlo consultable con Claude Code y Obsidian.
 
-**Estado:** en implementación — Fases 0, 1, 2, 3 completadas. Pendiente Fase 4 y Fase 5 parcial.
-**Última actualización:** 2026-03-30
+**Estado:** prácticamente completado — Fases 0, 1, 2, 3 y 6 implementadas. Fase 4 descartada. Fase 5 parcial (pipeline ha cambiado).
+**Última actualización:** 2026-04-06
 
 ---
 
-## 🔖 Estado actual y próximos pasos (2026-03-30)
+## 🔖 Estado actual (2026-04-06)
 
 ### Completado
 - **Fase 0 ✓:** briefs/ e insights/ sacados del tracking de git. `.gitignore` verificado en VPS (briefs/, insights/, data/logs/). Drive sincronizado en el laptop de Rafael en `/Users/gavalle/Library/CloudStorage/GoogleDrive-rafa@openlabstudio.com/Shared drives/OPENLAB-RADAR`.
@@ -19,17 +19,21 @@ Documento de diseño completo para organizar el conocimiento de OPENLAB en Googl
   - Symlink `~/OPENLAB` → `Shared drives/` creado en laptop de Rafael. `OPENLAB_KB=~/OPENLAB` en `~/.zshrc`.
   - Obsidian vault configurado en `OPENLAB-RADAR/`, plugin Dataview, `dashboard.md` con queries.
 - **Fase 3 ✓:** `config/tags.yaml` creado en el VPS, prompts actualizados con frontmatter YAML, fix de strip frontmatter en `scripts/publish_telegraph.py`. Frontmatter aplicado retroactivamente a 29 ficheros (28 briefs + 1 insight). Telegraph verifica OK.
-- **Fase 5 (parcial):** CLAUDE.md creados en los clientes activos del Pipeline:
-  - `COMERCIAL/Pipeline/Dabo/CLAUDE.md` (cubre Dabo Consulting + OPCARS)
-  - `COMERCIAL/Pipeline/Iberostar/CLAUDE.md`
-  - `COMERCIAL/Pipeline/Mapfre/CLAUDE.md`
-  - `COMERCIAL/Pipeline/FINAVE/CLAUDE.md`
-  - `COMERCIAL/Pipeline/Nae/CLAUDE.md`
+- **Fase 6 ✓:** `kb_viewer.html` generado diariamente por `generate_kb_viewer.py`, integrado en `run_daily.sh` (Paso 4b) y sincronizado a Drive (Paso 5). Accesible también en `openlabstudio.com/radar/`.
 
-### Pendiente — próxima sesión en el laptop de Rafael
-- **Fase 4:** skill "gestionar propuesta" → PR a `openlab-catalog`.
-- **Fase 5 (resto):** CLAUDE.md en los demás clientes activos (Andorra AR+I, K-fund, SGT, etc.) cuando haya suficiente contexto.
-- **Nota:** los ficheros de Fase 2 están en la estructura Drive actual (OPENLAB-RADAR/, COMERCIAL/). Cuando se haga la reorganización /OPENLAB/ (Fase 0 manual), estos ficheros se moverán con sus carpetas.
+### Fase 5 — CLAUDE.md en clientes del Pipeline (parcial, pipeline actualizado)
+CLAUDE.md creados:
+  - `COMERCIAL/Pipeline/Dabo/CLAUDE.md` (cubre Dabo Consulting + OPCARS) ✓
+  - `COMERCIAL/Pipeline/Iberostar/CLAUDE.md` ✓
+  - `COMERCIAL/Pipeline/Mapfre/CLAUDE.md` ✓
+  - `COMERCIAL/Pipeline/FINAVE/CLAUDE.md` — ⚠️ deal caído (2026-04-05)
+  - `COMERCIAL/Pipeline/Nae/CLAUDE.md` — ⚠️ deal caído (2026-04-05)
+
+Leads nuevos sin CLAUDE.md (pendiente cuando haya contexto suficiente):
+  - COEXPHAL, Grupo DAMM, Tech Barcelona, Abac Capital
+
+### Fase 4 — Skill "gestionar propuesta" → descartada
+No se construyó. Con el volumen actual del equipo (4 personas), la gestión manual de `proposals-index.yaml` es suficiente. Se reevaluará si el pipeline crece significativamente.
 
 ### Pendiente — Rafael manualmente
 - **Fase 2:** instalar Drive for Desktop en los laptops de Alberto, Carlos y Pepe.
@@ -522,22 +526,20 @@ La autenticación de rclone con Google es colaborativa: Claude Code inicia el pr
 - [x] Aplicar fix de strip frontmatter en `scripts/publish_telegraph.py`
 - [x] Verificar que el primer brief con frontmatter se publica bien en Telegraph
 
-### Fase 4 — Skill "gestionar propuesta"
+### Fase 4 — Skill "gestionar propuesta" — descartada
 
-- [ ] Diseñar e implementar el skill (actualiza proposals-index.yaml + frontmatter en la propuesta)
-- [ ] Añadirlo al repo `openlab-catalog`
-- [ ] Documentar los estados posibles y el flujo de uso
+Descartada por innecesaria con el volumen actual (4 personas). La gestión de `proposals-index.yaml` se hace manualmente.
 
 ### Fase 5 — CLAUDE.md en cada zona
 
 - [x] `OPENLAB-RADAR/CLAUDE.md` — cómo consultar el Radar (creado en Fase 2)
 - [x] `COMERCIAL/OPENLAB Strategy/CLAUDE.md` — co-CEO, ya existía con skill completo
-- [x] `COMERCIAL/Pipeline/Dabo/CLAUDE.md` — Dabo Consulting + OPCARS (borrador, revisar antes de enviar)
-- [x] `COMERCIAL/Pipeline/Iberostar/CLAUDE.md` — Hotel Digital, en negociación
-- [x] `COMERCIAL/Pipeline/Mapfre/CLAUDE.md` — en negociación, restricciones M365
-- [x] `COMERCIAL/Pipeline/FINAVE/CLAUDE.md` — propuesta enviada, sin respuesta
-- [x] `COMERCIAL/Pipeline/Nae/CLAUDE.md` — en negociación, pendiente de confirmación
-- [ ] Resto de clientes activos: Andorra AR+I, K-fund, SGT, Ebury, Areas (cuando haya contexto suficiente)
+- [x] `COMERCIAL/Pipeline/Dabo/CLAUDE.md` — Dabo Consulting + OPCARS
+- [x] `COMERCIAL/Pipeline/Iberostar/CLAUDE.md` — Hotel Digital
+- [x] `COMERCIAL/Pipeline/Mapfre/CLAUDE.md` — en negociación
+- [x] ~~`COMERCIAL/Pipeline/FINAVE/CLAUDE.md`~~ — deal caído (2026-04-05)
+- [x] ~~`COMERCIAL/Pipeline/Nae/CLAUDE.md`~~ — deal caído (2026-04-05)
+- [ ] Leads nuevos (cuando haya contexto): COEXPHAL, Grupo DAMM, Tech Barcelona, Abac Capital
 
 ---
 
@@ -677,12 +679,11 @@ rclone copyto "$PROJECT_DIR/data/kb_viewer.html" \
 GDRIVE_RADAR_ROOT=gdrive:OPENLAB/inteligencia/radar
 ```
 
-### Checklist de implementación
+### Checklist de implementación ✓
 
-- [ ] Crear `scripts/generate_kb_viewer.py`
-- [ ] Añadir variable `GDRIVE_RADAR_ROOT` en `config/.env` del VPS
-- [ ] Añadir Paso 4b en `run_daily.sh`
-- [ ] Ampliar Paso 5 en `run_daily.sh` con `rclone copyto` del viewer
-- [ ] Verificar que `data/kb_viewer.html` no está en `.gitignore`
-- [ ] Primer test manual: `python3 scripts/generate_kb_viewer.py --briefs-dir ~/OPENLAB/inteligencia/radar/briefs` desde el laptop
-- [ ] Confirmar que el fichero se abre correctamente en Safari/Chrome desde `file://`
+- [x] Crear `scripts/generate_kb_viewer.py`
+- [x] Añadir variable `GDRIVE_RADAR_ROOT` en `config/.env` del VPS
+- [x] Añadir Paso 4b en `run_daily.sh`
+- [x] Ampliar Paso 5 en `run_daily.sh` con `rclone copyto` del viewer
+- [x] Verificar que `data/kb_viewer.html` no está en `.gitignore`
+- [x] Accesible también en `openlabstudio.com/radar/` (embebido en la web)
