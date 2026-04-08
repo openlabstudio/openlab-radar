@@ -93,6 +93,7 @@ proyecto-radar/
 │   └── weekly-digest.md             # Digest semanal
 ├── scripts/
 │   ├── run_daily.sh                 # Pipeline diario (invocado por cron)
+│   ├── run_recovery.sh              # Recuperación si el pipeline diario falló
 │   ├── run_weekly.sh                # Pipeline semanal
 │   ├── scraper.py                   # YouTube Data API scraper
 │   ├── mcp_transcript_server.py     # MCP server para transcripts
@@ -327,6 +328,8 @@ Lee el fichero y genera el briefing. Guarda el resultado en: $BRIEFING_FILE" \
   --allowedTools "Read,Write,Glob,mcp__youtube-transcript__get_transcript" \
   --output-format text
 ```
+
+**Retry automático:** si `claude -p` falla (p.ej. API overloaded — error 529), el pipeline reintenta hasta 3 veces con 15 minutos de espera entre intentos. Tras el tercer fallo, envía alerta Telegram y aborta.
 
 **4 etapas internas del prompt:**
 
@@ -596,12 +599,19 @@ CLAUDE_CODE_OAUTH_TOKEN="sk-ant-oat01-..."
 # Ver crontab: crontab -l (como usuario no-root)
 # Editar: crontab -e
 
-# Pipeline diario — 08:00 UTC (09:00 CET)
-0 8 * * * cd /ruta/proyecto && bash scripts/run_daily.sh >> data/logs/cron-daily.log 2>&1
+# Pipeline diario — 07:00 UTC (09:00 CEST)
+0 7 * * * cd /ruta/proyecto && bash scripts/run_daily.sh >> data/logs/cron-daily.log 2>&1
 
-# Digest semanal — 08:30 UTC viernes (09:30 CET)
-30 8 * * 5 cd /ruta/proyecto && bash scripts/run_weekly.sh >> data/logs/cron-weekly.log 2>&1
+# Digest semanal — 07:30 UTC viernes (09:30 CEST)
+30 7 * * 5 cd /ruta/proyecto && bash scripts/run_weekly.sh >> data/logs/cron-weekly.log 2>&1
+
+# Recuperación diaria — 09:00 UTC (11:00 CEST)
+# Comprueba si el briefing de hoy existe; si no, relanza evaluador + KB Viewer + sync.
+# Cubre fallos del pipeline principal (API overloaded, timeout, etc.)
+0 9 * * * cd /ruta/proyecto && bash scripts/run_recovery.sh
 ```
+
+**Logs:** `data/logs/cron-recovery.log`
 
 ---
 

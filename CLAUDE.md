@@ -35,6 +35,7 @@ prompts/
 scripts/
   scraper.py             → YouTube Data API scraper
   run_daily.sh           → pipeline diario (cron 07:00 UTC)
+  run_recovery.sh        → recuperación si el pipeline diario falló (cron 09:00 UTC)
   run_weekly.sh          → digest semanal (cron viernes 07:30 UTC)
   add_video.sh           → añadir un vídeo manualmente
   publish_telegraph.py   → publica briefs en Telegraph
@@ -55,8 +56,9 @@ docs/
 ## Crons (usuario openlab, NO root)
 
 ```
-0  7 * * *   run_daily.sh   → 09:00 CEST / 08:00 CET
-30 7 * * 5   run_weekly.sh  → viernes 09:30 CEST / 08:30 CET
+0  7 * * *   run_daily.sh    → 09:00 CEST / 08:00 CET
+30 7 * * 5   run_weekly.sh   → viernes 09:30 CEST / 08:30 CET
+0  9 * * *   run_recovery.sh → 11:00 CEST (relanza evaluador si el daily falló)
 ```
 
 Verificar: `crontab -l`

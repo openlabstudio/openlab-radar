@@ -98,22 +98,45 @@ fi
 
 echo "Candidatos encontrados: $CANDIDATE_COUNT"
 
-# --- Paso 2: Evaluador ---
+# --- Paso 2: Evaluador (con retry) ---
 echo ""
 echo ">>> PASO 2: Evaluador"
 BRIEFING_FILE="$PROJECT_DIR/briefs/daily-briefings/$TODAY-briefing.md"
 mkdir -p "$PROJECT_DIR/briefs/daily-briefings"
 
-claude -p "$(cat "$PROJECT_DIR/prompts/evaluate-daily.md")
+MAX_RETRIES=3
+RETRY_WAIT=900  # 15 minutos
+EVALUADOR_OK=false
+
+for attempt in $(seq 1 $MAX_RETRIES); do
+    echo "  Intento $attempt/$MAX_RETRIES..."
+    if claude -p "$(cat "$PROJECT_DIR/prompts/evaluate-daily.md")
 
 Fecha de hoy: $TODAY
 Fichero de candidatos: $CANDIDATES_FILE
 
 Lee el fichero de candidatos y genera el briefing. Guarda el resultado en: $BRIEFING_FILE" \
-  --allowedTools "Read,Write,Glob,mcp__youtube-transcript__get_transcript" \
-  --output-format text
+      --allowedTools "Read,Write,Glob,mcp__youtube-transcript__get_transcript" \
+      --output-format text; then
+        EVALUADOR_OK=true
+        break
+    else
+        echo "  WARN: Evaluador falló (intento $attempt/$MAX_RETRIES)"
+        if [ $attempt -lt $MAX_RETRIES ]; then
+            notify_status "⚠️ Evaluador falló (intento $attempt/$MAX_RETRIES, $TODAY) — reintentando en 15 min"
+            sleep $RETRY_WAIT
+        fi
+    fi
+done
+
+if [ "$EVALUADOR_OK" = false ]; then
+    notify_status "🚨 ERROR — Evaluador falló tras $MAX_RETRIES intentos ($TODAY). Pipeline abortado. Revisar log."
+    echo "ERROR: Evaluador falló tras $MAX_RETRIES intentos. Abortando."
+    exit 1
+fi
 
 if [ ! -s "$BRIEFING_FILE" ]; then
+    notify_status "🚨 ERROR — Evaluador completó sin generar briefing ($TODAY). Revisar log."
     echo "ERROR: Briefing no generado. Abortando notificación."
     exit 1
 fi
