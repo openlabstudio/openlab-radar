@@ -66,13 +66,74 @@ Cada tipo puede ser **computacional** (determinista, rápido, basado en CPU) o *
 
 **Sí, lo es** — y de forma bastante clara.
 
+### La pieza central: prompts headless como especificaciones operativas
+
+El corazón del harness del Radar son los **4 prompts en `prompts/`**. No son "prompts" en el sentido de prompt engineering — son **especificaciones operativas completas** que definen etapas, criterios de decisión, formatos de output, rutas de ficheros, y hasta el código SQL a ejecutar. El modelo no improvisa: el harness le dice exactamente qué hacer en cada paso.
+
+| Prompt | Qué orquesta | Etapas |
+|---|---|---|
+| `evaluate-daily.md` | Pipeline diario completo | Triage (con criterios de descarte y señales de SÍ) → transcript vía MCP → scoring ponderado (A×3 + B×2 + C×1) → briefing + briefs individuales con formato obligatorio + registro en radar.db |
+| `evaluate-manual.md` | Vídeo añadido manualmente | Mismas 7 etapas + lectura de contexto OPENLAB (sales, capabilities, references, pilots) para conectar con servicios reales |
+| `evaluate-check.md` | Check previo: ¿vale la pena? | Triage → score estimado → búsqueda de solapamiento en briefs existentes → recomendación AÑADIR / VALORAR / NO AÑADIR |
+| `weekly-digest.md` | Digest semanal | Lee todos los briefs + radar.db → tendencias, gaps, recomendaciones, aplicabilidad a clientes |
+
+Cada prompt define:
+- **Etapas secuenciales** con condiciones de parada (ej: si triage = NO, termina sin brief)
+- **Criterios cuantitativos** (scoring ponderado, umbrales de corte: score ≥ 7 para brief, ≥ 6 para mención)
+- **Formato de output obligatorio** (frontmatter YAML, secciones exactas, estructura markdown)
+- **Rutas de ficheros** donde escribir cada output
+- **Herramientas a usar** y cómo (MCP transcript, Glob para buscar solapamiento, SQL para radar.db)
+- **Contexto externo a inyectar** (ficheros de sales context, platform capabilities, project references)
+
+Son el equivalente a un runbook de operaciones, pero ejecutado por el modelo en vez de por un humano.
+
+### Cadena de orquestación: quién carga qué y cuándo
+
+Los prompts no se cargan solos — la cadena completa tiene tres capas:
+
+```
+┌──────────────────────────────────────────────────────────────────┐
+│  DISPARADOR           ORQUESTADOR            ESPECIFICACIÓN      │
+│                                                                  │
+│  cron 07:00 UTC ───→ run_daily.sh ────────→ evaluate-daily.md   │
+│  cron vie 07:30 ──→ run_weekly.sh ────────→ weekly-digest.md    │
+│  cron 09:00 UTC ───→ run_recovery.sh ─────→ evaluate-daily.md   │
+│                      (solo si falló daily)                       │
+│                                                                  │
+│  usuario laptop ───→ skill radar-check ──→ check_video.sh ────→ │
+│                      (SSH al VPS)           evaluate-check.md   │
+│                                                                  │
+│  usuario laptop ───→ skill radar-add ────→ add_video.sh ───────→│
+│                      (SSH al VPS)           evaluate-manual.md  │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+**Capa 1 — Disparador:** cron (automático) o el usuario (manual vía skills de Claude Code).
+
+**Capa 2 — Orquestador (scripts .sh):** carga el prompt correcto con `claude -p "$(cat prompts/X.md)"`, le pasa las variables (fecha, rutas, fichero de candidatos), define las herramientas permitidas (`--allowedTools`), y controla qué pasa después del modelo (publicar en Telegraph, notificar por Telegram, enviar email, sincronizar con Drive).
+
+**Capa 3 — Especificación (prompts .md):** el modelo recibe las instrucciones multi-etapa y las ejecuta paso a paso.
+
+### Skills globales: interfaz local → VPS
+
+Además de los crons, el usuario dispone de **skills instalados globalmente** en su laptop (`~/.claude/skills/`) que actúan como interfaz remota al pipeline del VPS:
+
+| Skill | Qué hace | Cómo funciona |
+|---|---|---|
+| `radar-check-video` | Check previo: ¿vale la pena este vídeo? | SSH al VPS → `check_video.sh` → ejecuta `evaluate-check.md` → muestra recomendación (AÑADIR / VALORAR / NO AÑADIR). Si positivo, ofrece lanzar el pipeline completo |
+| `radar-add-video-remote` | Añadir vídeo al radar | SSH al VPS → `add_video.sh` → ejecuta `evaluate-manual.md` → genera brief + publica Telegraph + notifica Telegram |
+
+Estos skills se activan desde cualquier conversación de Claude Code con lenguaje natural ("¿vale la pena este vídeo?", "añade este vídeo al radar") y se conectan al VPS vía SSH. El usuario no necesita recordar comandos ni rutas — el skill encapsula toda la lógica de conexión y orquestación.
+
+Esto es harness distribuido: **laptop (interfaz) → SSH → VPS (ejecución) → modelo (procesamiento)**. El harness no vive en un solo sitio; se reparte entre la máquina del usuario y el servidor.
+
 ### Lo que cumple
 
 | Componente del harness | Implementación en Radar |
 |---|---|
-| **Instrucciones de sistema (feedforward)** | `CLAUDE.md` con arquitectura, rutas y restricciones. Los prompts headless (`evaluate-daily.md`, `evaluate-manual.md`, `weekly-digest.md`) son guías feedforward puras |
-| **Pipeline automatizado** | `run_daily.sh` y `run_weekly.sh` orquestan al modelo sin intervención humana — el humano diseñó el flujo, no escribe los briefs |
-| **Skills como herramientas** | `radar-check-video`, `radar-add-video-remote` son extensiones del agente con lógica encapsulada |
+| **Prompts headless (feedforward central)** | Los 4 prompts de `prompts/` son especificaciones operativas multi-etapa que dictan cada decisión del modelo. `CLAUDE.md` complementa con arquitectura y restricciones globales |
+| **Orquestación por scripts** | Los `.sh` son el director: deciden qué prompt cargar, pasan variables, definen herramientas permitidas, y controlan el post-procesamiento |
+| **Skills como interfaz distribuida** | `radar-check-video` y `radar-add-video-remote` en el laptop del usuario conectan vía SSH con el VPS, permitiendo operar el harness desde cualquier conversación de Claude Code |
 | **Ciclo de vida completo** | Scraping → evaluación → brief → publicación Telegraph → notificación Telegram → email → sincronización Drive. El agente no "decide" el flujo, el harness lo impone |
 | **Ejecución headless con cron** | El modelo corre como CPU (`claude -p`), el harness (scripts + cron + config) es el SO |
 | **Controles computacionales** | `scraper.py` filtra vídeos antes de pasarlos al modelo; `radar.db` evita duplicados; `channels.yaml` / `keywords.yaml` acotan el input |
