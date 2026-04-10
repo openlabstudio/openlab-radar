@@ -76,6 +76,7 @@ Cada tipo puede ser **computacional** (determinista, rápido, basado en CPU) o *
 | **Ciclo de vida completo** | Scraping → evaluación → brief → publicación Telegraph → notificación Telegram → email → sincronización Drive. El agente no "decide" el flujo, el harness lo impone |
 | **Ejecución headless con cron** | El modelo corre como CPU (`claude -p`), el harness (scripts + cron + config) es el SO |
 | **Controles computacionales** | `scraper.py` filtra vídeos antes de pasarlos al modelo; `radar.db` evita duplicados; `channels.yaml` / `keywords.yaml` acotan el input |
+| **Gestión de errores y recuperación** | `run_recovery.sh` (cron 09:00 UTC) detecta si el pipeline diario falló, alerta por Telegram, y relanza el evaluador automáticamente. Trap ERR en ambos pipelines notifica fallos inesperados. Fallbacks en Telegraph (envío como texto si falla) y en Telegram (reintento sin Markdown si falla el parseo) |
 | **Sub-agentes aislados** | Los skills usan sub-agentes con contexto separado (context firewalls) |
 
 ### Lo que le falta para ser un ejemplo completo
@@ -113,9 +114,11 @@ Cada tipo puede ser **computacional** (determinista, rápido, basado en CPU) o *
 │  ┌─────────────┐    ┌──────────────────────────┐    │
 │  │  CONTROLES  │    │      FEEDBACK             │    │
 │  │             │    │                          │    │
-│  │ radar.db    │    │  radar-lint (manual) ⚠️   │    │
-│  │ (dedup)     │    │  (gap: no auto-validación │    │
-│  │ cron timers │    │   de outputs)             │    │
+│  │ radar.db    │    │  run_recovery.sh (cron)  │    │
+│  │ (dedup)     │    │    → detecta fallo       │    │
+│  │ cron timers │    │    → alerta Telegram     │    │
+│  │ trap ERR    │    │    → relanza evaluador   │    │
+│  │             │    │  radar-lint (manual) ⚠️   │    │
 │  └─────────────┘    └──────────────────────────┘    │
 └─────────────────────────────────────────────────────┘
 ```
