@@ -102,11 +102,13 @@ proyecto-radar/
 │   ├── notify.py                    # Notificaciones Telegram
 │   ├── publish_telegraph.py         # Publicar en Telegraph
 │   ├── generate_kb_viewer.py        # Dashboard HTML del KB
+│   ├── radar_health_check.py       # Fitness functions: métricas de salud del sistema
 │   ├── md_to_email_html.py          # Briefing → HTML email
 │   └── md_to_weekly_html.py         # Digest → HTML email
 ├── data/
 │   ├── radar.db                     # SQLite (vídeos procesados)
 │   ├── kb_viewer.html               # Dashboard HTML (sincronizar con Drive)
+│   ├── health-reports/              # Informes semanales de salud del sistema
 │   ├── logs/
 │   │   ├── cron-daily.log
 │   │   ├── cron-weekly.log
@@ -465,7 +467,8 @@ rclone copyto ./data/kb_viewer.html "${GDRIVE_RADAR_ROOT}/kb_viewer.html" --quie
 **Script:** `scripts/run_weekly.sh`
 
 ```
-1. claude -p prompts/weekly-digest.md   → briefs/weekly-digests/YYYY-MM-DD.md
+0. radar_health_check.py               → data/health-reports/YYYY-MM-DD-health.md + alerta Telegram
+1. claude -p prompts/weekly-digest.md   → briefs/weekly-digests/YYYY-MM-DD.md (con health check como contexto)
 2. publish_telegraph.py                 → link Telegram al canal del equipo
 3. md_to_weekly_html.py + gws           → email HTML a todo el equipo
 4. rclone sync                          → Drive
@@ -475,6 +478,7 @@ rclone copyto ./data/kb_viewer.html "${GDRIVE_RADAR_ROOT}/kb_viewer.html" --quie
 - Top 5 vídeos de la semana
 - 2-3 tendencias detectadas
 - Gaps por categoría
+- Alertas del health check (cobertura, scores, tags, canales)
 - Recomendaciones de acción
 
 ---
@@ -605,13 +609,18 @@ CLAUDE_CODE_OAUTH_TOKEN="sk-ant-oat01-..."
 # Digest semanal — 07:30 UTC viernes (09:30 CEST)
 30 7 * * 5 cd /ruta/proyecto && bash scripts/run_weekly.sh >> data/logs/cron-weekly.log 2>&1
 
+# Health check alertas diarias — 08:30 UTC (10:30 CEST)
+# Métricas computacionales de cobertura, scores, tags y canales.
+# Envía alertas por Telegram solo si hay umbrales rotos.
+30 8 * * * cd /ruta/proyecto && python3 scripts/radar_health_check.py --alerts-only >> data/logs/cron-health.log 2>&1
+
 # Recuperación diaria — 09:00 UTC (11:00 CEST)
 # Comprueba si el briefing de hoy existe; si no, relanza evaluador + KB Viewer + sync.
 # Cubre fallos del pipeline principal (API overloaded, timeout, etc.)
 0 9 * * * cd /ruta/proyecto && bash scripts/run_recovery.sh
 ```
 
-**Logs:** `data/logs/cron-recovery.log`
+**Logs:** `data/logs/cron-recovery.log`, `data/logs/cron-health.log`
 
 ---
 

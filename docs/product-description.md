@@ -35,8 +35,11 @@ Sistema de inteligencia continua que monitoriza YouTube diariamente para detecta
 │  CRON SEMANAL viernes 08:30 UTC / 09:30 CET             │
 │  Equipo: Rafa, Alberto, Carlos, Pepe                    │
 │                                                         │
-│  1. Analiza briefings y resúmenes de la semana          │
-│  2. Genera digest: tendencias, top 5, gaps, recs        │
+│  0. Health Check (radar_health_check.py)                │
+│     Métricas computacionales: cobertura, scores, tags,  │
+│     canales, pipeline. Output: health-reports/ + Telegram│
+│  1. Analiza briefings + health check de la semana       │
+│  2. Genera digest: tendencias, top 5, gaps, alertas     │
 │  3. Publica en Canal Telegram (t.me/openlabRadar)       │
 │  4. Email HTML al equipo (md_to_weekly_html.py + gws)   │
 │     · Títulos → YouTube · Botón → Telegraph            │
@@ -521,4 +524,6 @@ Para solicitar un insight: abrir Claude Code en el proyecto y pedir el análisis
 
 7. **Contexto OPENLAB en cada resumen.** El evaluador lee los ficheros de sales, capabilities, references y pilots para generar aplicabilidad concreta — no genérica.
 
-8. **`CLAUDE_CODE_OAUTH_TOKEN` para crons headless.** El token OAuth interactivo de Claude Code caduca periódicamente y los crons fallan con 401. Solución: `claude setup-token` genera un token de ~1 año guardado en `config/.env` como `CLAUDE_CODE_OAUTH_TOKEN`. El pipeline lo carga via `source config/.env` antes de llamar a `claude -p`. **No usar `ANTHROPIC_API_KEY`** — si está en el entorno, `claude -p` factura por token ignorando la suscripción Max. Token actual caduca ~2027-03-31: ejecutar `claude setup-token` y actualizar `config/.env`.
+8. **Health check automático (fitness functions).** Un script Python computacional (sin tokens, segundos de ejecución) vigila cobertura por categoría, distribución de scores, salud de tags, rendimiento de canales y tasa de fallos del pipeline. Cron diario a las 08:30 UTC envía alertas Telegram solo si hay umbrales rotos. Los viernes, el informe completo se inyecta en el digest semanal. Soporta `--period 0` para análisis retroactivo del histórico completo.
+
+9. **`CLAUDE_CODE_OAUTH_TOKEN` para crons headless.** El token OAuth interactivo de Claude Code caduca periódicamente y los crons fallan con 401. Solución: `claude setup-token` genera un token de ~1 año guardado en `config/.env` como `CLAUDE_CODE_OAUTH_TOKEN`. El pipeline lo carga via `source config/.env` antes de llamar a `claude -p`. **No usar `ANTHROPIC_API_KEY`** — si está en el entorno, `claude -p` factura por token ignorando la suscripción Max. Token actual caduca ~2027-03-31: ejecutar `claude setup-token` y actualizar `config/.env`.

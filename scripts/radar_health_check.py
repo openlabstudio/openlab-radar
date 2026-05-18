@@ -125,50 +125,51 @@ def bar(value, max_value, width=20):
     return "\u2501" * filled
 
 
-def coverage_report(briefs, today):
-    """Cobertura por categoría (7d, 30d, total)."""
+def coverage_report(briefs, today, period_days=30):
+    """Cobertura por categoría."""
     d7 = (today - timedelta(days=7)).isoformat()
-    d30 = (today - timedelta(days=30)).isoformat()
+    d_period = (today - timedelta(days=period_days)).isoformat() if period_days else "0000"
 
-    categories = defaultdict(lambda: {"7d": 0, "30d": 0, "total": 0})
+    categories = defaultdict(lambda: {"7d": 0, "period": 0, "total": 0})
     for b in briefs:
         cat = b.get("category", b.get("_category_dir", "unknown"))
         d = str(b.get("date", ""))
         categories[cat]["total"] += 1
-        if d >= d30:
-            categories[cat]["30d"] += 1
+        if d >= d_period:
+            categories[cat]["period"] += 1
         if d >= d7:
             categories[cat]["7d"] += 1
 
     alerts = []
     lines = []
     max_total = max((v["total"] for v in categories.values()), default=1)
-    total_30d = sum(v["30d"] for v in categories.values())
+    total_period = sum(v["period"] for v in categories.values())
+    period_label = f"{period_days}d" if period_days else "all"
 
-    lines.append(f"{'Categoría':<25} {'7d':>4} {'30d':>5} {'Total':>6}   Tendencia")
+    lines.append(f"{'Categoría':<25} {'7d':>4} {period_label:>5} {'Total':>6}   Tendencia")
     lines.append("-" * 70)
     for cat in sorted(categories):
         v = categories[cat]
         b_str = bar(v["total"], max_total)
         flags = ""
-        if v["7d"] == 0:
+        if period_days and v["7d"] == 0:
             flags = "  !! sin cobertura 7d"
             alerts.append(f"{cat}: 0 briefs en los ultimos 7 dias")
-        if total_30d > 0 and v["30d"] / total_30d > 0.5:
-            flags = "  !! >50% del mes"
-            alerts.append(f"{cat}: concentra >{int(v['30d']/total_30d*100)}% de los briefs del mes")
-        lines.append(f"{cat:<25} {v['7d']:>4} {v['30d']:>5} {v['total']:>6}   {b_str}{flags}")
+        if total_period > 0 and v["period"] / total_period > 0.5:
+            flags = "  !! >50% del periodo"
+            alerts.append(f"{cat}: concentra >{int(v['period']/total_period*100)}% de los briefs del periodo")
+        lines.append(f"{cat:<25} {v['7d']:>4} {v['period']:>5} {v['total']:>6}   {b_str}{flags}")
 
     return "\n".join(lines), alerts
 
 
-def score_report(briefs, today):
+def score_report(briefs, today, period_days=30):
     """Distribución de scores."""
     d7 = (today - timedelta(days=7)).isoformat()
-    d30 = (today - timedelta(days=30)).isoformat()
-    prev_month_start = (today - timedelta(days=60)).isoformat()
+    d_period = (today - timedelta(days=period_days)).isoformat() if period_days else "0000"
+    d_prev_start = (today - timedelta(days=period_days * 2)).isoformat() if period_days else None
 
-    scores_7d, scores_30d, scores_prev, scores_all = [], [], [], []
+    scores_7d, scores_period, scores_prev, scores_all = [], [], [], []
     for b in briefs:
         try:
             s = float(b.get("score", 0))
@@ -178,9 +179,9 @@ def score_report(briefs, today):
         scores_all.append(s)
         if d >= d7:
             scores_7d.append(s)
-        if d >= d30:
-            scores_30d.append(s)
-        if d30 > d >= prev_month_start:
+        if d >= d_period:
+            scores_period.append(s)
+        if d_prev_start and d_period > d >= d_prev_start:
             scores_prev.append(s)
 
     def avg(lst):
@@ -188,13 +189,16 @@ def score_report(briefs, today):
 
     alerts = []
     avg_7d = avg(scores_7d)
-    avg_30d = avg(scores_30d)
+    avg_period = avg(scores_period)
     avg_prev = avg(scores_prev)
     avg_all = avg(scores_all)
 
-    # Distribución
+    period_label = f"{period_days}d" if period_days else "all"
+
+    # Distribución sobre el período analizado (o todo si period=0)
+    target_scores = scores_period if period_days else scores_all
     buckets = {"9-10": 0, "7-8": 0, "5-6": 0, "<5": 0}
-    for s in scores_all:
+    for s in target_scores:
         if s >= 9:
             buckets["9-10"] += 1
         elif s >= 7:
@@ -204,19 +208,19 @@ def score_report(briefs, today):
         else:
             buckets["<5"] += 1
 
-    total = len(scores_all) or 1
+    total = len(target_scores) or 1
     lines = []
-    lines.append(f"Score medio (7d):  {avg_7d:.1f}  |  30d: {avg_30d:.1f}  |  Total: {avg_all:.1f}")
+    lines.append(f"Score medio (7d):  {avg_7d:.1f}  |  {period_label}: {avg_period:.1f}  |  Total: {avg_all:.1f}")
     lines.append("")
-    lines.append("Distribucion:")
+    lines.append(f"Distribucion ({period_label}, {len(target_scores)} briefs):")
     for label, count in buckets.items():
         pct = count / total * 100
         b = "\u2588" * int(round(pct / 3))
         lines.append(f"  {label:>5}: {b} {pct:.0f}% ({count})")
 
     # Alertas
-    if scores_prev and avg_30d - avg_prev > 0.5:
-        alerts.append(f"Score medio subio +{avg_30d - avg_prev:.1f} vs mes anterior (posible inflacion)")
+    if scores_prev and avg_period - avg_prev > 0.5:
+        alerts.append(f"Score medio subio +{avg_period - avg_prev:.1f} vs periodo anterior (posible inflacion)")
     pct_78 = buckets["7-8"] / total * 100
     if pct_78 > 80:
         alerts.append(f"{pct_78:.0f}% de briefs en rango 7-8 (falta discriminacion)")
@@ -224,12 +228,11 @@ def score_report(briefs, today):
     return "\n".join(lines), alerts
 
 
-def tags_report(briefs, official_tags, today):
+def tags_report(briefs, official_tags, today, period_days=30):
     """Salud de tags."""
-    d30 = (today - timedelta(days=30)).isoformat()
+    d_period = (today - timedelta(days=period_days)).isoformat() if period_days else "0000"
     tag_counts_all = Counter()
-    tag_counts_30d = Counter()
-    tag_combos = Counter()
+    tag_counts_period = Counter()
 
     for b in briefs:
         tags = b.get("tags", [])
@@ -237,58 +240,66 @@ def tags_report(briefs, official_tags, today):
             tags = [t.strip() for t in tags.split(",")]
         tag_counts_all.update(tags)
         d = str(b.get("date", ""))
-        if d >= d30:
-            tag_counts_30d.update(tags)
-        if len(tags) >= 2:
-            for i in range(len(tags)):
-                for j in range(i + 1, len(tags)):
-                    pair = tuple(sorted([tags[i], tags[j]]))
-                    tag_combos[pair] += 1
+        if d >= d_period:
+            tag_counts_period.update(tags)
 
     alerts = []
     lines = []
+    period_label = f"{period_days}d" if period_days else "historico completo"
 
-    # Tags oficiales sin uso en 30d
-    unused_30d = sorted(official_tags - set(tag_counts_30d.keys()))
-    if unused_30d:
-        lines.append("Tags sin uso (30d): " + ", ".join(unused_30d))
-        alerts.append(f"{len(unused_30d)} tags oficiales sin uso en 30d: {', '.join(unused_30d[:5])}")
+    # Tags oficiales sin uso en el período
+    unused = sorted(official_tags - set(tag_counts_period.keys()))
+    if unused:
+        lines.append(f"Tags sin uso ({period_label}): " + ", ".join(unused))
+        alerts.append(f"{len(unused)} tags oficiales sin uso en {period_label}: {', '.join(unused[:5])}")
 
     # Tags no oficiales encontrados en briefs
     unofficial = sorted(set(tag_counts_all.keys()) - official_tags)
     if unofficial:
         lines.append("Tags no oficiales encontrados: " + ", ".join(unofficial))
 
-    # Top 10 tags
+    # Top tags con conteo en período y total
+    target_counts = tag_counts_period if period_days else tag_counts_all
     lines.append("")
-    lines.append("Top 10 tags (total):")
-    for tag, count in tag_counts_all.most_common(10):
-        lines.append(f"  {tag:<30} {count}")
+    lines.append(f"Top 15 tags ({period_label}):")
+    lines.append(f"  {'Tag':<30} {'Periodo':>8} {'Total':>6}")
+    lines.append(f"  {'-'*30} {'-'*8} {'-'*6}")
+    for tag, count in target_counts.most_common(15):
+        lines.append(f"  {tag:<30} {count:>8} {tag_counts_all[tag]:>6}")
+
+    # Tags menos usados (bottom 10, solo los que se han usado al menos 1 vez)
+    used_tags = {t: c for t, c in tag_counts_all.items() if t in official_tags}
+    if used_tags:
+        lines.append("")
+        lines.append("Tags oficiales menos usados (historico):")
+        for tag, count in sorted(used_tags.items(), key=lambda x: x[1])[:10]:
+            lines.append(f"  {tag:<30} {count:>6}")
 
     return "\n".join(lines), alerts
 
 
-def channel_report(db_path, monitored_channels, briefs, today):
+def channel_report(db_path, monitored_channels, briefs, today, period_days=30):
     """Rendimiento de canales."""
-    d30 = (today - timedelta(days=30)).isoformat()
+    d_period = (today - timedelta(days=period_days)).isoformat() if period_days else "0000"
     conn = sqlite3.connect(db_path)
 
     lines = []
     alerts = []
+    period_label = f"{period_days}d" if period_days else "all"
 
-    # Contar briefs por canal (source en frontmatter) en 30d
-    brief_channels_30d = Counter()
+    # Contar briefs por canal (source en frontmatter) en el período
+    brief_channels = Counter()
     for b in briefs:
         d = str(b.get("date", ""))
-        if d >= d30:
+        if d >= d_period:
             source = b.get("source", "")
             if source:
-                brief_channels_30d[source] += 1
+                brief_channels[source] += 1
 
     # Monitorizados: nombre -> handle
     monitored_names = {ch.get("name", "") for ch in monitored_channels}
 
-    # Scrape count por canal (30d) — solo monitorizados + top 10 por volumen
+    # Scrape count por canal en el período
     rows = conn.execute("""
         SELECT channel_name,
                COUNT(*) as total
@@ -296,11 +307,11 @@ def channel_report(db_path, monitored_channels, briefs, today):
         WHERE discovered_at >= ?
         GROUP BY channel_name
         ORDER BY total DESC
-    """, (d30,)).fetchall()
+    """, (d_period,)).fetchall()
 
     # Filtrar: monitorizados + top 10 por scrape
     top_scrape = {row[0] for row in rows[:10]}
-    relevant = monitored_names | top_scrape | set(brief_channels_30d.keys())
+    relevant = monitored_names | top_scrape | set(brief_channels.keys())
     scrape_map = {name: total for name, total in rows}
 
     lines.append(f"{'Canal':<35} {'Scrape':>6} {'Briefs':>7} {'Ratio':>6}")
@@ -312,7 +323,7 @@ def channel_report(db_path, monitored_channels, briefs, today):
         if not name:
             continue
         scraped = scrape_map.get(name, 0)
-        briefed = brief_channels_30d.get(name, 0)
+        briefed = brief_channels.get(name, 0)
         # Saltar canales con poco volumen y no monitorizados
         if scraped < 3 and name not in monitored_names and briefed < 2:
             continue
@@ -320,7 +331,7 @@ def channel_report(db_path, monitored_channels, briefs, today):
         flag = ""
         if scraped >= 10 and briefed == 0:
             flag = "  !! alto ruido"
-            alerts.append(f"Canal '{name}': {scraped} scrapeados, 0 briefs en 30d")
+            alerts.append(f"Canal '{name}': {scraped} scrapeados, 0 briefs en {period_label}")
         lines.append(f"{name:<35} {scraped:>6} {briefed:>7} {ratio:>6}{flag}")
 
     # Canales monitorizados sin apariciones
@@ -370,35 +381,36 @@ def pipeline_report(logs_dir, today):
     return "\n".join(lines), alerts
 
 
-def generate_report(briefs, official_tags, db_path, monitored_channels, logs_dir, today):
+def generate_report(briefs, official_tags, db_path, monitored_channels, logs_dir, today, period_days=30):
     """Genera el informe completo."""
     sections = []
     all_alerts = []
+    period_label = f"{period_days}d" if period_days else "historico completo"
 
-    sections.append(f"# Radar Health Check — {today.strftime('%Y-%m-%d')}")
+    sections.append(f"# Radar Health Check — {today.strftime('%Y-%m-%d')} (periodo: {period_label})")
     sections.append(f"Total briefs: {len(briefs)}")
 
     # Cobertura
-    text, alerts = coverage_report(briefs, today)
+    text, alerts = coverage_report(briefs, today, period_days)
     sections.append("\n## Cobertura por categoria\n")
     sections.append(text)
     all_alerts.extend(alerts)
 
     # Scores
-    text, alerts = score_report(briefs, today)
+    text, alerts = score_report(briefs, today, period_days)
     sections.append("\n## Distribucion de scores\n")
     sections.append(text)
     all_alerts.extend(alerts)
 
     # Tags
-    text, alerts = tags_report(briefs, official_tags, today)
+    text, alerts = tags_report(briefs, official_tags, today, period_days)
     sections.append("\n## Salud de tags\n")
     sections.append(text)
     all_alerts.extend(alerts)
 
     # Canales
-    text, alerts = channel_report(db_path, monitored_channels, briefs, today)
-    sections.append("\n## Rendimiento de canales (30d)\n")
+    text, alerts = channel_report(db_path, monitored_channels, briefs, today, period_days)
+    sections.append(f"\n## Rendimiento de canales ({period_label})\n")
     sections.append(text)
     all_alerts.extend(alerts)
 
@@ -439,9 +451,12 @@ def main():
     parser.add_argument("--output", help="Guardar informe en fichero")
     parser.add_argument("--alerts-only", action="store_true",
                         help="Solo enviar alertas por Telegram (sin generar informe)")
+    parser.add_argument("--period", type=int, default=30,
+                        help="Periodo en dias (default 30, 0 = historico completo)")
     args = parser.parse_args()
 
     today = datetime.now().date()
+    period_days = args.period or 0
     briefs_dir = Path(args.briefs)
     logs_dir = Path(args.logs)
 
@@ -450,7 +465,7 @@ def main():
     monitored_channels = load_channels_yaml(args.channels)
 
     report, alerts = generate_report(
-        briefs, official_tags, args.db, monitored_channels, logs_dir, today
+        briefs, official_tags, args.db, monitored_channels, logs_dir, today, period_days
     )
 
     if args.alerts_only:

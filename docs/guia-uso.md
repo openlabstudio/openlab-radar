@@ -15,6 +15,8 @@ Cada mañana a las **09:00 CET** el sistema hace solo su trabajo:
 
 Los viernes a las **09:30 CET** hace lo mismo pero en modo digest semanal, y el email va al equipo.
 
+Cada día a las **10:30 CET** un health check automático revisa cobertura por categoría, distribución de scores, salud de tags y rendimiento de canales. Si detecta anomalías, te avisa por Telegram. Los viernes, el informe completo se integra en el digest semanal.
+
 No tienes que hacer nada. Solo leer.
 
 ---
@@ -140,4 +142,5 @@ El insight incluye: síntesis de los briefs relevantes, patrones detectados, imp
 | KB Viewer Web (`openlabstudio.com/radar/` + `radar.openlabstudio.com`) | ✅ Activo |
 | Skill check previo (`radar-check-video`) | ✅ Activo |
 | Skill añadir vídeo remoto (`radar-add-video-remote`) | ✅ Activo |
+| Health Check (fitness functions) | ✅ Activo (alertas diarias + informe semanal) |
 | Email digest semanal al equipo | ⏳ Pendiente auth gws |
