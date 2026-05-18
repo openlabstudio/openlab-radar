@@ -806,6 +806,46 @@ Los daily-briefings y weekly-digests también tienen frontmatter con métricas a
 
 **`scripts/migrate_frontmatter.py`** — script idempotente para enriquecer frontmatter existente o añadirlo a ficheros que no lo tienen. Modos: `enrich-briefs`, `add-dailies`, `add-weeklies`, `all`. Soporte `--dry-run`.
 
+### 12c. Búsqueda semántica (QMD)
+
+**QMD** es un motor de búsqueda semántica local (BM25 + embeddings vectoriales + re-ranking LLM) que corre en el laptop. Complementa la búsqueda estructurada por frontmatter con descubrimiento por significado.
+
+**Colección:** `radar` — 242 docs, 877 chunks, 13.6MB (SQLite en `~/.cache/qmd/index.sqlite`)
+
+**Stack de modelos (100% local, zero API):**
+- Embedding: `embeddinggemma-300M` (GGUF, ~300MB)
+- Re-ranking: `Qwen3-Reranker-0.6B` (GGUF, ~600MB)
+- Query expansion: `qmd-query-expansion-1.7B` (GGUF, ~1.3GB)
+
+**Cómo funciona:**
+1. El usuario busca: "how to secure agent skills against supply chain attacks"
+2. QMD expande la query en 6 sub-queries (léxicas + vectoriales + hipotéticas)
+3. BM25 busca por keywords, embeddings buscan por significado
+4. Reciprocal Rank Fusion combina resultados
+5. LLM re-ranker puntúa los top 30 candidatos
+6. Devuelve los 5 mejores con score de relevancia y snippets
+
+**Acceso:** disponible como MCP server (`qmd mcp`) registrado globalmente en Claude Code. Desde cualquier sesión:
+```
+# Búsqueda semántica en el radar
+mcp__qmd__query(searches=[{type:'vec', query:'safety in agentic systems'}], collection='radar', intent='find briefs about agent security')
+
+# Búsqueda por keywords
+mcp__qmd__query(searches=[{type:'lex', query:'supply chain skills'}], collection='radar')
+
+# Recuperar un brief específico
+mcp__qmd__get(path='agentic-systems/2026-05-15-agent-skills-supply-chain-security.md')
+```
+
+**Actualización:** los briefs se sincronizan desde el VPS vía rclone → Google Drive → Drive for Desktop. Para re-indexar tras nuevos briefs:
+```bash
+qmd update -q && qmd embed
+```
+
+**Cuándo usar QMD vs frontmatter:**
+- QMD: "¿qué briefs hablan de temas similares a X?" (descubrimiento, sinónimos, conceptos relacionados)
+- Frontmatter (`radar_search.py`): "briefs con score > 8 de context-engineering del último mes" (filtros precisos)
+
 ---
 
 ## 13. Categorías de conocimiento
@@ -977,5 +1017,5 @@ Telegram tiene límite de 4.096 caracteres por mensaje. Los briefs son mucho má
 **¿Por qué rclone para Drive y no Drive API directamente?**
 rclone maneja autenticación, retry, sync diferencial y está probado en producción. La Drive API requeriría manejar OAuth2 flows y refresh tokens manualmente.
 
-**¿Por qué búsqueda por frontmatter y no búsqueda semántica (QMD)?**
-Se evaluó QMD (motor de búsqueda semántica local basado en BM25 + embeddings vectoriales + re-ranking LLM, creado por Tobi Lutke). Conclusión: son complementarios, no excluyentes. QMD excele en descubrimiento semántico ("briefs relacionados con safety en agentes") pero **no soporta filtrado estructurado** — no tiene operadores de campo (score > 8, category = X, date range). El caso de uso principal del Radar es filtrado estructurado por score, categoría, tags, fecha y sub-scores, para lo que el frontmatter YAML + `radar_search.py` es la solución correcta (<100ms vs 2-4s de QMD con re-ranking). QMD queda como mejora futura para añadir una capa de descubrimiento semántico complementaria (indexar los ~250 briefs en una colección QMD, ~45MB, con hook post-generación).
+**¿Por qué frontmatter Y búsqueda semántica (QMD)?**
+Son complementarios. El frontmatter YAML + `radar_search.py` resuelve filtrado estructurado (score > 8, category = X, date range) en <100ms. QMD (motor local de BM25 + embeddings + re-ranking LLM, creado por Tobi Lutke) resuelve descubrimiento semántico — encontrar briefs por significado sin keywords exactos ("¿qué briefs hablan de seguridad en supply chain de skills?" encuentra resultados aunque ninguno use esas palabras exactas). Además, QMD evita cargar todos los briefs en la ventana de contexto de Claude: devuelve solo los 5-10 relevantes, dejando contexto libre para razonar. Ambos están activos: QMD como colección `radar` (242 docs, 877 chunks, 13.6MB), frontmatter vía `radar_search.py`.
