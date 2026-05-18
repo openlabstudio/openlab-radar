@@ -70,11 +70,17 @@ Sistema de inteligencia continua que monitoriza YouTube diariamente para detecta
 └─────────────────────────────────────────────────────────┘
 
 ┌─────────────────────────────────────────────────────────┐
-│  CONSULTA (Claude Code, sin límites)                    │
+│  CONSULTA (Claude Code + CLI, sin límites)              │
 │                                                         │
+│  Lenguaje natural:                                      │
 │  "¿Qué dicen los vídeos sobre context engineering?"     │
-│  → Grep busca en briefs/ → lee los relevantes           │
-│  → Sintetiza respuesta con citas de los .md             │
+│  → Claude busca en briefs/ → sintetiza con citas        │
+│                                                         │
+│  Búsqueda estructurada (radar_search.py):               │
+│  --score-min 8.5 --category context-engineering         │
+│  --aplicabilidad-min 9 --tag mcp --text "harness"       │
+│  --type daily-briefing --format json --stats            │
+│  → Filtros por frontmatter YAML, <1s en ~250 ficheros   │
 │                                                         │
 │  Sin límite de queries ni de fuentes.                   │
 │  1M tokens de contexto = ~400 resúmenes de golpe.       │
@@ -385,6 +391,25 @@ Aplicabilidad OPENLAB:
 Cada vídeo con score >= 7 genera un fichero en `briefs/CATEGORÍA/FECHA-slug.md`:
 
 ```markdown
+---
+title: "Título del vídeo"
+date: YYYY-MM-DD
+category: categoría
+secondary_category: otra-categoría   # opcional
+score: X.X
+score_breakdown:
+  aplicabilidad: X
+  novedad: X
+  calidad: X
+tags:
+  - tag1
+  - tag2
+source: nombre del canal
+url: https://youtube.com/watch?v=ID
+telegraph_url: https://telegra.ph/...  # post-publicación
+duration: "Xmin"
+---
+
 # [Título del vídeo]
 
 - **Fuente:** [URL](URL)
@@ -536,4 +561,6 @@ Para solicitar un insight: abrir Claude Code en el proyecto y pedir el análisis
 
 8. **Health check automático (fitness functions).** Un script Python computacional (sin tokens, segundos de ejecución) vigila cobertura por categoría, distribución de scores, salud de tags, rendimiento de canales y tasa de fallos del pipeline. Cron diario a las 08:30 UTC envía alertas Telegram solo si hay umbrales rotos. Los viernes, el informe completo se inyecta en el digest semanal. Soporta `--period 0` para análisis retroactivo del histórico completo.
 
-9. **`CLAUDE_CODE_OAUTH_TOKEN` para crons headless.** El token OAuth interactivo de Claude Code caduca periódicamente y los crons fallan con 401. Solución: `claude setup-token` genera un token de ~1 año guardado en `config/.env` como `CLAUDE_CODE_OAUTH_TOKEN`. El pipeline lo carga via `source config/.env` antes de llamar a `claude -p`. **No usar `ANTHROPIC_API_KEY`** — si está en el entorno, `claude -p` factura por token ignorando la suscripción Max. Token actual caduca ~2027-03-31: ejecutar `claude setup-token` y actualizar `config/.env`.
+9. **Frontmatter enriquecido + búsqueda estructurada.** Cada brief incluye `score_breakdown` (aplicabilidad/novedad/calidad), `secondary_category`, `duration` y `telegraph_url` en YAML. `radar_search.py` parsea los ~250 ficheros en <1s sin índice ni BD adicional. Filtros combinables: score, sub-scores, categoría, tags, canal, fecha, texto libre. Daily-briefings y weekly-digests también tienen frontmatter con métricas agregadas.
+
+10. **`CLAUDE_CODE_OAUTH_TOKEN` para crons headless.** El token OAuth interactivo de Claude Code caduca periódicamente y los crons fallan con 401. Solución: `claude setup-token` genera un token de ~1 año guardado en `config/.env` como `CLAUDE_CODE_OAUTH_TOKEN`. El pipeline lo carga via `source config/.env` antes de llamar a `claude -p`. **No usar `ANTHROPIC_API_KEY`** — si está en el entorno, `claude -p` factura por token ignorando la suscripción Max. Token actual caduca ~2027-03-31: ejecutar `claude setup-token` y actualizar `config/.env`.

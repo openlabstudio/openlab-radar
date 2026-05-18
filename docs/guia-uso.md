@@ -77,6 +77,8 @@ El pipeline completo: transcript → triage → scoring → brief en `briefs/CAT
 
 ## Consultar los briefs
 
+### Búsqueda en lenguaje natural (Claude Code)
+
 Pregunta directamente y Claude busca en `briefs/` para sintetizar:
 
 > "¿Qué dicen los briefs sobre context engineering esta semana?"
@@ -86,6 +88,39 @@ Pregunta directamente y Claude busca en `briefs/` para sintetizar:
 > "¿Qué canales han publicado más contenido sobre agentic systems este mes?"
 
 Claude cita los .md relevantes con el score y la categoría.
+
+### Búsqueda estructurada (radar_search.py)
+
+Para filtros precisos por score, categoría, tags, fecha o sub-scores, usa el CLI de búsqueda directamente en el VPS:
+
+```bash
+# Top briefs por score
+python3 scripts/radar_search.py --score-min 8.5 --sort score
+
+# Briefs de una categoría con un tag específico
+python3 scripts/radar_search.py --category context-engineering --tag mcp
+
+# Briefs con alta aplicabilidad directa
+python3 scripts/radar_search.py --aplicabilidad-min 9 --sort score
+
+# Briefs de un canal concreto en un rango de fechas
+python3 scripts/radar_search.py --source "Simon Scrapes" --date-from 2026-05-01
+
+# Búsqueda de texto libre en el contenido
+python3 scripts/radar_search.py --text "harness" --sort score
+
+# Solo daily-briefings o weekly-digests
+python3 scripts/radar_search.py --type daily-briefing
+python3 scripts/radar_search.py --type weekly-digest
+
+# Estadísticas globales del radar
+python3 scripts/radar_search.py --stats
+
+# Output JSON para automatización
+python3 scripts/radar_search.py --score-min 8 --format json
+```
+
+Todos los filtros se combinan con AND. Output por defecto: tabla con fecha, score, sub-scores (A/N/C), categoría y título.
 
 ---
 
@@ -106,7 +141,7 @@ El insight incluye: síntesis de los briefs relevantes, patrones detectados, imp
 
 ## Cheatsheet de frases de activación
 
-| Qué quieres hacer | Qué decir |
+| Qué quieres hacer | Qué decir / hacer |
 |---|---|
 | Check previo de un vídeo | `"¿vale la pena este vídeo? [URL]"` |
 | Añadir un vídeo al radar | `"añade este vídeo: [URL]"` |
@@ -115,6 +150,9 @@ El insight incluye: síntesis de los briefs relevantes, patrones detectados, imp
 | Generar un insight | `"genera un insight sobre [tema] en insights/"` |
 | Ver qué hay en el radar | `"¿cuántos briefs tenemos por categoría?"` |
 | Ver los mejores briefs | `"¿cuáles son los briefs con score más alto este mes?"` |
+| Búsqueda estructurada | `python3 scripts/radar_search.py --score-min 8 --sort score` |
+| Filtrar por sub-score | `python3 scripts/radar_search.py --aplicabilidad-min 9` |
+| Estadísticas del radar | `python3 scripts/radar_search.py --stats` |
 
 ---
 
@@ -143,4 +181,6 @@ El insight incluye: síntesis de los briefs relevantes, patrones detectados, imp
 | Skill check previo (`radar-check-video`) | ✅ Activo |
 | Skill añadir vídeo remoto (`radar-add-video-remote`) | ✅ Activo |
 | Health Check (fitness functions) | ✅ Activo (alertas diarias + informe semanal) |
+| Búsqueda estructurada (`radar_search.py`) | ✅ Activo |
+| Frontmatter enriquecido (score_breakdown, duration, secondary_category) | ✅ Activo |
 | Email digest semanal al equipo | ⏳ Pendiente auth gws |

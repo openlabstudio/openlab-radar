@@ -1,7 +1,7 @@
 # Arquitectura Técnica — OPENLAB Radar
 
 > Documento de referencia para construir sistemas equivalentes en clientes.
-> Versión: 2026-04-01
+> Versión: 2026-05-18
 
 ---
 
@@ -102,6 +102,9 @@ proyecto-radar/
 │   ├── notify.py                    # Notificaciones Telegram
 │   ├── publish_telegraph.py         # Publicar en Telegraph
 │   ├── generate_kb_viewer.py        # Dashboard HTML del KB
+│   ├── radar_utils.py               # Utilidades compartidas (parse_frontmatter)
+│   ├── radar_search.py              # Búsqueda estructurada por frontmatter (CLI)
+│   ├── migrate_frontmatter.py       # Migración retroactiva de frontmatter
 │   ├── radar_health_check.py       # Fitness functions: métricas de salud del sistema
 │   ├── md_to_email_html.py          # Briefing → HTML email
 │   └── md_to_weekly_html.py         # Digest → HTML email
@@ -394,12 +397,19 @@ Patrón entre los vídeos del día. 2-3 líneas.
 title: "Título del vídeo"
 date: YYYY-MM-DD
 category: nombre-categoría
+secondary_category: otra-categoría   # opcional, solo si encaja en dos
 score: X.X
+score_breakdown:
+  aplicabilidad: X
+  novedad: X
+  calidad: X
 tags:
   - tag1
   - tag2
 source: nombre del canal
 url: https://youtube.com/watch?v=ID
+telegraph_url: https://telegra.ph/...  # inyectado post-publicación
+duration: "Xmin"
 ---
 
 # Título del vídeo
@@ -433,7 +443,7 @@ scripts/publish_telegraph.py [lista de briefs individuales de hoy]
 
 - Convierte cada `.md` a HTML (strip frontmatter)
 - Publica vía Telegraph API
-- Escribe URL de vuelta en el `.md`: `- **Telegraph:** URL`
+- Escribe URL de vuelta en el `.md`: en el frontmatter YAML (`telegraph_url`) y en el cuerpo (`- **Telegraph:** URL`)
 - Envía links al chat de Telegram del responsable
 
 ### Paso 4 — Email diario
@@ -691,7 +701,8 @@ gws gmail +send --to destinatario@empresa.com --subject "..." --body "$HTML" --h
 - Sin dependencias externas (CSS y JS embebidos, logo en base64)
 - Google Fonts (Montserrat) como única dependencia externa
 - Búsqueda full-text client-side (regex sobre títulos, fuentes, tags y excerpts)
-- Filtros por categoría, tags
+- Filtros por categoría, tags, score breakdown (aplicabilidad/novedad/calidad)
+- Secondary category y duration en cada brief
 - Hot signals: briefs con score ≥ 8.0 en los últimos 7 días
 - Stats bar: total briefs, score medio, briefs esta semana, canales únicos
 - Links directos a YouTube y Telegraph ("VER RESUMEN")
@@ -721,6 +732,79 @@ gws gmail +send --to destinatario@empresa.com --subject "..." --body "$HTML" --h
    - No requiere actualización: el iframe siempre carga el HTML fresco del VPS
 
 3. **Google Drive:** `rclone copyto` sincroniza `data/kb_viewer.html` con el Shared Drive tras cada pipeline. Accesible offline vía Drive for Desktop.
+
+---
+
+## 12b. Búsqueda estructurada por frontmatter
+
+**Script:** `scripts/radar_search.py`
+
+CLI que parsea el frontmatter YAML de todos los briefs y permite filtrado estructurado. No requiere base de datos adicional — parsea los ~250 ficheros .md en <1 segundo.
+
+```bash
+# Filtrar por score
+python3 scripts/radar_search.py --score-min 8.0
+
+# Combinar filtros (AND)
+python3 scripts/radar_search.py --category context-engineering --tag mcp --sort score
+
+# Sub-scores
+python3 scripts/radar_search.py --aplicabilidad-min 9
+
+# Por canal y rango de fechas
+python3 scripts/radar_search.py --source "Simon Scrapes" --date-from 2026-05-01
+
+# Búsqueda de texto en el body
+python3 scripts/radar_search.py --text "harness"
+
+# Filtrar por tipo de documento
+python3 scripts/radar_search.py --type daily-briefing
+
+# Output JSON para automatización
+python3 scripts/radar_search.py --score-min 8 --format json
+
+# Estadísticas globales
+python3 scripts/radar_search.py --stats
+```
+
+**Filtros disponibles:** `--type`, `--category`, `--secondary-category`, `--tag` (repetible), `--source`, `--score-min/max`, `--aplicabilidad-min`, `--novedad-min`, `--calidad-min`, `--date-from/to`, `--text`.
+
+**Ordenamiento:** `--sort date` (default) | `--sort score` | `--sort aplicabilidad`.
+
+**Formatos:** `--format table` (default) | `--format json`.
+
+### Frontmatter enriquecido
+
+Los briefs de categoría incluyen frontmatter YAML con:
+
+| Campo | Tipo | Descripción |
+|-------|------|-------------|
+| `title` | string | Título del vídeo |
+| `date` | date | Fecha de publicación |
+| `category` | string | Categoría principal |
+| `secondary_category` | string (opcional) | Segunda categoría si aplica |
+| `score` | float | Score final (A×3+B×2+C×1)/6 |
+| `score_breakdown` | object | `{aplicabilidad, novedad, calidad}` (enteros 1-10) |
+| `tags` | list | 3-6 tags de `config/tags.yaml` |
+| `source` | string | Canal de YouTube |
+| `url` | string | URL del vídeo |
+| `telegraph_url` | string (opcional) | URL de Telegraph (inyectada post-publicación) |
+| `duration` | string | Duración del vídeo |
+| `added` | string (opcional) | `"manually"` si fue añadido a mano |
+
+Los daily-briefings y weekly-digests también tienen frontmatter con métricas agregadas (`type`, `candidates`, `briefed`, `top_score`, `categories_covered`, etc.).
+
+### Utilidades compartidas
+
+**`scripts/radar_utils.py`** — funciones canónicas de parseo compartidas por:
+- `radar_search.py` (búsqueda)
+- `radar_health_check.py` (validación)
+- `generate_kb_viewer.py` (dashboard)
+- `migrate_frontmatter.py` (migración)
+
+### Migración retroactiva
+
+**`scripts/migrate_frontmatter.py`** — script idempotente para enriquecer frontmatter existente o añadirlo a ficheros que no lo tienen. Modos: `enrich-briefs`, `add-dailies`, `add-weeklies`, `all`. Soporte `--dry-run`.
 
 ---
 
@@ -879,7 +963,7 @@ cat data/candidates-YYYY-MM-DD.json | python3 -c "import json,sys; d=json.load(s
 ## 18. Decisiones de diseño
 
 **¿Por qué Markdown + frontmatter YAML y no una base de datos para los briefs?**
-Los briefs en `.md` son legibles por humanos y por Claude directamente (con `Read`/`Glob`). La base de datos SQLite solo guarda metadatos de vídeos. Los briefs son el knowledge base real — que sean ficheros planos los hace portables, versionables en git y accesibles en Drive.
+Los briefs en `.md` son legibles por humanos y por Claude directamente (con `Read`/`Glob`). La base de datos SQLite solo guarda metadatos de vídeos. Los briefs son el knowledge base real — que sean ficheros planos los hace portables, versionables en git y accesibles en Drive. El frontmatter YAML enriquecido (score_breakdown, secondary_category, duration, telegraph_url) permite búsqueda estructurada con `radar_search.py` sin necesidad de un índice separado (~250 ficheros se parsean en <1s).
 
 **¿Por qué Claude Code CLI headless en lugar de la API de Anthropic directamente?**
 Las herramientas de Claude Code (MCP, Read, Write, Glob) permiten que el evaluador genere ficheros directamente sin código intermedio. La lógica de evaluación está en el prompt en lenguaje natural, no en código. Esto hace el sistema mantenible por personas no técnicas y adaptable sin programar.
