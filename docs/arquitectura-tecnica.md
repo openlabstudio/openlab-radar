@@ -996,6 +996,86 @@ cat data/candidates-YYYY-MM-DD.json | python3 -c "import json,sys; d=json.load(s
 □ Crontab configurado (crontab -e como usuario no-root)
 □ Primera ejecución manual: bash scripts/run_daily.sh
 □ Verificar: briefing generado, Telegram recibido, email enviado, Drive sincronizado
+□ (Opcional) QMD centralizado — ver sección 17b
+```
+
+### 17b. Variante de despliegue: QMD centralizado en VPS
+
+Para clientes con múltiples usuarios de Claude Code que necesitan consultar los briefs del observatorio. Elimina la necesidad de instalar QMD en cada laptop.
+
+**Arquitectura:**
+
+```
+┌──────────────────────┐
+│  Usuarios (N laptops) │
+│  Claude Code          │
+│  MCP remote → HTTP    │
+└──────┬───────────────┘
+       │ HTTP :8181
+       ▼
+┌──────────────────────────────────────────────┐
+│  VPS del cliente                              │
+│                                               │
+│  QMD daemon (qmd mcp --http --daemon)        │
+│  ├── colección: briefs/ (fuente de verdad)   │
+│  ├── auto-update: hook post-pipeline          │
+│  └── puerto: 8181 (o nginx reverse proxy)     │
+│                                               │
+│  Pipeline Radar (crons, scraper, evaluador)   │
+│  └── genera briefs/ → QMD re-indexa auto      │
+└──────────────────────────────────────────────┘
+```
+
+**Ventajas sobre QMD distribuido (1 por laptop):**
+- Setup 0 por usuario — solo registrar el MCP server remoto
+- Un solo índice, siempre fresco (los briefs se generan en el mismo VPS)
+- Sin dependencia de Drive for Desktop ni sync
+- Base natural para un frontend web de consulta
+
+**Setup en el VPS:**
+
+```bash
+# 1. Instalar QMD (requiere Node.js 18+)
+npm install -g @tobilu/qmd
+
+# 2. Crear colección (briefs ya están aquí)
+qmd collection add /home/openlab/openlab-radar/briefs --name radar --pattern "**/*.md"
+qmd context add qmd://radar/ "Observatorio de inteligencia: briefs con análisis de contenido del dominio del cliente. Frontmatter YAML con score, categoría, tags y score_breakdown."
+qmd embed
+
+# 3. Lanzar daemon HTTP (background, persistente)
+qmd mcp --http --daemon --port 8181
+
+# 4. (Opcional) Servir detrás de nginx con SSL
+# /etc/nginx/sites-available/qmd-radar:
+#   location /qmd/ {
+#       proxy_pass http://127.0.0.1:8181/;
+#   }
+
+# 5. Auto-update: añadir al final de run_daily.sh y run_weekly.sh
+#    qmd update -q && qmd embed
+```
+
+**Setup por usuario (una vez):**
+
+```bash
+# Registrar el MCP server remoto en Claude Code
+claude mcp add qmd-radar -s user -- npx -y @anthropic-ai/mcp-proxy http://VPS_IP:8181
+```
+
+Tras esto, Claude Code de cada usuario puede buscar en los briefs del observatorio vía QMD sin instalación local.
+
+**Evolución: frontend web**
+
+El daemon HTTP de QMD expone los mismos endpoints que el MCP server. Se puede construir un frontend web ligero que consulte `http://VPS:8181/` para dar acceso a personas que no usan Claude Code (dirección, stakeholders del cliente).
+
+```
+┌──────────────┐     ┌──────────────┐     ┌──────────────┐
+│  Claude Code │     │  Frontend    │     │  QMD daemon  │
+│  (usuarios)  │────►│  web (React/ │────►│  VPS :8181   │
+│              │     │  vanilla JS) │     │              │
+└──────────────┘     └──────────────┘     └──────────────┘
+                     radar.cliente.com
 ```
 
 ---
