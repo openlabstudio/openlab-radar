@@ -104,14 +104,14 @@ Si todos tus scores caen en 7-8, estás puntuando demasiado alto. Fuerza la disc
 
 Señales que suben el score A (orientativas, ordenadas por impacto en nuestros proyectos reales):
 
-**Señales de máximo impacto** (conectan directamente con lo que entregamos a clientes):
-- Captura de conocimiento experto y formalización en contexto de agentes (knowledge capture → ficheros .md auditables)
-- Automatización de análisis financiero o due diligence con agentes (DCF, valoraciones, extracción de cuentas anuales, scoring de inversiones)
-- Generación automatizada de business cases, investigación de mercado o propuestas de valor con agentes
-- Sistemas de inteligencia de mercado automatizados (radares, observatorios, monitors con cron + agentes)
-- Matching datos de mercado × conocimiento experto para priorización comercial (scoring multi-dimensional)
-- Integración de fuentes de datos externas en agentes (APIs, bases de datos públicas, registros mercantiles, web scraping estructurado)
-- Pipelines de output multi-formato desde un solo análisis (markdown → HTML corporativo → PDF → email → Excel)
+**Señales de máximo impacto** (conectan directamente con lo que entregamos a clientes — todo implementado con skills de Claude Code / Anthropic, NO con herramientas SaaS genéricas ni plataformas no-code):
+- Captura de conocimiento experto y formalización en contexto de agentes (knowledge capture → ficheros .md auditables que alimentan skills)
+- Automatización de análisis financiero o due diligence con skills/agentes Claude (DCF, valoraciones, extracción de cuentas anuales, scoring de inversiones)
+- Generación automatizada de business cases, investigación de mercado o propuestas de valor mediante skills multi-fase
+- Sistemas de inteligencia de mercado automatizados con agentes Claude (radares, observatorios, monitors con cron + claude headless)
+- Matching datos de mercado × conocimiento experto para priorización comercial (scoring multi-dimensional orquestado por agentes)
+- Integración de fuentes de datos externas en skills/agentes vía MCP o herramientas (APIs, bases de datos públicas, registros mercantiles, web scraping estructurado)
+- Pipelines de output multi-formato desde un solo análisis de agente (markdown → HTML corporativo → PDF → email → Excel)
 
 **Señales de alto impacto** (mejoran cómo construimos y entregamos):
 - Técnicas avanzadas no documentadas en docs oficiales

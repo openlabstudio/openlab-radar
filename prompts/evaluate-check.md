@@ -74,7 +74,7 @@ Puntúa 3 dimensiones (1-10).
 - 1-4: Fuera del dominio o irrelevante.
 
 Señales que suben A (ordenadas por impacto en proyectos reales):
-- **Máximo:** captura de conocimiento experto → contexto de agentes, automatización de análisis financiero/due diligence, generación de business cases, sistemas de inteligencia de mercado automatizados, matching datos × conocimiento experto, integración fuentes externas, pipelines output multi-formato
+- **Máximo** (implementado con skills Claude / Anthropic, NO SaaS genérico): captura de conocimiento experto → contexto de agentes, análisis financiero/due diligence con skills, business cases con agentes multi-fase, inteligencia de mercado con claude headless, matching datos × conocimiento experto, integración fuentes vía MCP/tools, output multi-formato
 - **Alto:** técnicas avanzadas no documentadas, frameworks Claude Code, agent orchestration multi-agente, context engineering en procesos de negocio, casos enterprise reales, MCP servers, CLI agents vs plataformas
 - **Medio:** entrega de skills a clientes, adopción enterprise (champions, change management), Claude Cowork, pricing/packaging, governance, advisory gobernanza IA, replicación internacional
 

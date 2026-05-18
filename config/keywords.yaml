@@ -50,10 +50,10 @@ categories:
       - "AI due diligence automation"
       - "AI competitive intelligence automation"
       - "generative AI enterprise workflows"
-      - "AI financial analysis automation"
-      - "AI business case generator"
-      - "AI market intelligence agent"
-      - "AI knowledge capture expert"
+      - "claude agent financial analysis"
+      - "agentic business case generation skills"
+      - "claude code market intelligence"
+      - "knowledge capture AI agent context"
 
   cli_agents_vs_platforms:
     name: "CLI Agents vs. Plataformas Legacy"

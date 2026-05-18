@@ -78,7 +78,7 @@ Usa el rango completo 5-10. No todo lo que pasa el triage merece un 7. Un vídeo
 - 1-4: Fuera del dominio o irrelevante.
 
 Señales que suben A (ordenadas por impacto en proyectos reales):
-- **Máximo impacto:** captura de conocimiento experto → contexto de agentes, automatización de análisis financiero/due diligence, generación automatizada de business cases, sistemas de inteligencia de mercado automatizados, matching datos mercado × conocimiento experto, integración fuentes externas en agentes, pipelines output multi-formato (md → HTML → PDF → email → Excel)
+- **Máximo impacto** (siempre implementado con skills Claude Code / Anthropic, NO herramientas SaaS genéricas): captura de conocimiento experto → contexto de agentes, automatización de análisis financiero/due diligence con skills, generación de business cases con agentes multi-fase, sistemas de inteligencia de mercado con claude headless + cron, matching datos × conocimiento experto, integración fuentes externas vía MCP/tools, pipelines output multi-formato (md → HTML → PDF → email → Excel)
 - **Alto impacto:** técnicas avanzadas no documentadas, nuevos frameworks Claude Code (BMAD, SPARC), agent orchestration multi-agente en producción, context engineering en procesos de negocio, casos enterprise reales, MCP servers relevantes, CLI agents vs n8n/LangGraph
 - **Impacto medio:** entrega de skills a clientes, adopción en empresa (champions, change management), Claude Cowork, pricing/packaging, governance de skills, advisory en gobernanza IA corporativa, replicación internacional de sistemas agénticos
 
