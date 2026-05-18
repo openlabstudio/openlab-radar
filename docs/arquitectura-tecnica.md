@@ -1065,6 +1065,54 @@ claude mcp add qmd-radar -s user -- npx -y @anthropic-ai/mcp-proxy http://VPS_IP
 
 Tras esto, Claude Code de cada usuario puede buscar en los briefs del observatorio vía QMD sin instalación local.
 
+**CLAUDE.md en la carpeta de briefs (clave para la UX):**
+
+Para que Claude Code sepa que debe usar QMD al consultar briefs, la carpeta sincronizada con Drive necesita un `CLAUDE.md` que lo instruya. Sin este fichero, Claude intentaría leer todos los `.md` uno a uno (lento, consume contexto). Con él, usa QMD directamente.
+
+```markdown
+# Observatorio [Cliente] — Knowledge Base
+
+Base de conocimiento con N+ briefs de inteligencia sobre [dominio del cliente].
+
+## Cómo buscar
+
+Usa QMD (búsqueda semántica) como primera opción. Devuelve los briefs más
+relevantes por significado sin necesidad de keywords exactos:
+
+mcp__qmd__query(
+  searches=[{type:'vec', query:'tu pregunta en lenguaje natural'}],
+  collection='radar',
+  intent='describe brevemente qué buscas'
+)
+
+Después lee los briefs devueltos con Read para profundizar.
+
+Para filtros precisos (score > 8, categoría, fecha, tags), usa:
+python3 scripts/radar_search.py --score-min 8 --category X --sort score
+
+## Estructura de los briefs
+
+Cada brief tiene frontmatter YAML con: title, date, category, score,
+score_breakdown (aplicabilidad/novedad/calidad), tags, source, url.
+
+## Categorías
+
+- [listar categorías del cliente]
+```
+
+**Flujo de usuario resultante:**
+
+```
+1. Usuario abre Claude Code en la carpeta de briefs (Drive)
+2. Claude lee CLAUDE.md → sabe que tiene QMD disponible
+3. Usuario pregunta: "¿qué hemos capturado sobre regulación de IA en banca?"
+4. Claude usa mcp__qmd__query → QMD devuelve 5 briefs relevantes con snippets
+5. Claude lee los 2-3 más relevantes con Read
+6. Claude sintetiza y responde con citas
+```
+
+El usuario no necesita saber que hay un QMD, un VPS o un índice semántico. Solo pregunta.
+
 **Evolución: frontend web**
 
 El daemon HTTP de QMD expone los mismos endpoints que el MCP server. Se puede construir un frontend web ligero que consulte `http://VPS:8181/` para dar acceso a personas que no usan Claude Code (dirección, stakeholders del cliente).
