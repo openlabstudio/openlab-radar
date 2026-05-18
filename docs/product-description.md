@@ -11,7 +11,7 @@ Sistema de inteligencia continua que monitoriza YouTube diariamente para detecta
 │  CRON DIARIO (08:00 UTC / 09:00 CET) — Solo Rafael      │
 │                                                         │
 │  1. Scraper (Python)                                    │
-│     YouTube Data API → 15 canales + 18 keywords          │
+│     YouTube Data API → 12 canales activos + 34 keywords   │
 │     Filtro: duración, exclusiones                       │
 │     Output: data/candidates-FECHA.json                  │
 │                                                         │
@@ -133,22 +133,32 @@ Si el transcript no está disponible, se usa título + descripción para el scor
 Tres dimensiones ponderadas (1-10):
 
 **A. Aplicabilidad directa a OPENLAB (×3)**
-- 9-10: Integrable directamente en un skill o en el pitch a un cliente
-- 7-8: Requiere adaptación pero tiene camino claro
-- 5-6: Interesante pero teórico
-- 1-4: Tangencial
+- 9-10: Patrón o técnica integrable directamente en un skill o un pitch esta semana
+- 8: Aplicable con adaptación menor, conexión clara con servicio/proyecto OPENLAB
+- 7: Relevante pero requiere trabajo significativo para aplicarlo
+- 6: Contenido del dominio correcto pero teórico o genérico
+- 5: Tangencialmente relacionado, contexto general sin argumentos
+- 1-4: Fuera del dominio o irrelevante
+
+Señales de máximo impacto para score A (siempre implementado con skills Claude / Anthropic): captura de conocimiento experto → contexto de agentes, análisis financiero/due diligence con skills, business cases con agentes multi-fase, inteligencia de mercado con claude headless, matching datos × conocimiento experto, integración fuentes vía MCP, output multi-formato.
 
 **B. Novedad (×2)**
-- 9-10: Completamente nuevo, no documentado
-- 7-8: Combinación nueva o profundización significativa
-- 5-6: Conocido pero bien explicado
-- 1-4: Repetición
+- 9-10: Concepto o técnica completamente nueva, no en briefs anteriores
+- 8: Combinación genuinamente nueva de ideas conocidas
+- 7: Algún ángulo nuevo pero el tema central ya está cubierto
+- 6: Bien explicado pero contenido conocido
+- 5: Repetición de ideas ya documentadas
+- 1-4: Contenido reciclado o trivial
 
 **C. Calidad de la fuente (×1)**
-- 9-10: Experiencia real en producción con datos/resultados
-- 7-8: Demo funcional con explicación técnica sólida
-- 5-6: Buen análisis sin evidencia práctica
-- 1-4: Opinión sin soporte
+- 9-10: Datos de producción real con métricas o caso de empresa con nombre
+- 8: Demo funcional completa o análisis técnico riguroso
+- 7: Explicación sólida pero basada en ejemplos toy
+- 6: Análisis razonable sin evidencia práctica
+- 5: Opinión sin soporte técnico, contenido superficial
+- 1-4: Especulación, clickbait o contenido engañoso
+
+Distribución esperada de scores finales: ~5% en 9-10, ~15% en 8-8.9, ~40% en 7-7.9, ~40% en 5-6.9.
 
 **Score final** = (A×3 + B×2 + C×1) / 6
 
@@ -207,11 +217,11 @@ Límite diario: 10.000 unidades.
 
 | Operación | Coste | Cantidad | Total |
 |-----------|-------|----------|-------|
-| Resolver canal (channels.list) | 1 unit | 15 canales | 15 |
-| Buscar vídeos por canal (search.list) | 100 units | 15 canales | 1.500 |
-| Buscar por keywords (search.list) | 100 units | 18 keywords | 1.800 |
+| Resolver canal (channels.list) | 1 unit | 12 canales activos | 12 |
+| Buscar vídeos por canal (search.list) | 100 units | 12 canales activos | 1.200 |
+| Buscar por keywords (search.list) | 100 units | 34 keywords | 3.400 |
 | Detalles de vídeos (videos.list) | 1 unit | ~3 calls | 3 |
-| **Total estimado** | | | **~3.318** |
+| **Total estimado** | | | **~4.615** |
 
 Margen amplio (~67% de la quota libre). Los transcripts se extraen vía MCP, sin coste de quota.
 
@@ -229,7 +239,7 @@ Margen amplio (~67% de la quota libre). Los transcripts se extraen vía MCP, sin
 | Canal | Handle | Foco | Prioridad |
 |-------|--------|------|-----------|
 | IndyDevDan | @indydevdan | Claude Code power user, skills, hooks, MCP | Alta |
-| David Ondrej | @DavidOndrej | Claude Cowork, agent tools, comparativas | Alta |
+| David Ondrej | @DavidOndrej | Claude Cowork, agent tools, comparativas | Baja (alto ruido histórico) |
 | AI Jason | @AIJasonZ | Workflows agénticos, multi-agent | Alta |
 | Sam Witteveen | @samwitteveen | Agent patterns avanzados, MCP | Media |
 | Cole Medin | @ColeMedin | MCP servers, agent architectures, RAG, Claude Code infra | Alta |
@@ -237,8 +247,8 @@ Margen amplio (~67% de la quota libre). Los transcripts se extraen vía MCP, sin
 ### Curación y tendencias
 | Canal | Handle | Foco | Prioridad |
 |-------|--------|------|-----------|
-| Matt Wolfe | @MattWolfe | Radar semanal de novedades IA | Media |
-| Fireship | @Fireship | Resúmenes densos de tendencias tech/IA | Media |
+| Matt Wolfe | @MattWolfe | Radar semanal de novedades IA | Baja (alto ruido histórico) |
+| Fireship | @Fireship | Resúmenes densos de tendencias tech/IA | Baja (alto ruido histórico) |
 | Latent Space | @LatentSpacePod | Entrevistas técnicas profundas | Media |
 | AI Engineer | @aidotengineer | Conferencias, talks técnicas | Media |
 
@@ -256,7 +266,7 @@ Margen amplio (~67% de la quota libre). Los transcripts se extraen vía MCP, sin
 
 ---
 
-## Keywords (18, optimizadas para quota)
+## Keywords (34, optimizadas para quota)
 
 ### context_engineering (5)
 `context engineering`, `CLAUDE.md skills`, `skills architecture agent`, `context window optimization LLM`, `agent skills standard`
@@ -267,8 +277,8 @@ Margen amplio (~67% de la quota libre). Los transcripts se extraen vía MCP, sin
 ### agentic_systems (5)
 `multi-agent pipeline production`, `agent orchestration patterns`, `agent evaluation reliability`, `agentic RAG production`, `agent handoff memory patterns`
 
-### enterprise_ai (4)
-`AI knowledge worker enterprise`, `AI due diligence automation`, `AI competitive intelligence automation`, `generative AI enterprise workflows`
+### enterprise_ai (8)
+`AI knowledge worker enterprise`, `AI due diligence automation`, `AI competitive intelligence automation`, `generative AI enterprise workflows`, `claude agent financial analysis`, `agentic business case generation skills`, `claude code market intelligence`, `knowledge capture AI agent context`
 
 ### cli_agents_vs_platforms (4)
 `claude code vs cursor vs copilot`, `CLI agents vs n8n zapier langchain`, `zero dependency AI agents`, `plain text markdown agents`
@@ -449,7 +459,7 @@ Ambos skills son puentes SSH desde el laptop. Todo el procesamiento (Claude head
 
 | Herramienta | Para qué | Estado |
 |-------------|----------|--------|
-| YouTube Data API v3 | Scraper (quota: 10K units/día, ~4.400 usados) | Configurada |
+| YouTube Data API v3 | Scraper (quota: 10K units/día, ~4.600 usados) | Configurada |
 | youtube-transcript MCP | Extraer transcripts completos (sin límite quota) | Instalado |
 | Telegram Bot (OPENLAB Radar Daily) | Briefing diario bidireccional (Rafael) | Configurado |
 | Canal Telegram OPENLAB Radar | Digest semanal broadcast (t.me/openlabRadar) | Configurado |
@@ -514,7 +524,7 @@ Para solicitar un insight: abrir Claude Code en el proyecto y pedir el análisis
 
 2. **youtube-transcript MCP para transcripts.** Sin coste de quota YouTube API. Permite evaluación con transcript completo en vez de solo título.
 
-3. **Keywords optimizadas (111 → 18).** YouTube Data API tiene 10.000 unidades/día. Con 18 keywords usamos ~3.315, margen amplio.
+3. **Keywords optimizadas (111 → 34).** YouTube Data API tiene 10.000 unidades/día. Con 34 keywords y 12 canales activos usamos ~4.600, margen amplio (~54% libre).
 
 4. **Canal Telegram sin comentarios.** Broadcast limpio, sin grupo de discusión vinculado que confunda al equipo.
 

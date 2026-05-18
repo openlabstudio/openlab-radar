@@ -8,7 +8,7 @@ Todo lo que puedes hacer con el radar y cómo hacerlo.
 
 Cada mañana a las **09:00 CET** el sistema hace solo su trabajo:
 
-1. Rastrea los 15 canales de YouTube monitorizados + 18 búsquedas por keywords
+1. Rastrea los 12 canales activos de YouTube monitorizados + 34 búsquedas por keywords
 2. Evalúa cada vídeo en 4 etapas: triage → transcript → scoring 3D → brief
 3. Te manda el **briefing del día** por email con los mejores vídeos ordenados por score
 4. Actualiza el **KB Viewer** en HTML y sincroniza todo con **Google Drive**
@@ -120,9 +120,9 @@ El insight incluye: síntesis de los briefs relevantes, patrones detectados, imp
 
 ## Tags disponibles para búsquedas
 
-**Técnicos:** `context-engineering` · `token-optimization` · `skill-design` · `agent-architecture` · `multi-agent` · `mcp` · `context-window` · `evaluation` · `tool-use` · `knowledge-management` · `long-running-agents` · `harness-engineering`
+**Técnicos:** `context-engineering` · `token-optimization` · `skill-design` · `agent-architecture` · `multi-agent` · `mcp` · `context-window` · `evaluation` · `tool-use` · `knowledge-management` · `long-running-agents` · `harness-engineering` · `enterprise-ai` · `knowledge-capture` · `financial-analysis` · `market-intelligence` · `data-integration` · `output-formatting` · `ai-governance`
 
-**Relevancia OPENLAB:** `commercial-argument` · `client-delivery` · `skill-pattern` · `new-service` · `workshop-material` · `competitive-intel`
+**Relevancia OPENLAB:** `commercial-argument` · `client-delivery` · `skill-pattern` · `new-service` · `workshop-material` · `competitive-intel` · `business-case-generation`
 
 **Tipo de señal:** `trend` · `technical-deep-dive` · `case-study` · `opinion` · `tutorial`
 

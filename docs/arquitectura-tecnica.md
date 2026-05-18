@@ -172,7 +172,7 @@ channels:
   - handle: "@NombreDelCanal"
     name: "Nombre visible"
     focus: "descripción del foco temático"
-    priority: high     # high | medium
+    priority: high     # high | medium | low (low = scraper lo salta)
     lang: en           # en | es
 ```
 
@@ -216,7 +216,7 @@ quality_filters:
 **Optimización de quota YouTube API (10.000 units/día):**
 - Cada canal: ~100 units/búsqueda
 - Cada keyword: ~100 units/búsqueda
-- Target: < 5.000 units/día para dejar margen
+- Target: < 5.000 units/día para dejar margen (actual: ~4.600 con 12 canales activos + 34 keywords)
 
 ### 5.3 `config/tags.yaml`
 
@@ -756,8 +756,11 @@ C: Calidad de la fuente (×1)             — genérico, pocas variaciones
 
 **Ejemplo de adaptación de A para un cliente de consultoría legal:**
 ```
-9-10: Patrón de automatización aplicable a due diligence mañana
-7-8:  Marco metodológico adaptable al proceso legal del cliente
+9-10: Patrón o técnica integrable directamente en un skill o un pitch esta semana
+8:    Aplicable con adaptación menor, conexión clara con servicio/proyecto del cliente
+7:    Relevante pero requiere trabajo significativo para aplicarlo
+6:    Contenido del dominio correcto pero teórico o genérico
+5:    Tangencialmente relacionado
 5-6:  Referencia teórica sin aplicación inmediata
 1-4:  Tangencial al negocio
 ```
