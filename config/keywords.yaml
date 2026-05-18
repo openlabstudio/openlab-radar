@@ -1,6 +1,6 @@
 # OPENLAB Radar - Keywords de búsqueda por categoría
 # Optimizado para quota YouTube API (10.000 unidades/día)
-# 14 canales (~1.400 units) + 30 keywords (~3.000 units) = ~4.400 units
+# 12 canales activos (~1.200 units) + 34 keywords (~3.400 units) = ~4.600 units
 # Margen para detalles de vídeos y safety buffer
 
 min_score_briefing: 7
@@ -50,6 +50,10 @@ categories:
       - "AI due diligence automation"
       - "AI competitive intelligence automation"
       - "generative AI enterprise workflows"
+      - "AI financial analysis automation"
+      - "AI business case generator"
+      - "AI market intelligence agent"
+      - "AI knowledge capture expert"
 
   cli_agents_vs_platforms:
     name: "CLI Agents vs. Plataformas Legacy"

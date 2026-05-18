@@ -16,6 +16,12 @@ technical:
   - long-running-agents
   - harness-engineering
   - enterprise-ai              # IA aplicada a procesos enterprise
+  - knowledge-capture          # captura de conocimiento experto → contexto de agentes
+  - financial-analysis         # análisis financiero, due diligence, valoraciones con agentes
+  - market-intelligence        # inteligencia de mercado automatizada, radares, observatorios
+  - data-integration           # integración de fuentes externas (APIs, registros, web scraping)
+  - output-formatting          # generación multi-formato (HTML, PDF, Excel, email corporativo)
+  - ai-governance              # gobernanza IA, arquitectura de capas, modelo de decisión
 
 openlab_relevance:
   - commercial-argument      # directamente usable en ventas o propuestas
@@ -24,6 +30,7 @@ openlab_relevance:
   - new-service              # oportunidad de nuevo servicio
   - workshop-material        # usable en DIBEX u otras formaciones
   - competitive-intel        # inteligencia sobre competidores o alternativas
+  - business-case-generation # generación automatizada de business cases o propuestas de valor
 
 signal_type:
   - trend                    # tendencia emergente

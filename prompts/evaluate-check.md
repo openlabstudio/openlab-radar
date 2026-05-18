@@ -73,7 +73,10 @@ Puntúa 3 dimensiones (1-10).
 - 5: Tangencialmente relacionado. Contexto general sin herramientas ni argumentos.
 - 1-4: Fuera del dominio o irrelevante.
 
-Señales que suben A: técnicas avanzadas no documentadas, nuevos frameworks para Claude Code (BMAD, SPARC), agent orchestration en producción, context engineering aplicado a negocio, casos enterprise reales, MCP servers relevantes, CLI agents vs n8n/LangGraph, entrega de skills a clientes, adopción en empresa, Claude Cowork, pricing/packaging, governance de skills.
+Señales que suben A (ordenadas por impacto en proyectos reales):
+- **Máximo:** captura de conocimiento experto → contexto de agentes, automatización de análisis financiero/due diligence, generación de business cases, sistemas de inteligencia de mercado automatizados, matching datos × conocimiento experto, integración fuentes externas, pipelines output multi-formato
+- **Alto:** técnicas avanzadas no documentadas, frameworks Claude Code, agent orchestration multi-agente, context engineering en procesos de negocio, casos enterprise reales, MCP servers, CLI agents vs plataformas
+- **Medio:** entrega de skills a clientes, adopción enterprise (champions, change management), Claude Cowork, pricing/packaging, governance, advisory gobernanza IA, replicación internacional
 
 **B. Novedad (×2)**
 - 9-10: Concepto o técnica completamente nueva. No está en ningún brief anterior.

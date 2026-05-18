@@ -102,19 +102,34 @@ Si todos tus scores caen en 7-8, estás puntuando demasiado alto. Fuerza la disc
 
 **Score final = (A×3 + B×2 + C×1) / 6**
 
-Señales que suben el score A (orientativas):
+Señales que suben el score A (orientativas, ordenadas por impacto en nuestros proyectos reales):
+
+**Señales de máximo impacto** (conectan directamente con lo que entregamos a clientes):
+- Captura de conocimiento experto y formalización en contexto de agentes (knowledge capture → ficheros .md auditables)
+- Automatización de análisis financiero o due diligence con agentes (DCF, valoraciones, extracción de cuentas anuales, scoring de inversiones)
+- Generación automatizada de business cases, investigación de mercado o propuestas de valor con agentes
+- Sistemas de inteligencia de mercado automatizados (radares, observatorios, monitors con cron + agentes)
+- Matching datos de mercado × conocimiento experto para priorización comercial (scoring multi-dimensional)
+- Integración de fuentes de datos externas en agentes (APIs, bases de datos públicas, registros mercantiles, web scraping estructurado)
+- Pipelines de output multi-formato desde un solo análisis (markdown → HTML corporativo → PDF → email → Excel)
+
+**Señales de alto impacto** (mejoran cómo construimos y entregamos):
 - Técnicas avanzadas no documentadas en docs oficiales
 - Nuevos frameworks/métodos para Claude Code (BMAD, SPARC, etc.)
-- Patrones de agent orchestration en producción
+- Patrones de agent orchestration en producción (multi-agente coordinado, especialización por dominio)
 - Context engineering aplicado a procesos de negocio
 - Casos reales de agentes en enterprise (no demos toy)
 - Nuevas capacidades de MCP servers relevantes
 - Argumentos de por qué CLI agents reemplazan n8n/Zapier/LangGraph
+
+**Señales de impacto medio** (apoyan el modelo de negocio y adopción):
 - Experiencias de agencias/freelancers entregando skills o CLI agents a clientes
-- Adopción de CLI agents en empresas: training, champions, onboarding
-- Claude Cowork como puente GUI para no-técnicos
+- Adopción de CLI agents en empresas: training, champions, onboarding, change management
+- Claude Cowork como puente GUI para no-técnicos en contexto enterprise
 - Pricing/packaging de servicios de IA agéntica basados en skills
 - Governance y escalado de skills en organizaciones
+- Advisory en gobernanza y arquitectura IA corporativa (modelo de capas, decisiones de plataforma)
+- Replicación internacional de sistemas agénticos (multi-país, multi-idioma)
 
 ---
 
