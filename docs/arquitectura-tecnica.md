@@ -976,3 +976,6 @@ Telegram tiene límite de 4.096 caracteres por mensaje. Los briefs son mucho má
 
 **¿Por qué rclone para Drive y no Drive API directamente?**
 rclone maneja autenticación, retry, sync diferencial y está probado en producción. La Drive API requeriría manejar OAuth2 flows y refresh tokens manualmente.
+
+**¿Por qué búsqueda por frontmatter y no búsqueda semántica (QMD)?**
+Se evaluó QMD (motor de búsqueda semántica local basado en BM25 + embeddings vectoriales + re-ranking LLM, creado por Tobi Lutke). Conclusión: son complementarios, no excluyentes. QMD excele en descubrimiento semántico ("briefs relacionados con safety en agentes") pero **no soporta filtrado estructurado** — no tiene operadores de campo (score > 8, category = X, date range). El caso de uso principal del Radar es filtrado estructurado por score, categoría, tags, fecha y sub-scores, para lo que el frontmatter YAML + `radar_search.py` es la solución correcta (<100ms vs 2-4s de QMD con re-ranking). QMD queda como mejora futura para añadir una capa de descubrimiento semántico complementaria (indexar los ~250 briefs en una colección QMD, ~45MB, con hook post-generación).
