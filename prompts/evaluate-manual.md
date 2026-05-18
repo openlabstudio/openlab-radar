@@ -63,27 +63,38 @@ Si el resultado es SÍ o QUIZÁ pero el score final (Etapa 3) es < 7,0, imprime 
 
 ## Etapa 3 — Scoring
 
-Puntúa 3 dimensiones (1-10):
+Puntúa 3 dimensiones (1-10).
+
+**IMPORTANTE — Calibración de scores:**
+Usa el rango completo 5-10. No todo lo que pasa el triage merece un 7. Un vídeo puede ser relevante (pasa triage) pero tener baja aplicabilidad práctica, poca novedad, o calidad mediocre — eso es un 5-6. Reserva 8+ para contenido genuinamente excepcional.
 
 **A. Aplicabilidad directa a OPENLAB (×3)**
-- 9-10: Integrable directamente en un skill o en el pitch a un cliente
-- 7-8: Requiere adaptación pero tiene camino claro
-- 5-6: Interesante pero teórico
-- 1-4: Tangencial
+¿Se puede usar mañana en un proyecto real o enseñar en el workshop DIBEX?
+- 9-10: Patrón, framework o técnica que OPENLAB puede integrar en un skill o usar en un pitch esta semana.
+- 8: Aplicable con adaptación menor. La conexión con un servicio o proyecto OPENLAB concreto es clara.
+- 7: Relevante para el dominio pero requiere trabajo significativo para aplicarlo.
+- 6: Contenido del dominio correcto pero teórico o genérico.
+- 5: Tangencialmente relacionado. Aporta contexto general pero no herramientas ni argumentos.
+- 1-4: Fuera del dominio o irrelevante.
 
 Señales que suben A: técnicas avanzadas no documentadas, nuevos frameworks para Claude Code (BMAD, SPARC), agent orchestration en producción, context engineering aplicado a negocio, casos enterprise reales, MCP servers relevantes, CLI agents vs n8n/LangGraph, entrega de skills a clientes, adopción en empresa, Claude Cowork, pricing/packaging, governance de skills.
 
 **B. Novedad (×2)**
-- 9-10: Completamente nuevo, no documentado
-- 7-8: Combinación nueva o profundización significativa
-- 5-6: Conocido pero bien explicado
-- 1-4: Repetición
+¿Es algo que OPENLAB no sabe o no ha visto formulado así?
+- 9-10: Concepto o técnica completamente nueva. No está en ningún brief anterior.
+- 8: Combinación genuinamente nueva de ideas conocidas.
+- 7: Algún ángulo nuevo pero el tema central ya está cubierto.
+- 6: Bien explicado pero contenido conocido.
+- 5: Repetición de ideas ya documentadas.
+- 1-4: Contenido reciclado o trivial.
 
 **C. Calidad de la fuente (×1)**
-- 9-10: Experiencia real en producción con datos/resultados
-- 7-8: Demo funcional con explicación técnica sólida
-- 5-6: Buen análisis sin evidencia práctica
-- 1-4: Opinión sin soporte
+- 9-10: Datos de producción real con métricas o caso de empresa con nombre.
+- 8: Demo funcional completa o análisis técnico riguroso con evidencia parcial.
+- 7: Explicación sólida pero basada en ejemplos toy.
+- 6: Análisis razonable sin evidencia práctica.
+- 5: Opinión sin soporte técnico. Contenido superficial.
+- 1-4: Especulación, clickbait o contenido engañoso.
 
 **Score final = (A×3 + B×2 + C×1) / 6**
 

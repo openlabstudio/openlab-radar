@@ -63,29 +63,44 @@ Si el transcript no está disponible, usa solo título + descripción para el sc
 
 ### ETAPA 3 — Scoring completo (con transcript)
 
-Para cada superviviente, evalúa 3 dimensiones (1-10):
+Para cada superviviente, evalúa 3 dimensiones (1-10).
+
+**IMPORTANTE — Calibración de scores:**
+Usa el rango completo 5-10. No todo lo que pasa el triage merece un 7. Un vídeo puede ser relevante (pasa triage) pero tener baja aplicabilidad práctica, poca novedad, o calidad mediocre — eso es un 5-6. Reserva 8+ para contenido genuinamente excepcional. La distribución esperada de scores finales entre los vídeos que pasan triage es aproximadamente:
+- 9-10: ~5% (excepcional, cambia cómo trabaja OPENLAB)
+- 8-8.9: ~15% (muy bueno, aplicable directamente)
+- 7-7.9: ~40% (bueno, requiere adaptación)
+- 5-6.9: ~40% (interesante pero limitado)
+
+Si todos tus scores caen en 7-8, estás puntuando demasiado alto. Fuerza la discriminación.
 
 **A. Aplicabilidad directa a OPENLAB (×3)**
 ¿Se puede usar mañana en un proyecto real o enseñar en el workshop DIBEX?
-- 9-10: Integrable directamente en un skill o en el pitch a un cliente
-- 7-8: Requiere adaptación pero tiene camino claro
-- 5-6: Interesante pero teórico
-- 1-4: Tangencial
+- 9-10: Patrón, framework o técnica que OPENLAB puede integrar en un skill o usar en un pitch esta semana. Ejemplo: un nuevo método de progressive disclosure en skills que resuelve un problema que tenemos.
+- 8: Aplicable con adaptación menor. La conexión con un servicio o proyecto OPENLAB concreto es clara.
+- 7: Relevante para el dominio pero requiere trabajo significativo para aplicarlo. La conexión es indirecta.
+- 6: Contenido del dominio correcto pero teórico o genérico. No se traduce en acción concreta a corto plazo.
+- 5: Tangencialmente relacionado. Aporta contexto general pero no herramientas ni argumentos.
+- 1-4: Fuera del dominio o irrelevante para OPENLAB.
 
 **B. Novedad (×2)**
-¿Es algo que OPENLAB no sabe?
-- 9-10: Completamente nuevo, no documentado
-- 7-8: Combinación nueva o profundización significativa
-- 5-6: Conocido pero bien explicado
-- 1-4: Repetición
+¿Es algo que OPENLAB no sabe o no ha visto formulado así?
+- 9-10: Concepto, técnica o dato completamente nuevo. No está en ningún brief anterior ni en la documentación oficial.
+- 8: Combinación genuinamente nueva de ideas conocidas, o profundización que cambia el entendimiento.
+- 7: Aporta algún ángulo nuevo pero el tema central ya está cubierto en briefs anteriores.
+- 6: Bien explicado pero el contenido es conocido. Útil como referencia, no como descubrimiento.
+- 5: Repetición de ideas ya documentadas con poca variación.
+- 1-4: Contenido reciclado o trivial.
 
 **C. Calidad de la fuente (×1)**
-- 9-10: Experiencia real en producción con datos/resultados
-- 7-8: Demo funcional con explicación técnica sólida
-- 5-6: Buen análisis sin evidencia práctica
-- 1-4: Opinión sin soporte
+- 9-10: Datos de producción real con métricas, resultados medibles o caso de empresa con nombre. El speaker tiene experiencia directa demostrable.
+- 8: Demo funcional completa o análisis técnico riguroso con evidencia parcial.
+- 7: Explicación técnica sólida pero basada en ejemplos toy o demos simplificadas.
+- 6: Análisis razonable pero sin evidencia práctica. Opinión informada.
+- 5: Opinión sin soporte técnico o experiencia demostrable. Contenido superficial.
+- 1-4: Especulación, clickbait o contenido engañoso.
 
-**Score final** = (A×3 + B×2 + C×1) / 6
+**Score final = (A×3 + B×2 + C×1) / 6**
 
 Señales que suben el score A (orientativas):
 - Técnicas avanzadas no documentadas en docs oficiales
