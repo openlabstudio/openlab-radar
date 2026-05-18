@@ -37,17 +37,43 @@ fi
 
 cd "$PROJECT_DIR"
 
-# --- Paso 1: Generar digest ---
+# --- Paso 0: Health Check ---
+echo ""
+echo ">>> PASO 0: Health Check semanal"
+
+HEALTH_DIR="$PROJECT_DIR/data/health-reports"
+mkdir -p "$HEALTH_DIR"
+HEALTH_FILE="$HEALTH_DIR/$TODAY-health.md"
+
+python3 "$PROJECT_DIR/scripts/radar_health_check.py" \
+    --db "$PROJECT_DIR/data/radar.db" \
+    --briefs "$PROJECT_DIR/briefs" \
+    --tags "$PROJECT_DIR/config/tags.yaml" \
+    --channels "$PROJECT_DIR/config/channels.yaml" \
+    --logs "$PROJECT_DIR/data/logs" \
+    --output "$HEALTH_FILE" \
+    && echo "Health check generado: $HEALTH_FILE" \
+    || echo "WARN: Health check fallo (no bloqueante)."
+
+# --- Paso 1: Generar digest semanal ---
 echo ""
 echo ">>> PASO 1: Generar digest semanal"
 
 DIGEST_FILE="$PROJECT_DIR/briefs/weekly-digests/$TODAY-weekly-digest.md"
+
+HEALTH_CONTEXT=""
+if [ -s "$HEALTH_FILE" ]; then
+    HEALTH_CONTEXT="
+
+Lee tambien el health check de esta semana en $HEALTH_FILE e incluye las alertas relevantes en la seccion de Recomendaciones."
+fi
 
 claude -p "$(cat "$PROJECT_DIR/prompts/weekly-digest.md")
 
 Fecha de hoy: $TODAY
 Directorio de briefs: $PROJECT_DIR/briefs/
 Base de datos: $PROJECT_DIR/data/radar.db
+${HEALTH_CONTEXT}
 
 Analiza los briefings de los últimos 7 días y genera el digest semanal. Guarda el resultado en: $DIGEST_FILE" \
   --allowedTools "Read,Write,Glob,Bash" \

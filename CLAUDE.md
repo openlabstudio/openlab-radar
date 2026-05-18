@@ -43,9 +43,11 @@ scripts/
   md_to_weekly_html.py   → digest semanal → HTML email
   notify.py              → notificaciones Telegram
   generate_kb_viewer.py  → genera data/kb_viewer.html
+  radar_health_check.py  → fitness functions: métricas de salud del sistema
 data/
   radar.db               → SQLite con todos los vídeos procesados
   kb_viewer.html         → dashboard KB (sincronizado con Drive)
+  health-reports/        → informes semanales de salud del sistema
 docs/
   arquitectura-tecnica.md
   guia-uso.md
@@ -59,6 +61,7 @@ docs/
 0  7 * * *   run_daily.sh    → 09:00 CEST / 08:00 CET
 30 7 * * 5   run_weekly.sh   → viernes 09:30 CEST / 08:30 CET
 0  9 * * *   run_recovery.sh → 11:00 CEST (relanza evaluador si el daily falló)
+30 8 * * *   radar_health_check.py --alerts-only → 10:30 CEST (alertas Telegram si hay umbrales rotos)
 ```
 
 Verificar: `crontab -l`
@@ -85,4 +88,5 @@ Los crons usan `claude -p`. Token en `config/.env` → `CLAUDE_CODE_OAUTH_TOKEN`
 | rclone → Google Drive | ✅ Activo |
 | KB Viewer (`radar.openlabstudio.com`) | ✅ Activo |
 | Skills `radar-check-video` / `radar-add-video-remote` | ✅ Activo |
+| Health Check (fitness functions) | ✅ Activo (alertas diarias + informe semanal) |
 | Email digest semanal al equipo | ⏳ Pendiente (`docs/improvements/setup-email-digest-semanal.md`) |
