@@ -103,4 +103,4 @@ Dos mecanismos complementarios:
 | Health Check (fitness functions) | ✅ Activo (alertas diarias + informe semanal) |
 | Frontmatter enriquecido + `radar_search.py` | ✅ Activo |
 | QMD búsqueda semántica (colección `radar`) | ✅ Activo (laptop, 242 docs) |
-| Email digest semanal al equipo | ⏳ Pendiente (`docs/improvements/setup-email-digest-semanal.md`) |
+| Email digest semanal al equipo | ✅ Activo (rafa, alberto, carlos, pepe) |

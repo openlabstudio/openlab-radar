@@ -6,9 +6,10 @@ Cada viernes a las 09:30 CET, el pipeline semanal genera el digest y lo envía p
 
 ## Estado actual
 
-- `run_weekly.sh`: el Paso 3 (email) **ya está implementado**, usa `gws gmail +send`
-- `gws`: **instalado** en el VPS, **pendiente de auth**
-- `DIGEST_EMAIL_RECIPIENTS`: **no configurado** en `.env`
+- `run_weekly.sh`: Paso 3 (email) **implementado**, usa `md_to_weekly_html.py` + `gws gmail +send --html`
+- `gws`: **instalado y autenticado** en el VPS (cuenta: rafa@openlabstudio.com)
+- `DIGEST_EMAIL_RECIPIENTS`: **configurado** — rafa, alberto, carlos, pepe @openlabstudio.com
+- **Verificado:** test enviado 2026-05-18, email HTML recibido correctamente
 
 ---
 

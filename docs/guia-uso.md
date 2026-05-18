@@ -228,4 +228,4 @@ El insight incluye: síntesis de los briefs relevantes, patrones detectados, imp
 | Health Check (fitness functions) | ✅ Activo (alertas diarias + informe semanal) |
 | Búsqueda estructurada (`radar_search.py`) | ✅ Activo |
 | Frontmatter enriquecido (score_breakdown, duration, secondary_category) | ✅ Activo |
-| Email digest semanal al equipo | ⏳ Pendiente auth gws |
+| Email digest semanal al equipo | ✅ Activo (rafa, alberto, carlos, pepe) |
