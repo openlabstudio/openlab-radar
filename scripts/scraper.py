@@ -318,6 +318,9 @@ def main():
     for ch in channels_cfg.get("channels", []):
         handle = ch["handle"]
         name = ch["name"]
+        if ch.get("priority") == "low":
+            print(f"  {name} ({handle})... SKIP (low priority)")
+            continue
         print(f"  {name} ({handle})...", end=" ")
 
         channel_id = resolve_channel_id(youtube, handle)

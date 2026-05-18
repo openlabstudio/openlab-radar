@@ -1,7 +1,7 @@
 # OPENLAB Radar - Canales monitorizados
 # handle: se usa para resolver el channel_id via YouTube Data API
 # focus: temática principal del canal
-# priority: high = siempre evaluar, medium = evaluar si pasa filtro de keywords
+# priority: high = siempre evaluar, medium = evaluar si pasa filtro de keywords, low = monitorizar sin evaluar (alto ruido histórico)
 
 channels:
   # --- Oficiales / Expertos de referencia ---
@@ -27,7 +27,7 @@ channels:
   - handle: "@DavidOndrej"
     name: "David Ondrej"
     focus: "claude cowork, agent tools, nuevas features, comparativas"
-    priority: high
+    priority: low               # health check: 21 scrapes, 0 briefs en histórico
     lang: en
 
   - handle: "@AIJasonZ"
@@ -52,13 +52,13 @@ channels:
   - handle: "@MattWolfe"
     name: "Matt Wolfe"
     focus: "radar semanal de novedades IA"
-    priority: medium
+    priority: low               # health check: 13 scrapes, 0 briefs en histórico
     lang: en
 
   - handle: "@Fireship"
     name: "Fireship"
     focus: "resúmenes densos de tendencias tech/IA"
-    priority: medium
+    priority: low               # health check: 14 scrapes, 0 briefs en histórico
     lang: en
 
   - handle: "@LatentSpacePod"
