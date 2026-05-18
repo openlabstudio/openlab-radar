@@ -209,12 +209,18 @@ Categorías = carpetas:
 title: "[Título del vídeo]"
 date: YYYY-MM-DD
 category: categoría
+secondary_category: otra-categoría   # solo si encaja en dos categorías; omitir si no aplica
 score: X.X
+score_breakdown:
+  aplicabilidad: X
+  novedad: X
+  calidad: X
 tags:
   - tag1
   - tag2
 source: nombre del canal
 url: URL
+duration: "Xmin"
 ---
 
 # [Título del vídeo]

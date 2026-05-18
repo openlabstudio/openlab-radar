@@ -26,6 +26,8 @@ try:
 except ImportError:
     HAS_YAML = False
 
+from radar_utils import parse_frontmatter as _shared_parse_frontmatter
+
 # Logo extraído del email (mismo origen que md_to_email_html.py)
 def _load_logo() -> str:
     try:
@@ -56,24 +58,7 @@ CAT_DEFAULT = ("", "General")
 # ──────────────────────────────────────────────────────────────────────────────
 def parse_frontmatter(path: Path):
     """Retorna (dict, body_str). Si no hay frontmatter válido → ({}, full_text)."""
-    text = path.read_text(encoding="utf-8", errors="replace")
-    m = re.match(r'^---\n(.*?)\n---\s*\n?(.*)', text, re.DOTALL)
-    if not m:
-        return {}, text
-
-    fm = {}
-    if HAS_YAML:
-        try:
-            fm = yaml.safe_load(m.group(1)) or {}
-        except Exception:
-            pass
-    else:
-        # Fallback sin pyyaml: parsear key: value simples
-        for line in m.group(1).split('\n'):
-            kv = re.match(r'^([\w-]+):\s*(.+)$', line)
-            if kv:
-                fm[kv.group(1)] = kv.group(2).strip().strip('"\'')
-    return fm, m.group(2)
+    return _shared_parse_frontmatter(path)
 
 
 def extract_title_from_body(body: str) -> str:
@@ -165,15 +150,28 @@ def parse_brief(path: Path) -> dict:
     else:
         tags = []
 
+    # Score breakdown
+    sb = fm.get('score_breakdown', {})
+    if not isinstance(sb, dict):
+        sb = {}
+
+    # Telegraph URL: preferir frontmatter, fallback a body
+    telegraph = str(fm.get('telegraph_url', '')).strip() or extract_telegraph_url(body)
+
     return {
         "title": title,
         "date": date_str,
         "category": category,
+        "secondary_category": str(fm.get('secondary_category', '')).strip(),
         "score": score,
+        "aplicabilidad": sb.get("aplicabilidad", 0),
+        "novedad": sb.get("novedad", 0),
+        "calidad": sb.get("calidad", 0),
         "tags": tags,
         "source": str(fm.get('source', '')).strip(),
         "url": str(fm.get('url', '')).strip(),
-        "telegraph_url": extract_telegraph_url(body),
+        "telegraph_url": telegraph,
+        "duration": str(fm.get('duration', '')).strip(),
         "excerpt": extract_excerpt(body),
     }
 

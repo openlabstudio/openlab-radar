@@ -177,17 +177,34 @@ if [ -n "$BRIEF_FILES" ]; then
 
         echo "$TELEGRAPH_OUTPUT" | while IFS=$'\t' read -r filepath url; do
             echo "  Publicado: $url"
-            # Escribir URL de vuelta al .md si no está ya
+            # Escribir URL de vuelta al .md (frontmatter YAML + cuerpo)
             if ! grep -q "^\*\*Telegraph:\*\*" "$filepath" 2>/dev/null; then
                 python3 -c "
 import re, sys
+sys.path.insert(0, '$(dirname "$0")')
 path, url = sys.argv[1], sys.argv[2]
 content = open(path).read()
+
+# 1. Inyectar telegraph_url en frontmatter YAML
+try:
+    import yaml
+    m = re.match(r'^---\n(.*?)\n---(\s*\n?)(.*)', content, re.DOTALL)
+    if m:
+        fm = yaml.safe_load(m.group(1)) or {}
+        if 'telegraph_url' not in fm:
+            fm['telegraph_url'] = url
+            yaml_str = yaml.dump(fm, default_flow_style=False, allow_unicode=True, sort_keys=False, width=200)
+            content = '---\n' + yaml_str + '---' + m.group(2) + m.group(3)
+except Exception:
+    pass
+
+# 2. Inyectar en cuerpo (antes de Fuente)
 old = re.search(r'^- \*\*Fuente:\*\*', content, re.MULTILINE)
 if old:
     insert = '- **Telegraph:** ' + url + '\n'
     content = content[:old.start()] + insert + content[old.start():]
-    open(path, 'w').write(content)
+
+open(path, 'w').write(content)
 " "$filepath" "$url" && echo "    URL escrita en $filepath"
             fi
         done

@@ -17,12 +17,30 @@ Analiza todos los briefings de la semana y genera un digest con tendencias, gaps
 ### Secciones del digest
 
 ```markdown
-# OPENLAB Radar - Digest Semanal [FECHA_INICIO] a [FECHA_FIN]
+---
+type: weekly-digest
+date_start: FECHA_INICIO
+date_end: FECHA_FIN
+videos_scanned: X
+triage_passed: T
+briefed: Y
+avg_score: Z
+mentions: M
+categories_covered:
+  - category1
+  - category2
+---
+
+# OPENLAB Radar - Digest Semanal FECHA_INICIO a FECHA_FIN
 
 ## Resumen
-- Vídeos evaluados esta semana: X
-- Seleccionados: Y (media score: Z)
-- Por categoría: context_engineering (N), claude_code_advanced (N), ...
+- **Vídeos escaneados esta semana:** X
+- **Pasaron triage:** T
+- **Seleccionados para briefing (score ≥ 7.0):** Y (media score: Z)
+- **Menciones rápidas (6.0–6.9):** M
+- **Por categoría:**
+  - category1: N
+  - category2: N
 
 ## Tendencias de la Semana
 Las 2-3 tendencias más relevantes detectadas. ¿De qué está hablando la comunidad?

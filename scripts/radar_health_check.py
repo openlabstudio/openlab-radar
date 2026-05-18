@@ -27,49 +27,13 @@ except ImportError:
     yaml = None
 
 from notify import send_status, _load_env
+from radar_utils import parse_frontmatter as _parse_fm, load_briefs
 
 
 def parse_frontmatter(filepath):
-    """Extrae frontmatter YAML de un brief markdown."""
-    text = filepath.read_text(encoding="utf-8", errors="replace")
-    m = re.match(r"^---\n(.+?)\n---", text, re.DOTALL)
-    if not m:
-        return None
-    fm = {}
-    for line in m.group(1).splitlines():
-        line = line.strip()
-        if line.startswith("- "):
-            # tag list item
-            if "_current_key" in fm:
-                fm.setdefault(fm["_current_key"], []).append(line[2:].strip().strip('"').strip("'"))
-            continue
-        if ":" in line:
-            key, _, val = line.partition(":")
-            key = key.strip()
-            val = val.strip().strip('"').strip("'")
-            if val:
-                fm[key] = val
-            else:
-                fm["_current_key"] = key
-                fm.setdefault(key, [])
-    fm.pop("_current_key", None)
-    return fm
-
-
-def load_briefs(briefs_dir):
-    """Carga todos los briefs individuales (excluyendo daily-briefings y weekly-digests)."""
-    briefs = []
-    exclude = {"daily-briefings", "weekly-digests"}
-    for cat_dir in sorted(briefs_dir.iterdir()):
-        if not cat_dir.is_dir() or cat_dir.name in exclude:
-            continue
-        for md in cat_dir.glob("*.md"):
-            fm = parse_frontmatter(md)
-            if fm and "date" in fm:
-                fm["_category_dir"] = cat_dir.name
-                fm["_path"] = str(md)
-                briefs.append(fm)
-    return briefs
+    """Extrae frontmatter YAML de un brief markdown (wrapper de compatibilidad)."""
+    fm, _ = _parse_fm(filepath)
+    return fm if fm else None
 
 
 def load_tags_yaml(tags_path):
@@ -381,6 +345,52 @@ def pipeline_report(logs_dir, today):
     return "\n".join(lines), alerts
 
 
+VALID_CATEGORIES = {
+    "agentic-systems", "claude-code-advanced", "context-engineering",
+    "delivery-adoption", "enterprise-ai", "cli-vs-platforms",
+}
+
+
+def frontmatter_quality_report(briefs):
+    """Valida completitud del frontmatter enriquecido."""
+    alerts = []
+    lines = []
+
+    missing_breakdown = 0
+    missing_duration = 0
+    missing_telegraph = 0
+    invalid_secondary = []
+
+    for b in briefs:
+        sb = b.get("score_breakdown")
+        if not sb or not isinstance(sb, dict):
+            missing_breakdown += 1
+        if not b.get("duration"):
+            missing_duration += 1
+        if not b.get("telegraph_url"):
+            # Solo alertar si es un brief viejo (>1 día) — los nuevos puede que no estén publicados aún
+            pass
+        sec = b.get("secondary_category")
+        if sec and sec not in VALID_CATEGORIES:
+            invalid_secondary.append(f"{b.get('_path', '?')}: secondary_category='{sec}'")
+
+    total = len(briefs)
+    lines.append(f"Briefs con score_breakdown: {total - missing_breakdown}/{total}")
+    lines.append(f"Briefs con duration: {total - missing_duration}/{total}")
+
+    if missing_breakdown > 0:
+        alerts.append(f"{missing_breakdown} briefs sin score_breakdown en frontmatter")
+    if missing_duration > 0:
+        alerts.append(f"{missing_duration} briefs sin duration en frontmatter")
+    if invalid_secondary:
+        lines.append(f"secondary_category invalida: {len(invalid_secondary)}")
+        for entry in invalid_secondary[:3]:
+            lines.append(f"  {entry}")
+        alerts.append(f"{len(invalid_secondary)} briefs con secondary_category no valida")
+
+    return "\n".join(lines), alerts
+
+
 def generate_report(briefs, official_tags, db_path, monitored_channels, logs_dir, today, period_days=30):
     """Genera el informe completo."""
     sections = []
@@ -417,6 +427,12 @@ def generate_report(briefs, official_tags, db_path, monitored_channels, logs_dir
     # Pipeline
     text, alerts = pipeline_report(logs_dir, today)
     sections.append("\n## Pipeline\n")
+    sections.append(text)
+    all_alerts.extend(alerts)
+
+    # Calidad de frontmatter
+    text, alerts = frontmatter_quality_report(briefs)
+    sections.append("\n## Calidad de frontmatter\n")
     sections.append(text)
     all_alerts.extend(alerts)
 
