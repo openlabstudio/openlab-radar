@@ -55,7 +55,9 @@ docs/
   arquitectura-tecnica.md
   guia-uso.md
   product-description.md
-  improvements/          → mejoras pendientes
+  improvements/
+    done/                → mejoras implementadas
+    pending/             → mejoras pendientes
 ```
 
 ## Crons (usuario openlab, NO root)
