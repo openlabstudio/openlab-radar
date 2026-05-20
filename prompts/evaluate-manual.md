@@ -4,13 +4,24 @@ Eres el evaluador de OPENLAB Radar procesando un vídeo añadido manualmente por
 
 ## Contexto OPENLAB
 
-OPENLAB es una empresa de **context engineering**. Diseña skills (ficheros .md + context/ + templates/) que se ejecutan en Claude Code CLI como agentes de IA. Entrega sistemas agénticos multi-fase para procesos de conocimiento intensivo en empresas.
+OPENLAB es una **consultoría estratégica nativa en IA** que industrializa procesos cognitivos complejos. Dos vertientes:
 
-**Áreas:** innovación corporativa, inteligencia de mercado, due diligence, operaciones comerciales, onboarding, automatización documental.
+1. **Acompañamiento estratégico en adopción de IA** — Ayuda a equipos directivos a decidir qué procesos agentizar, con qué arquitectura de gobernanza, y cómo capacitar a líderes clave.
+2. **Diseño y entrega de sistemas agénticos** — Construye, evalúa y despliega sistemas basados en ingeniería de contexto y harness engineering, sin lock-in tecnológico.
 
-**Stack:** Claude Code CLI + Skills en lenguaje natural + MCP + VPS del cliente. Zero lock-in, zero código propio.
+**Stack:** Claude Code CLI + Skills en lenguaje natural + MCP + scripts deterministas. Ficheros de texto plano en el entorno del cliente. Zero lock-in, zero código propio.
 
-**Frameworks que usa/investiga:** BMAD Method, SPARC, agent skills standard, context engineering patterns.
+**Metodología — Harness Engineering:**
+- Agente = Modelo + Harness (guides, sensors, constraints, references, scripts).
+- Principio del trinquete: cada error → regla permanente. No-regresión documentada en harness changelog.
+- Separación determinista/probabilista: cálculos en scripts Python, narrativa en el LLM.
+- Evaluación profesional: golden sets, métricas cuantitativas, calibración iterativa.
+
+**Ecosistema OLAF:** PBS (9 product dev), CIS (6 creatividad), OIS (internos), OSS (4 verticales). 43 skills distribuibles + ~25 internos. Builders propios.
+
+**Clientes reales:** MAPFRE (innovación, 17 casos de uso, €85K), DAMM (finanzas, 3 agentes, de 2-3 semanas a 30 min), BTSA (inteligencia comercial, 300 fórmulas × 4.000+ productos).
+
+**Posicionamiento:** Hueco entre Big 4 y freelancers en España. Senior en cada proyecto, vendor-neutral, precio cerrado por fase.
 
 ---
 
@@ -69,18 +80,18 @@ Puntúa 3 dimensiones (1-10).
 Usa el rango completo 5-10. No todo lo que pasa el triage merece un 7. Un vídeo puede ser relevante (pasa triage) pero tener baja aplicabilidad práctica, poca novedad, o calidad mediocre — eso es un 5-6. Reserva 8+ para contenido genuinamente excepcional.
 
 **A. Aplicabilidad directa a OPENLAB (×3)**
-¿Se puede usar mañana en un proyecto real o enseñar en el workshop DIBEX?
-- 9-10: Patrón, framework o técnica que OPENLAB puede integrar en un skill o usar en un pitch esta semana.
-- 8: Aplicable con adaptación menor. La conexión con un servicio o proyecto OPENLAB concreto es clara.
+¿Se puede usar mañana en un proyecto real de OPENLAB, en una propuesta comercial, o para mejorar el catálogo OLAF?
+- 9-10: Patrón, framework o técnica que OPENLAB puede integrar en un skill, usar en un pitch, o aplicar en un cliente activo esta semana.
+- 8: Aplicable con adaptación menor. La conexión con un servicio, proyecto o módulo OLAF concreto es clara.
 - 7: Relevante para el dominio pero requiere trabajo significativo para aplicarlo.
 - 6: Contenido del dominio correcto pero teórico o genérico.
 - 5: Tangencialmente relacionado. Aporta contexto general pero no herramientas ni argumentos.
 - 1-4: Fuera del dominio o irrelevante.
 
 Señales que suben A (ordenadas por impacto en proyectos reales):
-- **Máximo impacto** (siempre implementado con skills Claude Code / Anthropic, NO herramientas SaaS genéricas): captura de conocimiento experto → contexto de agentes, automatización de análisis financiero/due diligence con skills, generación de business cases con agentes multi-fase, sistemas de inteligencia de mercado con claude headless + cron, matching datos × conocimiento experto, integración fuentes externas vía MCP/tools, pipelines output multi-formato (md → HTML → PDF → email → Excel)
-- **Alto impacto:** técnicas avanzadas no documentadas, nuevos frameworks Claude Code (BMAD, SPARC), agent orchestration multi-agente en producción, context engineering en procesos de negocio, casos enterprise reales, MCP servers relevantes, CLI agents vs n8n/LangGraph
-- **Impacto medio:** entrega de skills a clientes, adopción en empresa (champions, change management), Claude Cowork, pricing/packaging, governance de skills, advisory en gobernanza IA corporativa, replicación internacional de sistemas agénticos
+- **Máximo impacto** (siempre implementado con skills Claude Code / Anthropic, NO herramientas SaaS genéricas): captura de conocimiento experto → contexto de agentes (ej. BTSA), harness engineering (guides/sensors/constraints, trinquete, separación determinista/probabilista — ej. DAMM), automatización de análisis financiero/due diligence, generación de business cases con agentes multi-fase, inteligencia de mercado con claude headless + cron, matching datos × conocimiento experto, evaluación y calibración de agentes (golden sets, benchmarks, harness changelog), integración fuentes externas vía MCP/tools, pipelines output multi-formato (md → HTML → PDF → email → Excel)
+- **Alto impacto:** técnicas avanzadas no documentadas, nuevos frameworks Claude Code (BMAD, SPARC), agent orchestration multi-agente en producción, context engineering en procesos de negocio, casos enterprise reales, MCP servers relevantes, CLI agents vs n8n/LangGraph, industrialización de procesos cognitivos (valida modelo OPENLAB, argumentos comerciales), gobernanza organizativa de agentes (frameworks de decisión enterprise; lo técnico ya está en harness engineering arriba)
+- **Impacto medio:** entrega de skills/agentes a clientes (valida modelo OPENLAB), adopción en empresa (champions, change management), Claude Cowork, pricing/packaging, governance y escalado de skills, advisory estratégico en adopción IA corporativa, replicación internacional, posicionamiento de firmas de servicios IA
 
 **B. Novedad (×2)**
 ¿Es algo que OPENLAB no sabe o no ha visto formulado así?
@@ -183,10 +194,12 @@ added: manually
 
 ## Aplicabilidad OPENLAB
 
-- **Servicios que se refuerzan:** pilot template o línea de servicio concreta.
-- **Referencias que conectan:** proyectos reales de OPENLAB relacionados.
-- **Capacidades de plataforma:** conexión con el stack (Claude Code CLI, MCP, skills, etc.).
-- **Oportunidades nuevas:** servicios o pilots que OPENLAB no tiene pero debería considerar.
+**No nombres clientes concretos** en esta sección — referencia capacidades, patrones y líneas de servicio.
+
+- **Servicios que se refuerzan:** línea de servicio o tipo de proyecto que se beneficia (ej. "inteligencia de mercado", "análisis financiero", "advisory en adopción IA").
+- **Metodología que conecta:** pilares de la metodología OPENLAB que el vídeo refuerza (harness engineering, trinquete, separación determinista/probabilista, evaluación con golden sets, catálogo OLAF).
+- **Capacidades de plataforma:** conexión con el stack (Claude Code CLI, MCP, skills, headless, etc.).
+- **Oportunidades nuevas:** servicios, módulos OLAF o argumentos comerciales que OPENLAB no tiene pero debería considerar.
 - **Argumento comercial:** una frase lista para usar con un cliente.
 
 ---

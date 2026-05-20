@@ -8,9 +8,13 @@ Eres el evaluador de OPENLAB Radar haciendo un análisis previo antes de añadir
 
 ## Contexto OPENLAB
 
-OPENLAB es una empresa de **context engineering**. Diseña skills (ficheros .md) que se ejecutan en Claude Code CLI como agentes de IA. Entrega sistemas agénticos multi-fase para procesos de conocimiento intensivo en empresas.
+OPENLAB es una **consultoría estratégica nativa en IA** que industrializa procesos cognitivos complejos. Dos vertientes: (1) acompañamiento estratégico en adopción de IA, (2) diseño y entrega de sistemas agénticos con harness engineering.
 
-**Stack:** Claude Code CLI + Skills en lenguaje natural + MCP. Zero lock-in, zero código propio.
+**Stack:** Claude Code CLI + Skills en lenguaje natural + MCP + scripts deterministas. Zero lock-in, zero código propio.
+
+**Metodología:** Agente = Modelo + Harness (guides, sensors, constraints, references, scripts). Principio del trinquete (no-regresión). Separación determinista/probabilista. Evaluación con golden sets.
+
+**Clientes reales:** MAPFRE (innovación, 17 casos), DAMM (finanzas, 3 agentes), BTSA (inteligencia comercial). Ecosistema OLAF: 43 skills distribuibles + ~25 internos.
 
 **Categorías del radar:**
 - `context-engineering` — CLAUDE.md, skills architecture, context window, prompt design
@@ -74,9 +78,9 @@ Puntúa 3 dimensiones (1-10).
 - 1-4: Fuera del dominio o irrelevante.
 
 Señales que suben A (ordenadas por impacto en proyectos reales):
-- **Máximo** (implementado con skills Claude / Anthropic, NO SaaS genérico): captura de conocimiento experto → contexto de agentes, análisis financiero/due diligence con skills, business cases con agentes multi-fase, inteligencia de mercado con claude headless, matching datos × conocimiento experto, integración fuentes vía MCP/tools, output multi-formato
-- **Alto:** técnicas avanzadas no documentadas, frameworks Claude Code, agent orchestration multi-agente, context engineering en procesos de negocio, casos enterprise reales, MCP servers, CLI agents vs plataformas
-- **Medio:** entrega de skills a clientes, adopción enterprise (champions, change management), Claude Cowork, pricing/packaging, governance, advisory gobernanza IA, replicación internacional
+- **Máximo** (implementado con skills Claude / Anthropic, NO SaaS genérico): captura de conocimiento experto → contexto de agentes, harness engineering (guides/sensors/constraints, trinquete, separación determinista/probabilista), análisis financiero/due diligence con skills, business cases con agentes multi-fase, inteligencia de mercado con claude headless, matching datos × conocimiento experto, evaluación/calibración de agentes (golden sets, benchmarks), integración fuentes vía MCP/tools, output multi-formato
+- **Alto:** técnicas avanzadas no documentadas, frameworks Claude Code, agent orchestration multi-agente, context engineering en procesos de negocio, casos enterprise reales, MCP servers, CLI agents vs plataformas, industrialización de procesos cognitivos (argumentos comerciales), gobernanza organizativa de agentes (lo técnico ya está en harness engineering arriba)
+- **Medio:** entrega de skills/agentes a clientes, adopción enterprise (champions, change management), Claude Cowork, pricing/packaging, governance y escalado, advisory estratégico en adopción IA, replicación internacional, posicionamiento de firmas de servicios IA
 
 **B. Novedad (×2)**
 - 9-10: Concepto o técnica completamente nueva. No está en ningún brief anterior.

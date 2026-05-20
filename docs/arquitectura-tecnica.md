@@ -242,7 +242,7 @@ openlab_relevance:            # Sustituir por relevance del cliente
   - client-delivery
   - skill-pattern
   - new-service
-  - workshop-material
+  - training-material
 
 signal_type:
   - trend

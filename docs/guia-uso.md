@@ -205,7 +205,7 @@ El insight incluye: síntesis de los briefs relevantes, patrones detectados, imp
 
 **Técnicos:** `context-engineering` · `token-optimization` · `skill-design` · `agent-architecture` · `multi-agent` · `mcp` · `context-window` · `evaluation` · `tool-use` · `knowledge-management` · `long-running-agents` · `harness-engineering` · `enterprise-ai` · `knowledge-capture` · `financial-analysis` · `market-intelligence` · `data-integration` · `output-formatting` · `ai-governance`
 
-**Relevancia OPENLAB:** `commercial-argument` · `client-delivery` · `skill-pattern` · `new-service` · `workshop-material` · `competitive-intel` · `business-case-generation`
+**Relevancia OPENLAB:** `commercial-argument` · `client-delivery` · `skill-pattern` · `new-service` · `training-material` · `competitive-intel` · `business-case-generation`
 
 **Tipo de señal:** `trend` · `technical-deep-dive` · `case-study` · `opinion` · `tutorial`
 

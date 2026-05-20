@@ -322,7 +322,7 @@ commercial-argument     → directamente usable en ventas o propuestas
 client-delivery         → aplicable a cómo entregamos
 skill-pattern           → patrón reutilizable en los skills que construimos
 new-service             → oportunidad de nuevo servicio
-workshop-material       → usable en DIBEX u otras formaciones
+training-material       → usable en formaciones y workshops de adopción
 competitive-intel       → inteligencia sobre competidores o alternativas
 ```
 

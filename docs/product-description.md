@@ -376,7 +376,7 @@ Tendencias de la Semana:
 Top 5:
 1. "Enterprise Skills Governance at Scale" — IndyDevDan — 9.1
    Para OPENLAB: Framework de governance directamente aplicable
-   al workshop DIBEX.
+   a proyectos de adopción enterprise.
    https://youtube.com/watch?v=...
 
 Aplicabilidad OPENLAB:
