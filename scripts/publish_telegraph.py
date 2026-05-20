@@ -202,17 +202,22 @@ def publish(md_path, token):
     if not nodes:
         nodes = [{"tag": "p", "children": ["(sin contenido)"]}]
 
-    resp = requests.post(f"{TELEGRAPH_API}/createPage", data={
-        "access_token": token,
-        "title": title,
-        "author_name": "OPENLAB Radar",
-        "content": json.dumps(nodes),
-        "return_content": "false"
-    })
+    try:
+        resp = requests.post(f"{TELEGRAPH_API}/createPage", data={
+            "access_token": token,
+            "title": title,
+            "author_name": "OPENLAB Radar",
+            "content": json.dumps(nodes),
+            "return_content": "false"
+        }, timeout=30)
+        resp.raise_for_status()
+        result = resp.json()
+    except Exception as e:
+        print(f"Error publicando {md_path}: {e}", file=sys.stderr)
+        return None
 
-    result = resp.json()
     if not result.get("ok"):
-        print(f"Error publicando {md_path}: {result.get('error', 'desconocido')}",
+        print(f"Error Telegraph {md_path}: {result.get(chr(39)+error+chr(39), chr(39)+desconocido+chr(39))}",
               file=sys.stderr)
         return None
 
@@ -225,12 +230,16 @@ def get_or_create_token():
     if token:
         return token
 
-    resp = requests.post(f"{TELEGRAPH_API}/createAccount", data={
-        "short_name": "OPENLAB Radar",
-        "author_name": "OPENLAB Radar"
-    })
-    result = resp.json()
-    if not result.get("ok"):
+    try:
+        resp = requests.post(f"{TELEGRAPH_API}/createAccount", data={
+            "short_name": "OPENLAB Radar",
+            "author_name": "OPENLAB Radar"
+        }, timeout=30)
+        resp.raise_for_status()
+        result = resp.json()
+    except Exception as e:
+        print(f"Error creando cuenta Telegraph: {e}", file=sys.stderr)
+        import sys as _sys; _sys.exit(1)
         print(f"Error creando cuenta Telegraph: {result}", file=sys.stderr)
         sys.exit(1)
 
