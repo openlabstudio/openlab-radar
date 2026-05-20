@@ -217,7 +217,7 @@ def publish(md_path, token):
         return None
 
     if not result.get("ok"):
-        print(f"Error Telegraph {md_path}: {result.get(chr(39)+error+chr(39), chr(39)+desconocido+chr(39))}",
+        print(f"Error Telegraph {md_path}: {result.get('error', 'desconocido')}",
               file=sys.stderr)
         return None
 
