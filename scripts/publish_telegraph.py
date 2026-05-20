@@ -11,6 +11,7 @@ Uso: python3 publish_telegraph.py <fichero.md> [fichero2.md ...]
 """
 
 import sys
+import time
 import os
 import re
 import json
@@ -264,6 +265,7 @@ def main():
         url = publish(path, token)
         if url:
             print(f"{path}\t{url}")
+        time.sleep(8)
 
 
 if __name__ == "__main__":
