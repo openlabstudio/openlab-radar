@@ -51,7 +51,15 @@ Usando título + canal + descripción (y transcript si está disponible), clasif
 - Solo muestra UI sin profundidad técnica
 - Vibe coding sin metodología
 - Repetición de announcements sin análisis propio
-- Coding puro sin aplicación a procesos de negocio
+- Coding puro sin aplicación a procesos de negocio:
+  · "Build X app/SaaS/website with Claude Code" o similar
+  · Comparativas de herramientas centradas en velocidad de desarrollo de software
+  · Vibe coding (con o sin metodología — OPENLAB no desarrolla software)
+  · Tutoriales de Claude Code para escribir código más rápido
+  · Gestión de codebases, refactoring, testing, CI/CD con Claude Code
+  · EXCEPCIÓN: si el vídeo extrae un patrón de skills/harness/context engineering
+    que es domain-agnostic y aplicable a procesos de negocio, pasa como QUIZÁ
+    (no SÍ) y debe justificarse explícitamente en la evaluación
 - Agentes tipo n8n/Zapier/plataformas no-code
 - "AI automation" genérica sin relación con CLI agents o skills en lenguaje natural
 - Clickbait sin sustancia
@@ -63,7 +71,7 @@ Usando título + canal + descripción (y transcript si está disponible), clasif
 - Context engineering, CLAUDE.md, skills, Claude Code CLI en contexto avanzado
 - Experiencia real de delivery/adopción de CLI agents en empresa
 - Claude Cowork para no-técnicos en contexto enterprise
-- Nuevo framework/método/patrón para Claude Code
+- Nuevo framework/método/patrón para Claude Code aplicado a procesos de negocio o delivery de agentes (no a desarrollo de software)
 - Comparativa profunda CLI agents vs plataformas
 
 Si el resultado es NO, imprime el motivo y termina sin generar brief.
@@ -87,6 +95,13 @@ Usa el rango completo 5-10. No todo lo que pasa el triage merece un 7. Un vídeo
 - 6: Contenido del dominio correcto pero teórico o genérico.
 - 5: Tangencialmente relacionado. Aporta contexto general pero no herramientas ni argumentos.
 - 1-4: Fuera del dominio o irrelevante.
+
+**Señales que BAJAN A (penalizaciones — aplicar ANTES de las señales positivas):**
+- El caso de uso principal es desarrollo de software / gestión de codebases → A máximo 5
+- Comparativa de coding tools centrada en velocidad de desarrollo → A máximo 4
+- El vídeo habla de Claude Code como sustituto de desarrolladores → A máximo 4
+- Patrones interesantes pero demostrados SOLO en contexto de coding, sin conexión explícita a procesos de negocio → A máximo 6
+- EXCEPCIÓN a las penalizaciones: si el vídeo introduce o profundiza un patrón de harness engineering, multi-agent orchestration, skill design, o evaluación que sea genuinamente transferible a procesos de negocio (no solo mencionado de pasada), la penalización por contexto de coding reduce A como máximo 1.5 puntos respecto al score que tendría sin la penalización. Esto protege contenido metodológico fundacional que aparece en contexto de coding.
 
 Señales que suben A (ordenadas por impacto en proyectos reales):
 - **Máximo impacto** (siempre implementado con skills Claude Code / Anthropic, NO herramientas SaaS genéricas): captura de conocimiento experto → contexto de agentes (ej. BTSA), harness engineering (guides/sensors/constraints, trinquete, separación determinista/probabilista — ej. DAMM), automatización de análisis financiero/due diligence, generación de business cases con agentes multi-fase, inteligencia de mercado con claude headless + cron, matching datos × conocimiento experto, evaluación y calibración de agentes (golden sets, benchmarks, harness changelog), integración fuentes externas vía MCP/tools, pipelines output multi-formato (md → HTML → PDF → email → Excel)
