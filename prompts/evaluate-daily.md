@@ -59,13 +59,11 @@ Criterios de descarte rápido (→ NO):
 - Repetición de announcements sin análisis propio
 - Coding puro sin aplicación a procesos de negocio:
   · "Build X app/SaaS/website with Claude Code" o similar
-  · Comparativas de herramientas centradas en velocidad de desarrollo de software
-  · Vibe coding (con o sin metodología — OPENLAB no desarrolla software)
-  · Tutoriales de Claude Code para escribir código más rápido
-  · Gestión de codebases, refactoring, testing, CI/CD con Claude Code
-  · EXCEPCIÓN: si el vídeo extrae un patrón de skills/harness/context engineering
-    que es domain-agnostic y aplicable a procesos de negocio, pasa como QUIZÁ
-    (no SÍ) y debe justificarse explícitamente en la evaluación
+  · Vibe coding sin metodología transferible
+  · Tutoriales de Claude Code centrados exclusivamente en escribir código
+  · EXCEPCIÓN: si el vídeo demuestra patrones de skill design, harness engineering,
+    context engineering, evaluation o multi-agent orchestration — aunque lo haga en
+    contexto de coding — pasa como SÍ. Estos patrones son domain-agnostic.
 - Implantación de agentes tipo n8n/Zapier/plataformas no-code (NO es lo que buscamos)
 - "AI automation" genérica sin relación con CLI agents o skills en lenguaje natural
 - Clickbait sin sustancia
@@ -77,7 +75,7 @@ Señales de SÍ rápido:
 - Menciona context engineering, CLAUDE.md, skills, Claude Code CLI en contexto avanzado
 - Experiencia real de delivery/adopción de CLI agents en empresa
 - Claude Cowork para no-técnicos en contexto enterprise
-- Nuevo framework/método/patrón para Claude Code aplicado a procesos de negocio o delivery de agentes (no a desarrollo de software)
+- Nuevo framework/método/patrón para Claude Code (skill design, harness engineering, evaluation, orchestration — independientemente de cómo se demuestre)
 - Comparativa profunda CLI agents vs plataformas
 
 Output Etapa 1: lista de IDs clasificados. NO generes texto para los NO más allá del motivo.
@@ -138,12 +136,11 @@ Si todos tus scores caen en 7-8, estás puntuando demasiado alto. Fuerza la disc
 
 Señales que suben el score A (orientativas, ordenadas por impacto en nuestros proyectos reales):
 
-**Señales que BAJAN el score A (penalizaciones — aplicar ANTES de las señales positivas):**
-- El caso de uso principal es desarrollo de software / gestión de codebases → A máximo 5
-- Comparativa de coding tools centrada en velocidad de desarrollo → A máximo 4
-- El vídeo habla de Claude Code como sustituto de desarrolladores → A máximo 4
-- Patrones interesantes pero demostrados SOLO en contexto de coding, sin conexión explícita a procesos de negocio → A máximo 6
-- EXCEPCIÓN a las penalizaciones: si el vídeo introduce o profundiza un patrón de harness engineering, multi-agent orchestration, skill design, o evaluación que sea genuinamente transferible a procesos de negocio (no solo mencionado de pasada), la penalización por contexto de coding reduce A como máximo 1.5 puntos respecto al score que tendría sin la penalización. Esto protege contenido metodológico fundacional que aparece en contexto de coding.
+**Señales que BAJAN el score A (penalizaciones):**
+- Comparativa de coding tools centrada exclusivamente en velocidad de desarrollo de software → A máximo 4
+- El vídeo posiciona Claude Code como sustituto de desarrolladores → A máximo 4
+- Contenido exclusivamente sobre coding (escribir código, gestionar repos, CI/CD) sin NINGÚN patrón metodológico transferible (ni skills, ni harness, ni evaluation, ni orchestration) → A máximo 5
+- IMPORTANTE: si el vídeo demuestra patrones de skill design, harness engineering, context engineering, evaluation o multi-agent orchestration, NO penalizar por el hecho de que el contexto de demostración sea coding. Estos patrones son domain-agnostic y son el core de lo que OPENLAB necesita vigilar.
 
 **Señales de máximo impacto** (conectan directamente con lo que entregamos a clientes — todo implementado con skills de Claude Code / Anthropic, NO con herramientas SaaS genéricas ni plataformas no-code):
 - Captura de conocimiento experto y formalización en contexto de agentes (knowledge capture → ficheros .md auditables que alimentan skills). Ejemplo OPENLAB: BTSA captura conocimiento de formulación de 2 personas en un sistema reproducible.

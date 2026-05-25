@@ -87,22 +87,15 @@ exclude_terms:
   - "for beginners"
   - "complete beginner"
   # --- Coding puro (OPENLAB no desarrolla software) ---
-  - "build app with claude"
   - "build a SaaS"
   - "full stack app"
   - "clone app"
   - "vibe coding"
   - "build website"
   - "coding assistant"
-  - "code faster"
   - "replace developers"
-  - "build in minutes"
-  - "built an app"
   - "coding tutorial"
   - "web app tutorial"
-  - "ship faster"
-  - "I built"
-  - "let's build"
 
 # --- Filtros de calidad ---
 quality_filters:
