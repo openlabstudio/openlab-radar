@@ -24,19 +24,9 @@ OPENLAB es una **consultoría estratégica nativa en IA** que industrializa proc
 - Builders propios: skill-creator (internos) + olaf-agent-builder (clientes).
 - Ciclo iterativo: Ejecutar → Evaluar → Documentar → Codificar regla → Re-ejecutar → Verificar → Registrar.
 
-**Clientes reales (referencias):**
-- **MAPFRE** (Innovación Corporativa) — 17 casos de uso, framework agéntico: observatorio de tendencias, generador de business cases, suite de creatividad. Replicación internacional (Perú). €85K programa 2026.
-- **DAMM** (Finanzas Corporativas) — 3 agentes de análisis de inversión (no cotizada, cotizada, challenge). De 2-3 semanas a 30 min por análisis. Scripts Python para cálculos financieros deterministas.
-- **BTSA** (Inteligencia Comercial) — Sistema que cruza 300 fórmulas × 4.000+ productos de mercado. Priorización multi-dimensional por compatibilidad × tamaño × rentabilidad.
+**Áreas de aplicación demostradas en clientes reales:** innovación corporativa (observatorios de tendencias, business cases, creatividad), análisis financiero y due diligence (valoraciones, DCF, scoring de inversiones), inteligencia comercial (matching datos de mercado × conocimiento experto, priorización multi-dimensional).
 
-**Posicionamiento:** En España, entre Big 4 (€500K+, venden senior, entregan junior) y freelancers/startups. OPENLAB cubre el hueco intermedio: senior en cada proyecto, vendor-neutral, ciclos de 4-8 semanas, precio cerrado por fase.
-
-**Diferenciadores clave vs "hacerlo tú mismo":**
-1. Ingeniería de contexto (miles de líneas de contexto estructurado, no prompts)
-2. Gobernanza y no-regresión (trinquete, harness changelog auditable)
-3. Funciona sin ti (el sistema opera igual para todos, no depende del creador)
-4. Evaluación profesional (golden sets, métricas, calibración iterativa)
-5. Evolución con la plataforma (Radar de inteligencia + mejora continua del catálogo)
+**Posicionamiento:** En España, entre Big 4 y freelancers/startups. Senior en cada proyecto, vendor-neutral, ciclos de 4-8 semanas, precio cerrado por fase.
 
 ## Instrucciones
 
@@ -143,8 +133,8 @@ Señales que suben el score A (orientativas, ordenadas por impacto en nuestros p
 - IMPORTANTE: si el vídeo demuestra patrones de skill design, harness engineering, context engineering, evaluation o multi-agent orchestration, NO penalizar por el hecho de que el contexto de demostración sea coding. Estos patrones son domain-agnostic y son el core de lo que OPENLAB necesita vigilar.
 
 **Señales de máximo impacto** (conectan directamente con lo que entregamos a clientes — todo implementado con skills de Claude Code / Anthropic, NO con herramientas SaaS genéricas ni plataformas no-code):
-- Captura de conocimiento experto y formalización en contexto de agentes (knowledge capture → ficheros .md auditables que alimentan skills). Ejemplo OPENLAB: BTSA captura conocimiento de formulación de 2 personas en un sistema reproducible.
-- Harness engineering: patrones de verificación multicapa (guides/sensors/constraints/consistency scans), separación determinista/probabilista, principio del trinquete (no-regresión). Ejemplo: DAMM usa scripts Python para cálculos financieros y el LLM solo para narrativa.
+- Captura de conocimiento experto y formalización en contexto de agentes (knowledge capture → ficheros .md auditables que alimentan skills)
+- Harness engineering: patrones de verificación multicapa (guides/sensors/constraints/consistency scans), separación determinista/probabilista, principio del trinquete (no-regresión)
 - Automatización de análisis financiero o due diligence con skills/agentes Claude (DCF, valoraciones, extracción de cuentas anuales, scoring de inversiones)
 - Generación automatizada de business cases, investigación de mercado o propuestas de valor mediante skills multi-fase
 - Sistemas de inteligencia de mercado automatizados con agentes Claude (radares, observatorios, monitors con cron + claude headless)

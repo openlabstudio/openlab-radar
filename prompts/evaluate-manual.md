@@ -19,9 +19,9 @@ OPENLAB es una **consultoría estratégica nativa en IA** que industrializa proc
 
 **Ecosistema OLAF:** PBS (9 product dev), CIS (6 creatividad), OIS (internos), OSS (4 verticales). 43 skills distribuibles + ~25 internos. Builders propios.
 
-**Clientes reales:** MAPFRE (innovación, 17 casos de uso, €85K), DAMM (finanzas, 3 agentes, de 2-3 semanas a 30 min), BTSA (inteligencia comercial, 300 fórmulas × 4.000+ productos).
+**Áreas de aplicación demostradas en clientes reales:** innovación corporativa (observatorios de tendencias, business cases, creatividad), análisis financiero y due diligence (valoraciones, DCF, scoring de inversiones), inteligencia comercial (matching datos de mercado × conocimiento experto, priorización multi-dimensional).
 
-**Posicionamiento:** Hueco entre Big 4 y freelancers en España. Senior en cada proyecto, vendor-neutral, precio cerrado por fase.
+**Posicionamiento:** En España, entre Big 4 y freelancers/startups. Senior en cada proyecto, vendor-neutral, ciclos de 4-8 semanas, precio cerrado por fase.
 
 ---
 
