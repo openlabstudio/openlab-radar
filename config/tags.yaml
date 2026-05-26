@@ -1,43 +1,54 @@
 # OPENLAB Radar — Taxonomía oficial de tags
 # Referencia para el evaluador diario y manual al asignar frontmatter en los briefs.
-# Usar únicamente tags de esta lista para garantizar consistencia en grep y Obsidian.
+# Usar únicamente tags de esta lista para garantizar consistencia en grep y búsqueda.
+#
+# Categorías (5): skill-design, evaluation, orchestration, delivery-adoption, market-signal
+# Tags dan granularidad DENTRO de las categorías.
 
 technical:
-  - context-engineering
-  - token-optimization
-  - skill-design
-  - agent-architecture
-  - multi-agent
-  - mcp
-  - context-window
-  - evaluation
-  - tool-use
-  - knowledge-management
-  - long-running-agents
-  - harness-engineering
-  - enterprise-ai              # IA aplicada a procesos enterprise
-  - knowledge-capture          # captura de conocimiento experto → contexto de agentes
-  - financial-analysis         # análisis financiero, due diligence, valoraciones con agentes
-  - market-intelligence        # inteligencia de mercado automatizada, radares, observatorios
-  - data-integration           # integración de fuentes externas (APIs, registros, web scraping)
-  - output-formatting          # generación multi-formato (HTML, PDF, Excel, email corporativo)
-  - ai-governance              # gobernanza IA, arquitectura de capas, modelo de decisión
-
-openlab_relevance:
-  - commercial-argument      # directamente usable en ventas o propuestas
-  - client-delivery          # aplicable a cómo entregamos
-  - skill-pattern            # patrón reutilizable en los skills que construimos
-  - new-service              # oportunidad de nuevo servicio
-  - training-material         # usable en formaciones y workshops de adopción
-  - competitive-intel        # inteligencia sobre competidores o alternativas
-  - business-case-generation # generación automatizada de business cases o propuestas de valor
+  # skill-design (construir)
+  - context-engineering        # capas de contexto, CLAUDE.md, memory, truncación
+  - harness-engineering        # verificación multicapa, trinquete, no-regresión, changelog
+  - skill-architecture         # progressive disclosure, trigger contracts, composición de skills
+  - skill-auto-improvement     # skills que se auto-mejoran, feedback loops de diseño
+  - knowledge-capture          # conocimiento experto → contexto estructurado
+  - token-optimization         # gestión de ventana de contexto, coste de tokens
+  - mcp                        # Model Context Protocol, servers, integración de datos
+  - tool-use                   # uso de herramientas por agentes
+  - deterministic-scripts      # separación determinista/probabilista, scripts para subprocesos
+  - data-integration           # fuentes externas (APIs, registros, web scraping)
+  - output-formatting          # generación multi-formato (HTML, PDF, Excel, email)
+  # evaluation (evaluar)
+  - evaluation                 # evals en general
+  - golden-sets                # benchmarks con resultados conocidos
+  - llm-as-judge               # evaluadores basados en LLM
+  - auto-feedback-loops        # ciclos automáticos de mejora
+  - adversarial-evaluation     # evaluadores independientes, sin acceso al contexto del generador
+  - agent-reliability          # fiabilidad, consistencia, métricas de calidad
+  # orchestration (escalar)
+  - multi-agent                # coordinación de múltiples agentes
+  - agent-architecture         # patrones arquitectónicos de agentes
+  - long-running-agents        # agentes de larga duración, durabilidad
+  - output-contracts           # contratos entre fases de un pipeline
+  - ai-governance              # gobernanza, permisos, versionado, sprawl management
+  # delivery-adoption (entregar)
+  - client-delivery            # entrega de skills a clientes
+  - enterprise-adoption        # adopción en empresa, change management, onboarding
+  - cli-vs-platforms           # CLI agents vs n8n/Zapier/LangGraph
+  # market-signal (vender)
+  - commercial-argument        # datos/citas usables en ventas o propuestas
+  - market-data                # datos de mercado, tamaño, tendencias cuantitativas
+  - competitive-intel          # inteligencia sobre competidores o alternativas
+  - agent-sprawl               # proliferación descontrolada de agentes, falta de gobernanza
+  - security-risk              # vulnerabilidades en skills, riesgos de seguridad
 
 signal_type:
-  - trend                    # tendencia emergente
-  - technical-deep-dive      # análisis técnico profundo
-  - case-study               # caso real con métricas
-  - opinion                  # perspectiva del creador
-  - tutorial                 # guía práctica
+  - trend                      # tendencia emergente
+  - technical-deep-dive        # análisis técnico profundo
+  - case-study                 # caso real con métricas
+  - opinion                    # perspectiva del creador
+  - tutorial                   # guía práctica
+  - benchmark                  # datos comparativos, A/B, métricas antes/después
 
 entities:
   - anthropic
