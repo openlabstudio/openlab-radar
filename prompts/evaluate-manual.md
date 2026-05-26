@@ -122,7 +122,7 @@ Señales que suben A (ordenadas por impacto en proyectos reales):
 - 5: Opinión sin soporte técnico. Contenido superficial.
 - 1-4: Especulación, clickbait o contenido engañoso.
 
-**Score final = (A×3 + B×2 + C×1) / 6**
+**Score final = (A×3 + B×2 + C×1) / 6** → redondear a 1 decimal
 
 ---
 

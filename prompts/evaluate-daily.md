@@ -132,7 +132,7 @@ Si todos tus scores caen en 7-8, estás puntuando demasiado alto. Fuerza la disc
 - 5: Opinión sin soporte técnico o experiencia demostrable. Contenido superficial.
 - 1-4: Especulación, clickbait o contenido engañoso.
 
-**Score final = (A×3 + B×2 + C×1) / 6**
+**Score final = (A×3 + B×2 + C×1) / 6** → redondear a 1 decimal
 
 Señales que suben el score A (orientativas, ordenadas por impacto en nuestros proyectos reales):
 
