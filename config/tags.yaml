@@ -7,7 +7,7 @@
 
 technical:
   # skill-design (construir)
-  - context-engineering        # capas de contexto, CLAUDE.md, memory, truncación
+  - skill-design               # capas de contexto, CLAUDE.md, memory, truncación
   - harness-engineering        # verificación multicapa, trinquete, no-regresión, changelog
   - skill-architecture         # progressive disclosure, trigger contracts, composición de skills
   - skill-auto-improvement     # skills que se auto-mejoran, feedback loops de diseño
@@ -34,7 +34,7 @@ technical:
   # delivery-adoption (entregar)
   - client-delivery            # entrega de skills a clientes
   - enterprise-adoption        # adopción en empresa, change management, onboarding
-  - cli-vs-platforms           # CLI agents vs n8n/Zapier/LangGraph
+  - delivery-adoption          # CLI agents vs n8n/Zapier/LangGraph, entrega a clientes
   # market-signal (vender)
   - commercial-argument        # datos/citas usables en ventas o propuestas
   - market-data                # datos de mercado, tamaño, tendencias cuantitativas
