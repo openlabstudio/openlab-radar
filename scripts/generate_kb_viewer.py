@@ -43,12 +43,10 @@ def _load_logo() -> str:
 # Metadatos de categorías
 # ──────────────────────────────────────────────────────────────────────────────
 CATEGORY_META = {
-    "agentic-systems":      ("", "Agentic Systems"),
-    "claude-code-advanced": ("", "Claude Code Advanced"),
-    "delivery-adoption":    ("", "Delivery & Adoption"),
-    "context-engineering":  ("", "Context Engineering"),
-    "cli-vs-platforms":     ("", "CLI vs Platforms"),
-    "enterprise-ai":        ("", "Enterprise AI"),
+    "skill-design":      ("", "Skill Design"),
+    "orchestration":     ("", "Orchestration"),
+    "market-signal":     ("", "Market Signal"),
+    "delivery-adoption": ("", "Delivery & Adoption"),
 }
 CAT_DEFAULT = ("", "General")
 

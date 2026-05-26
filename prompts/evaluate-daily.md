@@ -221,11 +221,9 @@ Para cada vídeo del briefing principal, genera un resumen en la carpeta de su c
 **Ruta:** `briefs/CATEGORÍA/FECHA-slug-titulo.md`
 
 Categorías = carpetas:
-- `context-engineering/`
-- `claude-code-advanced/`
-- `agentic-systems/`
-- `enterprise-ai/`
-- `cli-vs-platforms/`
+- `skill-design/`
+- `orchestration/`
+- `market-signal/`
 - `delivery-adoption/`
 
 **Antes de generar los resúmenes**, lee los ficheros de contexto de OPENLAB para conectar cada vídeo con servicios, referencias y pilots concretos:

@@ -133,11 +133,9 @@ Asigna la categoría principal:
 
 | Categoría | Carpeta |
 |-----------|---------|
-| `context_engineering` | `context-engineering/` |
-| `claude_code_advanced` | `claude-code-advanced/` |
-| `agentic_systems` | `agentic-systems/` |
-| `enterprise_ai` | `enterprise-ai/` |
-| `cli_agents_vs_platforms` | `cli-vs-platforms/` |
+| `skill_design` | `skill-design/` |
+| `orchestration` | `orchestration/` |
+| `market_signal` | `market-signal/` |
 | `delivery_adoption` | `delivery-adoption/` |
 
 ---

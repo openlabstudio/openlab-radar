@@ -17,12 +17,10 @@ OPENLAB es una **consultoría estratégica nativa en IA** que industrializa proc
 **Clientes reales:** MAPFRE (innovación, 17 casos), DAMM (finanzas, 3 agentes), BTSA (inteligencia comercial). Ecosistema OLAF: 43 skills distribuibles + ~25 internos.
 
 **Categorías del radar:**
-- `context-engineering` — CLAUDE.md, skills architecture, context window, prompt design
-- `claude-code-advanced` — BMAD, SPARC, hooks, MCP, headless, multi-agent
-- `agentic-systems` — orchestration, pipelines, reliability, observability
-- `enterprise-ai` — procesos de conocimiento, automatización documental
-- `cli-vs-platforms` — CLI agents vs n8n/Zapier/LangGraph
-- `delivery-adoption` — entrega de skills a clientes, adopción enterprise, pricing
+- `skill-design` — context engineering, CLAUDE.md, skills architecture, BMAD, SPARC, hooks, MCP, headless, multi-agent
+- `orchestration` — orquestación multi-agente, pipelines, reliability, observability
+- `market-signal` — procesos de conocimiento, automatización documental, enterprise AI
+- `delivery-adoption` — CLI agents vs plataformas, entrega de skills, adopción enterprise, pricing
 
 ---
 

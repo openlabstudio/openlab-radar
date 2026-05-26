@@ -4,7 +4,7 @@ OPENLAB Radar — Búsqueda estructurada por frontmatter.
 
 Uso:
   python3 radar_search.py --score-min 8.0
-  python3 radar_search.py --category context-engineering --tag mcp
+  python3 radar_search.py --category skill-design --tag mcp
   python3 radar_search.py --source "Simon Scrapes" --date-from 2026-05-01
   python3 radar_search.py --aplicabilidad-min 9
   python3 radar_search.py --type daily-briefing

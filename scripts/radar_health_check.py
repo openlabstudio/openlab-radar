@@ -346,8 +346,7 @@ def pipeline_report(logs_dir, today):
 
 
 VALID_CATEGORIES = {
-    "agentic-systems", "claude-code-advanced", "context-engineering",
-    "delivery-adoption", "enterprise-ai", "cli-vs-platforms",
+    "skill-design", "orchestration", "market-signal", "delivery-adoption",
 }
 
 

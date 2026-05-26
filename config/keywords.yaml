@@ -9,20 +9,15 @@ max_videos_mencion: 5
 lookback_hours: 24
 
 categories:
-  context_engineering:
-    name: "Context Engineering & Skills Architecture"
-    notebook: "1-context-engineering"
+  skill_design:
+    name: "Skill Design & Context Engineering"
+    notebook: "1-skill-design"
     keywords:
       - "context engineering"
       - "CLAUDE.md skills"
       - "skills architecture agent"
       - "context window optimization LLM"
       - "agent skills standard"
-
-  claude_code_advanced:
-    name: "Claude Code Advanced / Frameworks / Tooling"
-    notebook: "2-claude-code-advanced"
-    keywords:
       - "BMAD method claude"
       - "SPARC methodology claude"
       - "claude code hooks MCP"
@@ -32,9 +27,9 @@ categories:
       - "claude code multi-agent"
       - "Claude Cowork enterprise"
 
-  agentic_systems:
-    name: "Agentic Systems & Multi-Agent Pipelines"
-    notebook: "3-agentic-systems"
+  orchestration:
+    name: "Orchestration & Multi-Agent Systems"
+    notebook: "2-orchestration"
     keywords:
       - "multi-agent pipeline production"
       - "agent orchestration patterns"
@@ -42,9 +37,9 @@ categories:
       - "agentic RAG production"
       - "agent handoff memory patterns"
 
-  enterprise_ai:
-    name: "Enterprise AI / Procesos de Conocimiento"
-    notebook: "4-enterprise-ai"
+  market_signal:
+    name: "Market Signal & Enterprise AI"
+    notebook: "3-market-signal"
     keywords:
       - "AI knowledge worker enterprise"
       - "AI due diligence automation"
@@ -55,19 +50,14 @@ categories:
       - "claude code market intelligence"
       - "knowledge capture AI agent context"
 
-  cli_agents_vs_platforms:
-    name: "CLI Agents vs. Plataformas Legacy"
-    notebook: "5-cli-vs-platforms"
+  delivery_adoption:
+    name: "Skills Delivery & Enterprise Adoption"
+    notebook: "4-delivery-adoption"
     keywords:
       - "claude code vs cursor vs copilot"
       - "CLI agents vs n8n zapier langchain"
       - "zero dependency AI agents"
       - "plain text markdown agents"
-
-  delivery_adoption:
-    name: "Skills Delivery & Enterprise Adoption (CLI/Cowork)"
-    notebook: "6-delivery-adoption"
-    keywords:
       - "claude code enterprise deployment"
       - "AI agency claude code skills"
       - "AI skills governance scale"
